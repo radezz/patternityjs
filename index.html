@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Patternitys</title>
+        <script src="src/namespace.js"></script> 
+        <script src="src/Class.js"></script>
+        <script src="src/Interface.js"></script>        
+    </head>
+    <body>
+        
+        <script>
+            
+            var Saveable = patternity.Interface({
+                save: function(){},
+                prepare: function(){}  
+            });
+            
+            var Runable = {
+                run: function(){
+                    
+                }
+            }
+            
+            var kl = patternity.Class({
+                construct: function(){
+                    console.log('aaaa');
+                },
+                
+                myMethod: function(){
+                    
+                }
+            });
+            
+            
+            
+            var kl2 = patternity.Class({
+                Extends: kl,
+                Implements: [Saveable, Runable],
+                someMethod: function(){
+                    
+                },
+                run: function(){
+                    console.log('run');
+                },
+                save: function(){
+                    console.log('save');
+                },
+                prepare: function(){
+                    console.log('prepare')
+                }
+             
+            });
+            
+            var kl2Instance = new kl2();
+            
+            var ISave = Saveable.bind(kl2Instance);
+            
+            ISave.save();
+            //console.log(new kl());
+            console.log(kl2Instance);
+        </script>
+        
+    </body>
+</html>
