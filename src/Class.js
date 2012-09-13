@@ -7,6 +7,27 @@
         'construct': 1
     };
     
+	function createNS(namespace, apply){
+		var namespace = namespace.split('.'),
+			nsPart = namespace.shift(),
+			targetObject = this; //this needs to refer to global
+		
+		while(nsPart){
+			if(!targetObject[nsPart]){
+				targetObject[nsPart] = {};
+			}
+			
+			if(namespace.length === 0 && apply){
+				targetObject[nsPart] = apply;
+			}
+			
+			targetObject = targetObject[nsPart];	
+			nsPart = namespace.shift();
+		}
+		
+		return targetObject;
+	}
+	
     function mixinProto(construct, definition){
         var key;
         for(key in definition){
@@ -43,23 +64,23 @@
         construct.prototype._parent = Extends.prototype;
     }
     
-    function isImplementing(construct, implements){
+    function isImplementing(construct, implement){
         var key,
             implementsProto,
-            implType = typeof(implements),
+            implType = typeof(implement),
             checkFor,
             i = 0,
             l;
             
-        if(implements instanceof Array){
-            for(i=0, l=implements.length; i<l; i++){
-                if(!isImplementing(construct, implements[i])){
+        if(implement instanceof Array){
+            for(i=0, l=implement.length; i<l; i++){
+                if(!isImplementing(construct, implement[i])){
                     return false
                 }
             }
         }else{
             if(implType === 'function' || implType === 'object'){
-                checkFor = (implType === 'function') ? implements.prototype : implements;
+                checkFor = (implType === 'function') ? implement.prototype : implement;
                 for(key in checkFor){
                     if(checkFor.hasOwnProperty(key)){
                         if(typeof(checkFor[key]) === 'function' && !construct.prototype[key]){
@@ -83,7 +104,7 @@
             if(!definition){
                 throw 'object definition required when namespace provided';
             }
-            
+        
         }else if(typeof(nsOrDefinition) !== 'object'){
             throw 'parameter needs to be an object or namespace string';
         }else{
@@ -109,11 +130,18 @@
         if(definition.Implements){
             isImplementing(construct, definition.Implements);
         }
-        
+		
+		if(ns){
+			createNS(ns, construct);
+		}
+		
         return construct;
     };
     
     ClassObject.prototype = {
+		createNS: function(namespace, apply){
+			createNS(namespace, apply);
+		},
         mixinProto: mixinProto,
         mixin: mixin,
         extend: extend,

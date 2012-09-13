@@ -5,13 +5,14 @@
         <title>Patternitys</title>
         <script src="src/namespace.js"></script> 
         <script src="src/Class.js"></script>
-        <script src="src/Interface.js"></script>        
+        <script src="src/Interface.js"></script>
+		<script src="src/Observable.js"></script>        
     </head>
     <body>
         
         <script>
             
-            var Saveable = patternity.Interface({
+            patternity.Interface('Saveable',{
                 save: function(){},
                 prepare: function(){}  
             });
@@ -52,6 +53,16 @@
              
             });
             
+			patternity.Class('nokia.maps.is.Shit',{
+				construct: function(){
+					console.log('aaaa');
+				},
+				
+				isShit: function(){
+					return true;
+				}
+			});
+			
             var kl2Instance = new kl2();
             
             var ISave = Saveable.bind(kl2Instance);

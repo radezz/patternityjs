@@ -1,6 +1,7 @@
 (function($NS, $UTIL){
     
-    var KeyProperties = {};
+    var KeyProperties = {},
+		ClassObject = $NS.Class;
     
     function bind(objectInstance, interfaceDefinition){
         var key;
@@ -12,15 +13,6 @@
                         objectInstance[key].apply(objectInstance, arguments);    
                     };
                 }
-            }
-        }
-    }
-    
-    function mixinProto(construct, definition){
-        var key;
-        for(key in definition){
-            if(definition.hasOwnProperty(key) && !KeyProperties[key]){
-                construct.prototype[key] = definition[key];    
             }
         }
     }
@@ -51,7 +43,11 @@
             return new construct(objectInstance);
         };
         
-        mixinProto(construct, definition);
+		if(ns){
+			ClassObject.prototype.createNS(ns, construct);
+		}
+		
+        ClassObject.prototype.mixinProto(construct, definition);
         
         return construct;
     };
