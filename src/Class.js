@@ -3,9 +3,10 @@
     var KeyProperties = {
         'Extends': 1,
         'Implements' : 1,
-        'Mixin': 1,
-        'construct': 1
-    };
+        'Mixin': 1
+    },
+    typeofObject = "object",
+    typeofFunction = "function";
     
 	function createNS(namespace, apply){
 		var namespace = namespace.split('.'),
@@ -61,13 +62,14 @@
         var Extends = function(){};
         Extends.prototype = parent.prototype;
         construct.prototype = new Extends();
-        construct.prototype._parent = Extends.prototype;
+        construct.prototype._parent = parent.prototype;
     }
     
-    function isImplementing(construct, implement){
+    function isImplementing(construct, implement, nsOrDefinition){
         var key,
             implementsProto,
             implType = typeof(implement),
+            implementsErr,
             checkFor,
             i = 0,
             l;
@@ -79,12 +81,13 @@
                 }
             }
         }else{
-            if(implType === 'function' || implType === 'object'){
-                checkFor = (implType === 'function') ? implement.prototype : implement;
+            if(implType === typeofFunction || implType === typeofObject){
+                checkFor = (implType === typeofFunction) ? implement.prototype : implement;
                 for(key in checkFor){
                     if(checkFor.hasOwnProperty(key)){
-                        if(typeof(checkFor[key]) === 'function' && !construct.prototype[key]){
-                            console.error('Implementation for "' + key + '" is missing at ', construct.prototype);
+                        if(typeof(checkFor[key]) === typeofFunction && !construct.prototype[key]){
+                            implementsErr = "Implementation for " + key + "() is missing: " + ((nsOrDefinition) ? nsOrDefinition : "");
+                            throw new Error(implementsErr);
                         }
                     }
                 }    
@@ -101,23 +104,22 @@
         
         if(typeof(nsOrDefinition) === 'string'){
             ns = nsOrDefinition;
-            if(!definition){
+            if(!definition || typeof(definition) !== typeofObject){
                 throw 'object definition required when namespace provided';
             }
-        
-        }else if(typeof(nsOrDefinition) !== 'object'){
+        }else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
             throw 'parameter needs to be an object or namespace string';
         }else{
             definition = nsOrDefinition;
         }
         
         construct = function(){
-            if(typeof(definition.construct) === 'function'){
+            if(typeof(definition.construct) === typeofFunction){
                 definition.construct.apply(this, arguments);
             }
         };
         
-        if(typeof(definition.Extends) === 'function'){
+        if(typeof(definition.Extends) === typeofFunction){
             extend(construct, definition.Extends);
         }
         
@@ -128,7 +130,7 @@
         }
         
         if(definition.Implements){
-            isImplementing(construct, definition.Implements);
+            isImplementing(construct, definition.Implements, nsOrDefinition);
         }
 		
 		if(ns){
