@@ -112,8 +112,8 @@
         }
         
         construct = function(){
-            if(typeof(this.construct) === 'function'){
-                this.construct.apply(this, arguments);
+            if(typeof(definition.construct) === 'function'){
+                definition.construct.apply(this, arguments);
             }
         };
         
