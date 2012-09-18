@@ -112,6 +112,143 @@
 			expect(childInstance.getAge()).toBe(20);
 			
 		});
+		
+		it("should throw an error when interface implementation is missing", function(){
+			function creator(){
+				var interf = {
+					getAge: function(){},
+					getName: function(){}
+				}
+				
+				var klass = $NS.Class({
+					Implements: interf,
+					constructs: function(){
+						//the constructor
+					},
+					getAge: function(){
+						//but getName missing
+					}
+				})
+				
+				var instance = new klass();
+			}
+			
+			expect(creator).toThrow();
+		});
+		
+		it("should throw an error when one of multiple implemented interface's function is missing",function(){
+			function creator(){
+				var interfOne = {
+					getAge: function(){},
+				},
+				interfTwo = {
+					getName: function(){}
+				};
+				
+				var klass = $NS.Class({
+					Implements: [interfOne, interfTwo],
+					constructs: function(){
+						//the constructor
+					},
+					getAge: function(){
+						//but getName missing
+					}
+				})
+				
+				var instance = new klass();
+			}
+			
+			expect(creator).toThrow();
+		});
+		
+		it("should not throw an error if interface functions are implemented within class", function(){
+			function creator(){
+				var interfOne = {
+					getAge: function(){},
+				},
+				interfTwo = {
+					getName: function(){}
+				};
+				
+				var klass = $NS.Class({
+					Implements: [interfOne, interfTwo],
+					constructs: function(){
+						//the constructor
+					},
+					getAge: function(){
+						
+					},
+					getName: function(){
+						
+					}
+				})
+				
+				var instance = new klass();
+			}
+			
+			expect(creator).not.toThrow();
+		});
+		
+		it("should mix-in the object properties and functions into the class",function(){
+			
+			var toBeMixed = {
+				num: 1,
+				func: function(){
+					return this.name;
+				}
+			};
+
+			var klass = $NS.Class({
+				Mixin: toBeMixed,
+				construct: function(){
+					//hello world
+				},
+				name: 'Tom'
+			})
+			
+			var instance = new klass();
+			
+			expect(typeof(instance.func)).toBe('function');
+			expect(instance.func()).toBe('Tom');
+			expect(instance.num).toBe(1)
+			
+		});
+		
+		it("should mix-in multiple mixin objects with favor for last mixed in", function(){
+			
+			var toBeMixed = {
+				num: 1,
+				func: function(){
+					return this.name;
+				}
+			};
+			
+			var toBeMixedTwo = {
+				num: 1,
+				func: function(){
+					return this.num;
+				},
+				func2: function(){
+					return this.name;
+				}
+			};
+
+			var klass = $NS.Class({
+				Mixin: [toBeMixed, toBeMixedTwo],
+				construct: function(){
+					//hello world
+				},
+				name: 'Tom'
+			})
+			
+			var instance = new klass();
+			
+			expect(typeof(instance.func)).toBe('function');
+			expect(typeof(instance.func2)).toBe('function');
+			expect(instance.func()).toBe(1);
+			expect(instance.num).toBe(1)
+		});
+		
 	});
 	
 }(patternity));
