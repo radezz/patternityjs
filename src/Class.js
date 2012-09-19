@@ -97,7 +97,7 @@
         return true;  
     }
         
-    function ClassObject(nsOrDefinition, definition){  
+    function Class(nsOrDefinition, definition){  
         
         var ns,
             construct;
@@ -140,7 +140,7 @@
         return construct;
     };
     
-    ClassObject.prototype = {
+    Class.prototype = {
 		createNS: function(namespace, apply){
 			createNS(namespace, apply);
 		},
@@ -150,6 +150,6 @@
         isImplementing: isImplementing
     };
     
-    $NS.Class = ClassObject;
+    $NS.Class = Class;
     
 }(patternity, patternityUtils));
