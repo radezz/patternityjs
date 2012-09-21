@@ -55,9 +55,10 @@
 		},
 		
 		each: function(fn){
-			var i,l;
+			var i,
+				l = this.__iterable.length;
 			if(typeof(fn) === 'function'){
-				for(i=0, l=this.__iterable.length; i<l; i++){
+				for(i=0; i<l; i++){
 					this.__index = i;
 					fn(this.__iterable[i],i);
 				}
