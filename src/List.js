@@ -17,12 +17,18 @@
 			var self = this,
 				i = self.__elements.length;
 			
-			while(--i){
+			while(--i > -1){
 				if(self.__elements[i] === element){
 					return i;
 				}
 			}
 			
+			return -1;
+		},
+		
+		isContaining: function(element){
+			var idx = this.getIndexOf(element);
+			return idx != -1;
 		},
 		
 		removeAt: function(index){
@@ -33,7 +39,7 @@
 			var self = this,
 				i = self.__elements.length;
 			
-			while(--i){
+			while(--i > -1){
 				if(self.__elements[i] === element){
 					self.__elements.splice(i,1);
 					return;
