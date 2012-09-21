@@ -69,6 +69,7 @@
 				for(i=0, l=observers.length; i<l; i++){
 					if(observers[i] === observer){
 						observers.splice(i,1);
+						return;
 					}
 				}
 			}
