@@ -25,7 +25,7 @@
         }
     }
     
-    function InterfaceObject(nsOrDefinition, definition){
+    function Interface(nsOrDefinition, definition){
         var ns,
             construct;
         
@@ -61,10 +61,10 @@
         return construct;
     };
     
-    InterfaceObject.prototype = {
+    Interface.prototype = {
         bind: bind
     };
     
-    $NS.Interface = InterfaceObject;
+    $NS.Interface = Interface;
     
 }(patternity, patternityUtils));
