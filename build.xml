@@ -10,14 +10,14 @@
    <property name="BUILD_DIR"      value="dist" />
    <property name="SOURCE_DIR"     value="src" />
    <property name="RESOURCE_DIR"   value="resource" />
-   <property name="YUI_COMPRESSOR" value="${RESOURCE_DIR}/yuicompressor-2.4.2.jar" />
+   <property name="CLOSURE" value="${RESOURCE_DIR}/compiler.jar" />
    <property name="JS_LINT" value="${RESOURCE_DIR}/jslint4java-1.4.4.jar" />
 	
 	
    <property name="OUTPUT_JS_FILE" value="patternity.js" />
 	
   <taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpath="${JS_LINT}" />
-	
+
    <!--
       The <target> tags defines an ant task.
       You have to give it a unique name and
@@ -78,17 +78,17 @@
    -->
    <target name="compress_javascript" depends="bundle_javascript">
       <echo>Compressing JavaScript Files...</echo>
-      <apply executable="java" parallel="false">
+      
+	<apply executable="java" parallel="false">
          <fileset dir="${BUILD_DIR}" includes="${OUTPUT_JS_FILE}"/>
          <arg line="-jar"/>            
-         <arg path="${YUI_COMPRESSOR}"/>
-      	 
+         <arg path="${CLOSURE}"/>
+      	 <arg line="--js"/>   
          <srcfile/>            
-         <arg line="-o"/>            
+         <arg line="--js_output_file"/>            
          <mapper type="glob" from="*.js" to="${BUILD_DIR}/*.min.js"/>            
          <targetfile/>
-      	<arg line="-v"/>
-      </apply>
+     </apply>
       <echo>JavaScript Compression Done!!!</echo>
    </target>
 	
