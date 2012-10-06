@@ -2,12 +2,12 @@
 	var utils = $NS.patternUtils,
 		Class = $NS.Class;
 	
-	function Singleton(construct){
-		var instance = new construct();
+	function Singleton(Construct){
+		var instance = new Construct();
 		
 		this.getInstance = function(){
 			return instance;
-		}
+		};
 	}
 	
 	function SingletonCreator(nsOrDefinition, definition){
@@ -21,7 +21,7 @@
 		}
 		
 		return singleton;
-	};
+	}
 	
 	SingletonCreator.prototype = {
 		Singleton: Singleton

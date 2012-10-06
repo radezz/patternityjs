@@ -21,7 +21,7 @@
 				self.__isRunning = false;
 				self.__handle = null;
 			}else{
-				throw "interval required"
+				throw "interval required";
 			}
 		},
 		

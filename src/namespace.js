@@ -1,3 +1,2 @@
 patternity = {};
-patternityUtils = {};
 

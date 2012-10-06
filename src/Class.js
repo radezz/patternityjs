@@ -9,31 +9,38 @@
     typeofFunction = "function",
     utils = $NS.patternUtils;
     
-    
-    function validateInput(nsOrDefinition, definition, origin){
-    	var ns;
-    	
-    	if(typeof(nsOrDefinition) === 'string'){
-            ns = nsOrDefinition;
-            if(!definition || typeof(definition) !== typeofObject){
-                throw 'object definition required when namespace provided';
+    function mixinProto(construct, definition){
+        var key;
+        for(key in definition){
+            if(definition.hasOwnProperty(key) && !KeyProperties[key]){
+                construct.prototype[key] = definition[key];    
             }
-        }else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
-            throw 'parameter needs to be an object or namespace string';
-        }else{
-            definition = nsOrDefinition;
         }
-        
-        return {
-        	ns: ns,
-        	definition: definition
-        };
+    }
+
+    
+	function validateInput(nsOrDefinition, definition, origin){
+		var ns;
+		if(typeof(nsOrDefinition) === 'string'){
+			ns = nsOrDefinition;
+		if(!definition || typeof(definition) !== typeofObject){
+			throw 'object definition required when namespace provided';
+		}
+		}else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
+		    throw 'parameter needs to be an object or namespace string';
+		}else{
+		    definition = nsOrDefinition;
+		}
+		
+		return {
+			ns: ns,
+			definition: definition
+		};
     }
     
      
     function isImplementing(construct, implement, nsOrDefinition){
         var key,
-            implementsProto,
             implType = typeof(implement),
             implementsErr,
             checkFor,
@@ -43,7 +50,7 @@
         if(implement instanceof Array){
             for(i=0, l=implement.length; i<l; i++){
                 if(!isImplementing(construct, implement[i])){
-                    return false
+                    return false;
                 }
             }
         }else{
@@ -80,7 +87,7 @@
             utils.extend(construct, definition.Extends);
         }
         
-        utils.mixin(construct.prototype, definition);
+        mixinProto(construct, definition);
         
         if(definition.Mixin){
             utils.mixin(construct.prototype, definition.Mixin);
@@ -95,11 +102,12 @@
 		}
 		
         return construct;
-    };
+    }
     
     Class.prototype = {
         isImplementing: isImplementing,
-        validateInput: validateInput
+        validateInput: validateInput,
+        mixinProto: mixinProto
     };
     
     $NS.Class = Class;

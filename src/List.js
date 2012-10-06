@@ -28,7 +28,7 @@
 		
 		isContaining: function(element){
 			var idx = this.getIndexOf(element);
-			return idx != -1;
+			return idx !== -1;
 		},
 		
 		removeAt: function(index){

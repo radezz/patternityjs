@@ -36,7 +36,7 @@
 			}
 		},
 		
-		callFunction: function(functionName, args){
+		callFunction: function(functionName){
 			var self = this,
 				args = slice.call(arguments, 1),
 				result;

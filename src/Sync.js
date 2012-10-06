@@ -2,7 +2,7 @@
 	
 	
 	function createKey(){
-		key = this.__length + '';
+		var key = this.__length + '';
 		this.__length++;
 		return key;
 	}
@@ -10,7 +10,6 @@
 	function callRegistered(registered){
 		registered.handler.apply(registered.ctx || this, registered.args);
 		registered.clearAspect();
-		delete registered;
 	}
 	
 	
@@ -21,7 +20,7 @@
 			settings = settings || {};
 			self.__registry = {};
 			self.__length = 0;
-			self.__synchronized = settings.synchronized || false; 
+			self.__synchronize = settings.synchronize || false; 
 			
 			if(typeof(settings.onAllReady) === 'function'){
 				self.onAllReady = settings.onAllReady;
@@ -53,24 +52,28 @@
 			context = context || source;
 			
 			if(typeof(handler) === 'function'){
-			 	key = createKey.call(self);
-		
+				key = createKey.call(self);
+
 				source[handlerName] = function(){	
+					var registryKey;
+					
 					registered = self.__registry[key];
 					if(registered){
 						
 						registered.isReady = true;
 						registered.args = arguments;
 						
-						if(!self.__synchronized){
+						if(!self.__synchronize){
 							callRegistered(registered);
+							delete self.__registry[key];
 						}
 						
 						if(self.isAllReady()){
-							if(self.__synchronized){
-								for(key in self.__registry){
-									if(self.__registry.hasOwnProperty(key)){
-										callRegistered(self.__registry[key]);
+							if(self.__synchronize){
+								for(registryKey in self.__registry){
+									if(self.__registry.hasOwnProperty(registryKey)){
+										callRegistered(self.__registry[registryKey]);
+										delete self.__registry[registryKey];
 									}
 								}
 							}
@@ -81,8 +84,8 @@
 						}
 					
 					} else {
-						userDefined.apply(context || this, arguments);
-						handler = userDefined;
+						handler.apply(context || this, arguments);
+						source[handlerName] = handler;
 					}
 					
 				};

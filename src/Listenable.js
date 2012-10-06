@@ -27,7 +27,7 @@
 			if(registry){
 				i = registry.length;
 				while(i--){
-					if(registry[i] == callback){
+					if(registry[i] === callback){
 						registry.splice(i,1);
 						return;
 					}

@@ -1,8 +1,8 @@
 (function($NS){
 	
 	function createNS(namespace, apply){
-		var namespace = namespace.split('.'),
-			nsPart = namespace.shift(),
+		var ns = namespace.split('.'),
+			nsPart = ns.shift(),
 			targetObject = this; //this needs to refer to global
 		
 		while(nsPart){
@@ -10,12 +10,12 @@
 				targetObject[nsPart] = {};
 			}
 			
-			if(namespace.length === 0 && apply){
+			if(ns.length === 0 && apply){
 				targetObject[nsPart] = apply;
 			}
 			
 			targetObject = targetObject[nsPart];	
-			nsPart = namespace.shift();
+			nsPart = ns.shift();
 		}
 		
 		return targetObject;

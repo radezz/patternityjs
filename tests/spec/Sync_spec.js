@@ -15,12 +15,12 @@
 				function onAll(){};
 				
 				sync = new $NS.Sync({
-					synchronized: true,
+					synchronize: true,
 					onAllReady: onAll
 				});
 				
 				expect(sync).toBeDefined();
-				expect(sync.__synchronized).toBeTruthy();
+				expect(sync.__synchronize).toBeTruthy();
 				expect(sync.onAllReady).toBe(onAll);
 			});
 		});
@@ -136,7 +136,7 @@
 				};
 				
 				sync = new $NS.Sync({
-					synchronized: true
+					synchronize: true
 				});
 				sync.addHandler(ns, 'fn');
 				sync.addHandler(ns, 'gn');
@@ -159,7 +159,7 @@
 				};
 				
 				sync = new $NS.Sync({
-					synchronized: true
+					synchronize: true
 				});
 				sync.addHandler(ns, 'fn');
 				sync.addHandler(ns, 'gn');
@@ -181,7 +181,7 @@
 				};
 				
 				sync = new $NS.Sync({
-					synchronized: true
+					synchronize: true
 				});
 				sync.addHandler(ns, 'fn', ctx);
 				sync.addHandler(ns, 'gn', ctx);

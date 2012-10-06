@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="sample_project" default="build" basedir=".">
+   <!--
+      The <property> tag defines variables we 
+      are using to store the path to different 
+      files and tools required and input/output 
+      directories. You use those variables by
+      like this: ${variable}
+   -->
+   <property name="BUILD_DIR"      value="dist" />
+   <property name="SOURCE_DIR"     value="src" />
+   <property name="RESOURCE_DIR"   value="resource" />
+   <property name="YUI_COMPRESSOR" value="${RESOURCE_DIR}/yuicompressor-2.4.2.jar" />
+   <property name="JS_LINT" value="${RESOURCE_DIR}/jslint4java-1.4.4.jar" />
+	
+	
+   <property name="OUTPUT_JS_FILE" value="patternity.js" />
+	
+  <taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpath="${JS_LINT}" />
+	
+   <!--
+      The <target> tags defines an ant task.
+      You have to give it a unique name and
+      list other task (if any) this task 
+      depends on. Ant will run those task first.
+ 
+      This task below is the default task defined
+      in the <project> tag. It will run all the
+      dependents.
+   -->
+   <target name="build" depends="clean, lint, bundle_javascript, compress_javascript" />
+   
+	<target name="lint">
+		<jslint options="undef, eqeqeq, bitwise, regexp, newcap, immed, browser">
+			<predef>window, patternity</predef>
+		    <formatter type="plain" />
+		    <fileset dir="${SOURCE_DIR}" includes="**/*.js" />
+		</jslint>
+	</target>
+		
+		
+	
+	<!--
+      This is the "create JavaScript bundles" task
+      used to create concatenated files for each 
+      category defined and a main application bundle
+      which contains all the code we need in one file.
+   -->
+   <target name="bundle_javascript">
+      <!-- create the output directory for built files -->
+      <mkdir dir="${BUILD_DIR}"/>
+      <echo>Bundle JavaScript Files...</echo>
+   	
+      <concat destfile="${BUILD_DIR}/${OUTPUT_JS_FILE}">
+         <filelist dir="${SOURCE_DIR}">
+        	<file name="namespace.js" />
+        	<file name="patternUtils.js"/> 
+		    <file name="Class.js"/> 
+		    <file name="Singleton.js"/> 
+		    <file name="Interface.js"/> 
+		    <file name="Observable.js"/> 
+		    <file name="IIterable.js"/> 
+		    <file name="Iterator.js"/> 
+		    <file name="List.js"/> 
+		    <file name="ListOf.js"/> 
+		    <file name="Listenable.js"/> 
+		    <file name="Timer.js"/> 
+		    <file name="Sync.js"/> 
+         </filelist>
+      </concat>
+      
+      <echo>JavaScript Bundles Done!!!</echo>
+   </target>
+	
+   <!--
+      This task will compress the main.js bundle using YUI 
+      compressor and rename the file main.compress.js
+   -->
+   <target name="compress_javascript" depends="bundle_javascript">
+      <echo>Compressing JavaScript Files...</echo>
+      <apply executable="java" parallel="false">
+         <fileset dir="${BUILD_DIR}" includes="${OUTPUT_JS_FILE}"/>
+         <arg line="-jar"/>            
+         <arg path="${YUI_COMPRESSOR}"/>
+      	 
+         <srcfile/>            
+         <arg line="-o"/>            
+         <mapper type="glob" from="*.js" to="${BUILD_DIR}/*.min.js"/>            
+         <targetfile/>
+      	<arg line="-v"/>
+      </apply>
+      <echo>JavaScript Compression Done!!!</echo>
+   </target>
+	
+   <!--
+      This task will clean out any previous build files by
+      deleting the current build folder and re-creating it
+   -->
+   <target name="clean">
+      <echo>Delete old build folder...</echo>
+      <delete dir="${BUILD_DIR}"/>
+      <echo>Create new build folder...</echo>
+      <mkdir dir="${BUILD_DIR}"/>
+   </target>
+</project>

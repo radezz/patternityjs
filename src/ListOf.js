@@ -34,8 +34,7 @@
 		},
 		
 		setAll: function(property, value){
-			var args = slice.call(arguments,1),
-				iterator = this.iterator();
+			var iterator = this.iterator();
 			iterator.each(function(elem){
 				elem[property] = value;
 			});

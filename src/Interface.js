@@ -1,26 +1,27 @@
 (function($NS, $UTIL){
     
-    var KeyProperties = {},
-		Class = $NS.Class,
-		implementsErr;
+    var Class = $NS.Class,
+		implementsErr,
 		typeofObject = 'object',
 		typeofFunction = 'function',
 		utils = $NS.patternUtils;
+    
+    function interfaceCallerFactory(objectInstance, key){
+		return function(){
+			return objectInstance[key].apply(objectInstance, arguments);
+		};
+    }
     
     function bind(objectInstance, interfaceDefinition){
         var key;
             
         for(key in interfaceDefinition){
             if(interfaceDefinition.hasOwnProperty(key)){
-                if(typeof(objectInstance[key]) === 'function'){
-                    this[key] = (function(k){
-                        return function(){ 
-                        	return objectInstance[k].apply(objectInstance, arguments);
-                        };    
-                    }(key));
+                if(typeof(objectInstance[key]) === typeofFunction){
+                    this[key] = interfaceCallerFactory(objectInstance, key);
                 }else{
-                	implementsErr = key + '() implementation is missing';
-                	throw implementsErr;
+					implementsErr = key + '() implementation is missing';
+					throw implementsErr;
                 }
             }
         }
@@ -28,30 +29,30 @@
     
     function Interface(nsOrDefinition, definition){
         var input = Class.prototype.validateInput(nsOrDefinition, definition),
-            construct;
+            Construct;
         
         definition = input.definition;
         
-        construct = function(objectInstance){
+        Construct = function(objectInstance){
             if(objectInstance && typeof(objectInstance) === typeofObject){
                 bind.call(this, objectInstance, definition);
-            }else{
-            	throw 'object for interface binding should be defined';
-            }
+			}else{
+				throw 'object for interface binding should be defined';
+			}
         };
         
-        construct.bind = function(objectInstance){
-            return new construct(objectInstance);
+        Construct.bind = function(objectInstance){
+            return new Construct(objectInstance);
         };
         
 		if(input.ns){
-			utils.createNS(input.ns, construct);
+			utils.createNS(input.ns, Construct);
 		}
 		
-        utils.mixin(construct.prototype, definition);
+        Class.prototype.mixinProto(Construct, definition);
         
-        return construct;
-    };
+        return Construct;
+    }
     
     Interface.prototype = {
         bind: bind
@@ -59,4 +60,4 @@
     
     $NS.Interface = Interface;
     
-}(patternity, patternityUtils));
+}(patternity));
