@@ -14,11 +14,12 @@
 	
 	$NS.Timer = $NS.Class({
 		construct: function(interval){
+			var self = this;
 			if(typeof(interval) === 'number' && interval > 0){
-				this.__interval = interval;	
-				this.__tasks = [];
-				this.__isRunning = false;
-				this.__handle = null;
+				self.__interval = interval;	
+				self.__tasks = [];
+				self.__isRunning = false;
+				self.__handle = null;
 			}else{
 				throw "interval required"
 			}
@@ -44,10 +45,10 @@
 				self.addTask(fn);	
 			}
 			
-			this.__isRunning = true;
-			this.__handle = setInterval(function(){
+			self.__isRunning = true;
+			self.__handle = setInterval(function(){
 				execute.call(self);
-			},this.__interval);
+			},self.__interval);
 		},
 		
 		stop: function(){

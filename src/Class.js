@@ -1,4 +1,4 @@
-(function($NS, $UTIL){
+(function($NS){
     
     var KeyProperties = {
         'Extends': 1,
@@ -6,65 +6,31 @@
         'Mixin': 1
     },
     typeofObject = "object",
-    typeofFunction = "function";
+    typeofFunction = "function",
+    utils = $NS.patternUtils;
     
-	function createNS(namespace, apply){
-		var namespace = namespace.split('.'),
-			nsPart = namespace.shift(),
-			targetObject = this; //this needs to refer to global
-		
-		while(nsPart){
-			if(!targetObject[nsPart]){
-				targetObject[nsPart] = {};
-			}
-			
-			if(namespace.length === 0 && apply){
-				targetObject[nsPart] = apply;
-			}
-			
-			targetObject = targetObject[nsPart];	
-			nsPart = namespace.shift();
-		}
-		
-		return targetObject;
-	}
-	
-    function mixinProto(construct, definition){
-        var key;
-        for(key in definition){
-            if(definition.hasOwnProperty(key) && !KeyProperties[key]){
-                construct.prototype[key] = definition[key];    
-            }
-        }
-    }
     
-    function mixin(target, source){
-        var key,
-            i,
-            l;
-            
-        if(source instanceof Array){
-            for(i=0, l=source.length; i<l; i++){
-                mixin(target, source[i]);
+    function validateInput(nsOrDefinition, definition, origin){
+    	var ns;
+    	
+    	if(typeof(nsOrDefinition) === 'string'){
+            ns = nsOrDefinition;
+            if(!definition || typeof(definition) !== typeofObject){
+                throw 'object definition required when namespace provided';
             }
+        }else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
+            throw 'parameter needs to be an object or namespace string';
         }else{
-            for(key in source){
-                if(source.hasOwnProperty(key)){
-                    target[key] = source[key];
-                }
-            }
+            definition = nsOrDefinition;
         }
         
-        return target;
+        return {
+        	ns: ns,
+        	definition: definition
+        };
     }
     
-    function extend(construct, parent){
-        var Extends = function(){};
-        Extends.prototype = parent.prototype;
-        construct.prototype = new Extends();
-        construct.prototype._parent = parent.prototype;
-    }
-    
+     
     function isImplementing(construct, implement, nsOrDefinition){
         var key,
             implementsProto,
@@ -99,19 +65,10 @@
         
     function Class(nsOrDefinition, definition){  
         
-        var ns,
+        var input = validateInput(nsOrDefinition, definition),
             construct;
         
-        if(typeof(nsOrDefinition) === 'string'){
-            ns = nsOrDefinition;
-            if(!definition || typeof(definition) !== typeofObject){
-                throw 'object definition required when namespace provided';
-            }
-        }else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
-            throw 'parameter needs to be an object or namespace string';
-        }else{
-            definition = nsOrDefinition;
-        }
+        definition = input.definition;
         
         construct = function(){
             if(typeof(definition.construct) === typeofFunction){
@@ -120,36 +77,31 @@
         };
         
         if(typeof(definition.Extends) === typeofFunction){
-            extend(construct, definition.Extends);
+            utils.extend(construct, definition.Extends);
         }
         
-        mixinProto(construct, definition);
+        utils.mixin(construct.prototype, definition);
         
         if(definition.Mixin){
-            mixin(construct.prototype, definition.Mixin);
+            utils.mixin(construct.prototype, definition.Mixin);
         }
         
         if(definition.Implements){
             isImplementing(construct, definition.Implements, nsOrDefinition);
         }
 		
-		if(ns){
-			createNS(ns, construct);
+		if(input.ns){
+			utils.createNS(input.ns, construct);
 		}
 		
         return construct;
     };
     
     Class.prototype = {
-		createNS: function(namespace, apply){
-			createNS(namespace, apply);
-		},
-        mixinProto: mixinProto,
-        mixin: mixin,
-        extend: extend,
-        isImplementing: isImplementing
+        isImplementing: isImplementing,
+        validateInput: validateInput
     };
     
     $NS.Class = Class;
     
-}(patternity, patternityUtils));
+}(patternity));

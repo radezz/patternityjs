@@ -1,10 +1,11 @@
 (function($NS, $UTIL){
     
     var KeyProperties = {},
-		ClassObject = $NS.Class,
+		Class = $NS.Class,
 		implementsErr;
 		typeofObject = 'object',
-		typeofFunction = 'function';
+		typeofFunction = 'function',
+		utils = $NS.patternUtils;
     
     function bind(objectInstance, interfaceDefinition){
         var key;
@@ -26,19 +27,10 @@
     }
     
     function Interface(nsOrDefinition, definition){
-        var ns,
+        var input = Class.prototype.validateInput(nsOrDefinition, definition),
             construct;
         
-        if(typeof(nsOrDefinition) === 'string'){
-            ns = nsOrDefinition;
-            if(!definition || typeof(definition) !== typeofObject){
-                throw 'object definition required when namespace provided';
-            }
-        }else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
-            throw 'parameter needs to be an object or namespace string';
-        }else{
-            definition = nsOrDefinition;
-        }
+        definition = input.definition;
         
         construct = function(objectInstance){
             if(objectInstance && typeof(objectInstance) === typeofObject){
@@ -52,11 +44,11 @@
             return new construct(objectInstance);
         };
         
-		if(ns){
-			ClassObject.prototype.createNS(ns, construct);
+		if(input.ns){
+			utils.createNS(input.ns, construct);
 		}
 		
-        ClassObject.prototype.mixinProto(construct, definition);
+        utils.mixin(construct.prototype, definition);
         
         return construct;
     };

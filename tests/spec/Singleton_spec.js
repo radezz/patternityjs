@@ -2,7 +2,7 @@
 	
 	describe("Singleton",function(){
 		
-		it("should create a singleton object accordind to provided definition", function(){
+		it("should create a singleton object according to provided definition", function(){
 			var single = $NS.Singleton({
 				construct: function(){
 					this.name = 'singleton'

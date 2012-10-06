@@ -1,4 +1,6 @@
 (function($NS){
+	var utils = $NS.patternUtils,
+		Class = $NS.Class;
 	
 	function Singleton(construct){
 		var instance = new construct();
@@ -9,25 +11,13 @@
 	}
 	
 	function SingletonCreator(nsOrDefinition, definition){
-		var ns,
-			definition,
+		var input = Class.prototype.validateInput(nsOrDefinition, definition),
 			singleton;
 			
-		if(typeof(nsOrDefinition) === 'string'){
-            ns = nsOrDefinition;
-            if(!definition || typeof(definition) !== typeofObject){
-                throw 'object definition required when namespace provided';
-            }
-        }else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
-            throw 'parameter needs to be an object or namespace string';
-        }else{
-            definition = nsOrDefinition;
-        }
+		singleton = new Singleton($NS.Class(input.definition));
 		
-		singleton = new Singleton($NS.Class(definition));
-		
-		if(ns){
-			$NS.Class.prototype.createNS(ns, singleton);
+		if(input.ns){
+			utils.createNS(input.ns, singleton);
 		}
 		
 		return singleton;
