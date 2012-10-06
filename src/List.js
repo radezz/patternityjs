@@ -17,7 +17,7 @@
 			var self = this,
 				i = self.__elements.length;
 			
-			while(--i > -1){
+			while(i--){
 				if(self.__elements[i] === element){
 					return i;
 				}
