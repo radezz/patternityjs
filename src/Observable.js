@@ -49,19 +49,18 @@
 		},
 		
 		observe: function(property, observer){
-			var self = this;
-			if(!self.__observers[property]){
-				self.__observers[property] = [];
+			var observers = this.__observers;
+			if(!observers[property]){
+				observers[property] = [];
 			}
 			
 			if(typeof(observer) === 'function'){
-				self.__observers[property].push(observer);	
+				observers[property].push(observer);	
 			}
 		},
 		
 		removeObserver: function(property, observer){
-			var self = this,
-				observers = self.__observers[property],
+			var observers = this.__observers[property],
 				l,
 				i;
 				
@@ -76,9 +75,9 @@
 		},
 		
 		removeObservers: function(property){
-			var self = this;
-			if(self.__observers[property]){
-				delete self.__observers[property];
+			var observers = this.__observers;
+			if(observers[property]){
+				delete observers[property];
 			}    
 	    }
 	});

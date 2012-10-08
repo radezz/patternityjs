@@ -14,11 +14,11 @@
 		},
 		
 		getIndexOf: function(element){
-			var self = this,
-				i = self.__elements.length;
+			var elements = this.__elements,
+				i = elements.length;
 			
 			while(i--){
-				if(self.__elements[i] === element){
+				if(elements[i] === element){
 					return i;
 				}
 			}
@@ -36,12 +36,12 @@
 		},
 		
 		remove: function(element){
-			var self = this,
-				i = self.__elements.length;
+			var elements = this.__elements,
+				i = elements.length;
 			
 			while(i--){
-				if(self.__elements[i] === element){
-					self.__elements.splice(i,1);
+				if(elements[i] === element){
+					elements.splice(i,1);
 					return;
 				}
 			}

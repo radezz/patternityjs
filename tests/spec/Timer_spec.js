@@ -42,7 +42,16 @@
 				timer = new $NS.Timer(100);
 				function task(){};
 				timer.addTask(task);
-				expect(timer.__tasks[0]).toBe(task);
+				expect(timer.__tasks[0].action).toBe(task);
+			});
+			
+			it("should add task to Timer along with provided context of execution", function(){
+				timer = new $NS.Timer(100);
+				var ctx = {};
+				function task(){};
+				timer.addTask(task, ctx);
+				expect(timer.__tasks[0].action).toBe(task);
+				expect(timer.__tasks[0].ctx).toBe(ctx);
 			});
 			
 			it("should throw an exception when adding not a function", function(){
@@ -78,17 +87,21 @@
 		});
 		
 		describe("#run", function(){
-			it("should run the timer and execute all tasks", function(){
+			it("should run the timer and execute all tasks in proper contexts", function(){
 				var t1 = 0,
 					t2 = 0;
+				
+				var ctx = {};
 				
 				timer = new $NS.Timer(100);	
 				timer.addTask(function(){
 					t1++;
+					expect(this).toBe(window);
 				});
 				timer.addTask(function(){
 					t2++;
-				});
+					expect(this).toBe(ctx);
+				}, ctx);
 				
 				runs(function(){
 					timer.run();	

@@ -1,15 +1,15 @@
 (function($NS){
 	
-	function execute(){
+	function execute(tasks){
 		var self = this,
+			task,
 			i,
 			l;
-		
-		if(self.__isRunning){
-			for(i=0, l= self.__tasks.length; i<l; i++){
-				self.__tasks[i]();
+			
+			for(i=0, l=tasks.length; i<l; i++){
+				task = tasks[i];
+				task.action.call(task.ctx || this);
 			}
-		}
 	}
 	
 	$NS.Timer = $NS.Class({
@@ -25,11 +25,26 @@
 			}
 		},
 		
-		addTask: function(fn){
+		addTask: function(fn, context){
 			if(typeof(fn) === 'function'){
-				this.__tasks.push(fn);	
+				this.__tasks.push({
+					action: fn,
+					ctx: context
+				});	
 			}else{
 				throw "taks must be a function";
+			}
+		},
+		
+		removeTask: function(fn){
+			var self = this,
+				tasks = self.__tasks,
+				i = tasks.length;
+			while(i--){
+				if(tasks[i].action === fn){
+					tasks.splice(i,1);
+					return;
+				}
 			}
 		},
 		
@@ -47,7 +62,9 @@
 			
 			self.__isRunning = true;
 			self.__handle = setInterval(function(){
-				execute.call(self);
+				if(self.__isRunning){
+					execute(self.__tasks);
+				}
 			},self.__interval);
 		},
 		

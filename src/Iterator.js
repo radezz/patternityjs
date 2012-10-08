@@ -40,9 +40,10 @@
 		},
 		
 		next: function(){
-			if(!this.isDone()){
-				this.__index++;
-				return this.currentItem();
+			var self = this;
+			if(!self.isDone()){
+				self.__index++;
+				return self.currentItem();
 			}
 		},
 		
@@ -55,12 +56,13 @@
 		},
 		
 		each: function(fn){
-			var i,
-				l = this.__iterable.length;
+			var self = this,
+				i,
+				l = self.__iterable.length;
 			if(typeof(fn) === 'function'){
 				for(i=0; i<l; i++){
-					this.__index = i;
-					fn(this.__iterable[i],i);
+					self.__index = i;
+					fn(self.__iterable[i],i);
 				}
 			}
 		}

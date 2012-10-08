@@ -2,9 +2,7 @@
 	
 	
 	function createKey(){
-		var key = this.__length + '';
-		this.__length++;
-		return key;
+		return '' + this.__length++;
 	}
 	
 	function callRegistered(registered){
@@ -28,10 +26,11 @@
 		},
 		
 		isAllReady: function(){
-			var self = this,
+			var registry = this.__registry,
 				key;
-			for(key in self.__registry){
-				if(self.__registry.hasOwnProperty(key) && !self.__registry[key].isReady){
+			
+			for(key in registry){
+				if(registry.hasOwnProperty(key) && !registry[key].isReady){
 					return false; 
 				}
 			}
@@ -55,25 +54,27 @@
 				key = createKey.call(self);
 
 				source[handlerName] = function(){	
-					var registryKey;
+					var registryKey,
+						inSync = self.__synchronize,
+						registry = self.__registry;
 					
-					registered = self.__registry[key];
+					registered = registry[key];
 					if(registered){
 						
 						registered.isReady = true;
 						registered.args = arguments;
 						
-						if(!self.__synchronize){
+						if(!inSync){
 							callRegistered(registered);
-							delete self.__registry[key];
+							delete registry[key];
 						}
 						
 						if(self.isAllReady()){
-							if(self.__synchronize){
-								for(registryKey in self.__registry){
-									if(self.__registry.hasOwnProperty(registryKey)){
-										callRegistered(self.__registry[registryKey]);
-										delete self.__registry[registryKey];
+							if(inSync){
+								for(registryKey in registry){
+									if(registry.hasOwnProperty(registryKey)){
+										callRegistered(registry[registryKey]);
+										delete registry[registryKey];
 									}
 								}
 							}

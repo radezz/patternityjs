@@ -7,13 +7,14 @@
 		
 		addListener: function(eventName, callback){
 			var self = this,
+				registry = self.__registry,
 				callbackType = typeof(callback);
 			
 			if(callback && (callbackType === 'function' || callbackType === 'object')){
-				if(!self.__registry[eventName]){
-					self.__registry[eventName] = [];	
+				if(!registry[eventName]){
+					registry[eventName] = [];	
 				}
-				self.__registry[eventName].push(callback);
+				registry[eventName].push(callback);
 			}else{
 				throw "no or wrong callback type defined";
 			}
@@ -36,9 +37,9 @@
 		},
 		
 		removeListeners: function(eventName){
-			var self = this;
-			if(self.__registry[eventName]){
-				delete self.__registry[eventName];
+			var registry = this.__registry;
+			if(registry[eventName]){
+				delete registry[eventName];
 			}
 		},
 		
