@@ -32,20 +32,21 @@
         var key,
             i,
             l;
-            
-        if(source instanceof Array){
-            for(i=0, l=source.length; i<l; i++){
-                mixin(target, source[i]);
-            }
-        }else{
-            for(key in source){
-                if(source.hasOwnProperty(key)){
-                    target[key] = source[key];
-                }
-            }
-        }
-        
-        return target;
+        if(target && source){
+        	if(source instanceof Array){
+	            for(i=0, l=source.length; i<l; i++){
+	                mixin(target, source[i]);
+	            }
+	        }else{
+	            for(key in source){
+	                if(source.hasOwnProperty(key)){
+	                    target[key] = source[key];
+	                }
+	            }
+	        }
+	        
+	        return target;
+        }    
     }
 	
 	$NS.patternUtils = {
