@@ -26,9 +26,12 @@
 			return -1;
 		},
 		
-		isContaining: function(element){
-			var idx = this.getIndexOf(element);
-			return idx !== -1;
+		getLength: function(){
+			return this.__elements.length;
+		},
+		
+		hasElement: function(element){
+			return -1 !== this.getIndexOf(element);
 		},
 		
 		removeAt: function(index){
@@ -53,6 +56,24 @@
 		
 		iterator: function(){
 			return $NS.IIterable.bind(new $NS.Iterator(this.__elements));
+		},
+		
+		unique: function(){
+			var elements = this.__elements,
+				i = elements.length,
+				uniqueCheck = {},
+				uniqueElements = [],
+				element;
+			
+			while(i--){
+				element = elements[i];
+				if(!uniqueCheck[element]){
+					uniqueElements.push(element);
+					uniqueCheck[element] = 1;
+				}
+			}
+			
+			this.__elements = uniqueElements;
 		}
 	});
 	

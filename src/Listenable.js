@@ -16,7 +16,7 @@
 				}
 				registry[eventName].push(callback);
 			}else{
-				throw "no or wrong callback type defined";
+				throw "listener has to be a function or an object";
 			}
 		},
 		

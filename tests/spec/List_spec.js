@@ -54,14 +54,14 @@
 			});
 		});
 		
-		describe("#isContaining", function(){
+		describe("#hasElement", function(){
 			it("should return true if element is on the list", function(){
 				listInstance = new $NS.List();
 				listInstance.add('hello');
 				listInstance.add('bye');
 				listInstance.add('aloha');
 				
-				expect(listInstance.isContaining('bye')).toBeTruthy();
+				expect(listInstance.hasElement('bye')).toBeTruthy();
 			});
 			
 			it("should return false if element is not on the list", function(){
@@ -69,8 +69,25 @@
 				listInstance.add('hello');
 				listInstance.add('bye');
 				
-				expect(listInstance.isContaining('mogning')).toBeFalsy();
+				expect(listInstance.hasElement('mogning')).toBeFalsy();
 			})
+		});
+		
+		describe("#unique", function(){
+			it("should narrow the List to unique elements only", function(){
+				listInstance = new $NS.List();
+				listInstance.add('hello');
+				listInstance.add('bye');
+				listInstance.add('bye');
+				listInstance.add('hello');
+				listInstance.add('aaaa');
+				
+				listInstance.unique();
+				expect(listInstance.__elements.length).toBe(3);
+				expect(listInstance.__elements[0]).toBe('aaaa');
+				expect(listInstance.__elements[1]).toBe('hello');
+				expect(listInstance.__elements[2]).toBe('bye');
+			});
 		});
 		
 		describe("#removeAt", function(){

@@ -24,7 +24,7 @@
 		if(typeof(nsOrDefinition) === 'string'){
 			ns = nsOrDefinition;
 		if(!definition || typeof(definition) !== typeofObject){
-			throw 'object definition required when namespace provided';
+			throw 'an object definition is required when namespace provided';
 		}
 		}else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
 		    throw 'parameter needs to be an object or namespace string';
@@ -59,7 +59,7 @@
                 for(key in checkFor){
                     if(checkFor.hasOwnProperty(key)){
                         if(typeof(checkFor[key]) === typeofFunction && !construct.prototype[key]){
-                            implementsErr = "Implementation for " + key + "() is missing: " + ((nsOrDefinition) ? nsOrDefinition : "");
+                            implementsErr = "implementation for " + key + "() is missing " + ((nsOrDefinition) ? nsOrDefinition : "");
                             throw new Error(implementsErr);
                         }
                     }

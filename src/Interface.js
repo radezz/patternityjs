@@ -20,7 +20,7 @@
                 if(typeof(objectInstance[key]) === typeofFunction){
                     this[key] = interfaceCallerFactory(objectInstance, key);
                 }else{
-					implementsErr = key + '() implementation is missing';
+					implementsErr = 'cannot bind ' + key + '() implementation is missing';
 					throw implementsErr;
                 }
             }
@@ -37,7 +37,7 @@
             if(objectInstance && typeof(objectInstance) === typeofObject){
                 bind.call(this, objectInstance, definition);
 			}else{
-				throw 'object for interface binding should be defined';
+				throw 'an object for interface binding should be defined';
 			}
         };
         

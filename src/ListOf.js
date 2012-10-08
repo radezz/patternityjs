@@ -19,7 +19,7 @@
 			if((element instanceof this.__of) || (element.constructor && element.constructor === this.__of)){
 				this._parent.add.call(this, element);
 			}else{ 
-				throw "Not allowed type";
+				throw "not allowed type";
 			}
 		},
 		

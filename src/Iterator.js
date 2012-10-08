@@ -57,12 +57,13 @@
 		
 		each: function(fn){
 			var self = this,
+				iterable = self.__iterable,
 				i,
-				l = self.__iterable.length;
+				l = iterable.length;
 			if(typeof(fn) === 'function'){
 				for(i=0; i<l; i++){
 					self.__index = i;
-					fn(self.__iterable[i],i);
+					fn(iterable[i], i, iterable);
 				}
 			}
 		}
