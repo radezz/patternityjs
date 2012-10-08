@@ -7,6 +7,7 @@
       directories. You use those variables by
       like this: ${variable}
    -->
+   <property name="namespace" value=""/>
    <property name="BUILD_DIR"      value="dist" />
    <property name="SOURCE_DIR"     value="src" />
    <property name="RESOURCE_DIR"   value="resource" />
@@ -34,7 +35,7 @@
 		<jslint options="undef, eqeqeq, bitwise, regexp, newcap, immed, browser">
 			<predef>window, patternity</predef>
 		    <formatter type="plain" />
-		    <fileset dir="${SOURCE_DIR}" includes="**/*.js" />
+		    <fileset dir="${SOURCE_DIR}" includes="**/*.js" excludes="nswrap/*.js"/>
 		</jslint>
 	</target>
 		
@@ -53,7 +54,7 @@
    	
       <concat destfile="${BUILD_DIR}/${OUTPUT_JS_FILE}">
          <filelist dir="${SOURCE_DIR}">
-        	<file name="namespace.js" />
+        	<file name="nswrap/nsscriptdetect.js" />
         	<file name="patternUtils.js"/> 
 		    <file name="Class.js"/> 
 		    <file name="Singleton.js"/> 
@@ -66,8 +67,11 @@
 		    <file name="Listenable.js"/> 
 		    <file name="Timer.js"/> 
 		    <file name="Sync.js"/> 
+		    <file name="nswrap/nswrapend.js" />
          </filelist>
       </concat>
+      
+      <replace file="${BUILD_DIR}/${OUTPUT_JS_FILE}" token="@@namespace" value="${namespace}"/>
       
       <echo>JavaScript Bundles Done!!!</echo>
    </target>
