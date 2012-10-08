@@ -33,7 +33,7 @@
             i,
             l;
         if(target && source){
-        	if(source instanceof Array){
+			if(source instanceof Array){
 	            for(i=0, l=source.length; i<l; i++){
 	                mixin(target, source[i]);
 	            }

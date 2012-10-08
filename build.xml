@@ -67,7 +67,7 @@
 		    <file name="Listenable.js"/> 
 		    <file name="Timer.js"/> 
 		    <file name="Sync.js"/> 
-		    <file name="nswrap/nswrapend.js" />
+		    <file name="nswrap/nsscriptdetectend.js" />
          </filelist>
       </concat>
       
