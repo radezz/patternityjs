@@ -57,5 +57,18 @@
 			});
 		});
 		
+		describe("isDefined", function(){
+			it("should return true if object is not a null or undefined", function(){
+				expect($NS.isDefined(0)).toBeTruthy();
+				expect($NS.isDefined("")).toBeTruthy();
+				expect($NS.isDefined({})).toBeTruthy();
+			});
+			
+			it("should return false if object is null or undefined", function(){
+				expect($NS.isDefined(null)).toBeFalsy();
+				expect($NS.isDefined(undefined)).toBeFalsy();
+			});
+		});
+		
 	});
 }(patternity.patternUtils));

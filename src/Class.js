@@ -5,9 +5,11 @@
         'Implements' : 1,
         'Mixin': 1
     },
-    typeofObject = "object",
-    typeofFunction = "function",
-    utils = $NS.patternUtils;
+    utils = $NS.patternUtils,
+    isObject = utils.isObject,
+    isString = utils.isString,
+    isFunction = utils.isFunction,
+    isArray = utils.isArray;
     
     function mixinProto(construct, definition){
         var key;
@@ -21,13 +23,13 @@
     
 	function validateInput(nsOrDefinition, definition, origin){
 		var ns;
-		if(typeof(nsOrDefinition) === 'string'){
+		if(isString(nsOrDefinition)){
 			ns = nsOrDefinition;
-		if(!definition || typeof(definition) !== typeofObject){
-			throw 'an object definition is required when namespace provided';
-		}
-		}else if(!nsOrDefinition || typeof(nsOrDefinition) !== typeofObject){
-		    throw 'parameter needs to be an object or namespace string';
+			if(!definition || !isObject(definition)){
+				throw new TypeError('an object definition is required when namespace provided');
+			}
+		}else if(!nsOrDefinition || !isObject(nsOrDefinition)){
+		    throw new TypeError('parameter needs to be an object or namespace string');
 		}else{
 		    definition = nsOrDefinition;
 		}
@@ -40,34 +42,11 @@
     
      
     function isImplementing(construct, implement, nsOrDefinition){
-        var key,
-            implType = typeof(implement),
-            implementsErr,
-            checkFor,
-            i = 0,
-            l;
-            
-        if(implement instanceof Array){
-            for(i=0, l=implement.length; i<l; i++){
-                if(!isImplementing(construct, implement[i])){
-                    return false;
-                }
-            }
-        }else{
-            if(implType === typeofFunction || implType === typeofObject){
-                checkFor = (implType === typeofFunction) ? implement.prototype : implement;
-                for(key in checkFor){
-                    if(checkFor.hasOwnProperty(key)){
-                        if(typeof(checkFor[key]) === typeofFunction && !construct.prototype[key]){
-                            implementsErr = "implementation for " + key + "() is missing " + ((nsOrDefinition) ? nsOrDefinition : "");
-                            throw new Error(implementsErr);
-                        }
-                    }
-                }    
-            }
+        var checkFor = (isFunction(implement))? implement.prototype : implement;
+        if(!utils.isImplementing(construct.prototype, checkFor)){
+        	implementsErr = nsOrDefinition + " implementation for interface is missing";
+        	throw new Error(implementsErr);
         }
-        
-        return true;  
     }
         
     function Class(nsOrDefinition, definition){  
@@ -78,12 +57,12 @@
         definition = input.definition;
         
         construct = function(){
-            if(typeof(definition.construct) === typeofFunction){
+            if(isFunction(definition.construct)){
                 definition.construct.apply(this, arguments);
             }
         };
         
-        if(typeof(definition.Extends) === typeofFunction){
+        if(isFunction(definition.Extends)){
             utils.extend(construct, definition.Extends);
         }
         
