@@ -13,7 +13,7 @@
 			return this.__elements[index];
 		},
 		
-		getIndexOf: function(element){
+		indexOf: function(element){
 			var elements = this.__elements,
 				i = elements.length;
 			
@@ -31,7 +31,7 @@
 		},
 		
 		hasElement: function(element){
-			return -1 !== this.getIndexOf(element);
+			return -1 !== this.indexOf(element);
 		},
 		
 		removeAt: function(index){

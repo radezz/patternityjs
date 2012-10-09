@@ -31,14 +31,14 @@
 			});
 		});
 		
-		describe("#getIndexOf", function(){
+		describe("#indexOf", function(){
 			it("should get index of an element on the list", function(){
 				listInstance = new $NS.List();
 				listInstance.add('hello');
 				listInstance.add('bye');
 				listInstance.add('aloha');
 				
-				var idx = listInstance.getIndexOf("hello");
+				var idx = listInstance.indexOf("hello");
 				expect(idx).toBe(0);
 				
 			});
@@ -49,7 +49,7 @@
 				listInstance.add('bye');
 				listInstance.add('aloha');
 				
-				var idx = listInstance.getIndexOf("morning");
+				var idx = listInstance.indexOf("morning");
 				expect(idx).toBe(-1);
 			});
 		});
