@@ -5,13 +5,27 @@
 		typeofObject = 'object',
 		typeofFunction = 'function',
 		utils = $NS.patternUtils;
-    
+
+    /**
+     * Function creates a function which wraps the real object
+     * function and calls it with provided arguments
+     * 
+     * @param {Object} objectInstance
+     * @param {String} key
+     */
     function interfaceCallerFactory(objectInstance, key){
 		return function(){
 			return objectInstance[key].apply(objectInstance, arguments);
 		};
     }
     
+    /**
+     * Function binds the current interface functions to call
+     * the target object class function which implement the interface
+     * 
+     * @param {Object} objectInstance - target object into which we bind the interface
+     * @param {Object} interfaceDefinition - definition, which funcions should be bound
+     */
     function bind(objectInstance, interfaceDefinition){
         var key;
             
@@ -27,6 +41,16 @@
         }
     }
     
+    /**
+     * Base Interface object creator. It will create a constructor
+     * for user defined interface, which can be initialized and bounded 
+     * to the target object which implements the interface functionality
+     * 
+     * @param {Object} nsOrDefinition
+     * @param {Object} definition
+     * 
+     * @returns {Function} constructor for the defined interface
+     */
     function Interface(nsOrDefinition, definition){
         var input = Class.prototype.validateInput(nsOrDefinition, definition),
             Construct;

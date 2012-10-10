@@ -1,4 +1,4 @@
-(function($NS){
+(function($NS, $Global){
 	
 	var toString = Object.prototype.toString,
 		checkFor = {
@@ -47,7 +47,7 @@
 		function createNS(namespace, apply){
 			var ns = namespace.split('.'),
 				nsPart = ns.shift(),
-				targetObject = this; //this needs to refer to global
+				targetObject = $Global; //this needs to refer to global
 			
 			while(nsPart){
 				if(!targetObject[nsPart]){
@@ -127,9 +127,7 @@
 	    }
 		
 		$NS.patternUtils = mixin(check ,{
-			createNS: function(ns, apply){
-				createNS(ns, apply);
-			},
+			createNS: createNS,
 			extend: extend,
 			mixin: mixin,
 			isImplementing: isImplementing,
@@ -138,4 +136,4 @@
 		});
 		
 	}());	
-}(patternity));
+}(patternity, this));

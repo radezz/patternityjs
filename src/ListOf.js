@@ -1,8 +1,5 @@
 (function($NS){
 	
-	var slice = Array.prototype.slice;
-	
-	
 	$NS.ListOf = $NS.Class({
 		Extends: $NS.List,
 		construct: function(of){
@@ -10,7 +7,7 @@
 				this.__of = of;
 				this._parent.construct.call(this);
 			}else{
-				throw "missing of argument";
+				throw "argument should be a constructor";
 			}
 			
 		},
@@ -24,7 +21,7 @@
 		},
 		
 		execute: function(functionName){
-			var args = slice.call(arguments,1),
+			var args = Array.prototype.slice.call(arguments,1),
 				iterator = this.iterator(),
 				results = [];
 			iterator.each(function(elem){

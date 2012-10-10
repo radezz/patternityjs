@@ -1,6 +1,13 @@
 (function($NS){
-	
-	
+
+    /**
+     * Function transforms an object into 
+     * iterable array
+     * 
+     * @param {Object} obj
+     * 
+     * @returns {Array}
+     */
 	function objectToIterable(obj){
 		var key,
 			iterable = [];
@@ -14,7 +21,14 @@
 		return iterable;
 	}
 	
-	
+    /**
+     * Iterator. 
+     * Creates an instance of Iterator object which can be used 
+     * to iterate over the objects, arrays, and strings.
+     * 
+     * @class
+     * @constructor
+     */
 	$NS.Iterator = $NS.Class({
 		Implements: $NS.IIterable,
 		construct: function(iterableObject){
@@ -34,11 +48,24 @@
 			this.first();
 		},
 		
+		/**
+		 * Function returns first element on iterable object
+		 * and reset the iterator pointer to the first element
+		 * 
+		 * @returns {Object}
+		 */
 		first: function(){
 			this.__index = 0;
 			return this.currentItem();
 		},
 		
+		/**
+		 * Function moves iterator pointer to point the next element
+		 * and returns that element. It will return undefined value
+		 * if iteration has ended
+		 * 
+		 * @returns {Object}
+		 */
 		next: function(){
 			var self = this;
 			if(!self.isDone()){
@@ -47,14 +74,32 @@
 			}
 		},
 		
+		/**
+		 * Function returns current item iterator
+		 * pointer is poiniting to
+		 * 
+		 * @returns {Object}
+		 */
 		currentItem: function(){
 			return this.__iterable[this.__index];
 		},
 		
+		/**
+		 * Function returns true if the iteration has 
+		 * reached the limit
+		 * 
+		 * @returns {Boolean}
+		 */
 		isDone: function(){
 			return this.__index === this.__iterable.length;
 		},
-		
+
+        /**
+         * Function will execute provided function handler
+         * on every element in the iterable object
+         * 
+         * @param {Object} fn
+         */
 		each: function(fn){
 			var self = this,
 				iterable = self.__iterable,
