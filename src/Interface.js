@@ -31,7 +31,7 @@
             
         for(key in interfaceDefinition){
             if(interfaceDefinition.hasOwnProperty(key)){
-                if(typeof(objectInstance[key]) === typeofFunction){
+                if(utils.isFunction(objectInstance[key])){
                     this[key] = interfaceCallerFactory(objectInstance, key);
                 }else{
 					implementsErr = 'cannot bind ' + key + '() implementation is missing';
@@ -58,7 +58,7 @@
         definition = input.definition;
         
         Construct = function(objectInstance){
-            if(objectInstance && typeof(objectInstance) === typeofObject){
+            if(objectInstance && utils.isObject(objectInstance)){
                 bind.call(this, objectInstance, definition);
 			}else{
 				throw 'an object for interface binding should be defined';

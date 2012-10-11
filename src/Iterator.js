@@ -1,5 +1,6 @@
 (function($NS){
-
+    var utils = $NS.patternUtils;
+    
     /**
      * Function transforms an object into 
      * iterable array
@@ -35,9 +36,9 @@
 			
 			if(iterableObject instanceof Array){
 				this.__iterable = iterableObject;
-			}else if(iterableObject && typeof(iterableObject) === 'object'){
+			}else if(iterableObject && utils.isObject(iterableObject)){
 				this.__iterable = objectToIterable(iterableObject);
-			}else if(iterableObject && typeof(iterableObject) === 'string'){
+			}else if(iterableObject && utils.isString(iterableObject)){
 				this.__iterable = iterableObject.split('');
 			}else{
 				throw 'non iterable';
@@ -105,7 +106,7 @@
 				iterable = self.__iterable,
 				i,
 				l = iterable.length;
-			if(typeof(fn) === 'function'){
+			if(utils.isFunction(fn)){
 				for(i=0; i<l; i++){
 					self.__index = i;
 					fn(iterable[i], i, iterable);

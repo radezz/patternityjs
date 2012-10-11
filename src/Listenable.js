@@ -1,5 +1,11 @@
 (function($NS){
+	var utils = $NS.patternUtils,
+        isFunction = utils.isFunction,
+        isObject = utils.isObject;
 	
+	/**
+	 * 
+	 */
 	$NS.Listenable = $NS.Class({
 		construct: function(){
 			this.__registry = {};
@@ -7,10 +13,9 @@
 		
 		addListener: function(eventName, callback){
 			var self = this,
-				registry = self.__registry,
-				callbackType = typeof(callback);
+				registry = self.__registry;
 			
-			if(callback && (callbackType === 'function' || callbackType === 'object')){
+			if(callback && (isFunction(callback) || isObject(callback))){
 				if(!registry[eventName]){
 					registry[eventName] = [];	
 				}
@@ -54,9 +59,9 @@
 			if(registry){
 				for(i=0, l=registry.length; i<l; i++){
 					listener = registry[i];
-					if(typeof(listener) === 'function'){
+					if(isFunction(listener)){
 						listener.apply(this, args);
-					}else if(typeof(listener[eventName]) === 'function'){
+					}else if(isFunction(listener[eventName])){
 						listener[eventName].apply(listener, args);
 					}
 				}
