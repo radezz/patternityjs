@@ -1,10 +1,13 @@
-(function($NS, $UTIL){
+(function($NS, $GLOBAL){
     
     var Class = $NS.Class,
 		implementsErr,
 		typeofObject = 'object',
 		typeofFunction = 'function',
-		utils = $NS.patternUtils;
+		utils = $NS.patternUtils,
+		isObject = utils.isObject,
+		isString = utils.isString,
+		isFunction = utils.isFunction;
 
     /**
      * Function creates a function which wraps the real object
@@ -31,7 +34,7 @@
             
         for(key in interfaceDefinition){
             if(interfaceDefinition.hasOwnProperty(key)){
-                if(utils.isFunction(objectInstance[key])){
+                if(isFunction(objectInstance[key])){
                     this[key] = interfaceCallerFactory(objectInstance, key);
                 }else{
 					implementsErr = 'cannot bind ' + key + '() implementation is missing';
@@ -46,35 +49,33 @@
      * for user defined interface, which can be initialized and bounded 
      * to the target object which implements the interface functionality
      * 
-     * @param {Object} nsOrDefinition
+     * @param {Object} name
      * @param {Object} definition
+     * @param {Object | String} pckg
      * 
      * @returns {Function} constructor for the defined interface
      */
-    function Interface(nsOrDefinition, definition){
-        var input = Class.prototype.validateInput(nsOrDefinition, definition),
-            Construct;
-        
-        definition = input.definition;
-        
-        Construct = function(objectInstance){
-            if(objectInstance && utils.isObject(objectInstance)){
+    function Interface(name, definition, pckg){
+    
+        function Construct(objectInstance){
+            if(objectInstance && isObject(objectInstance)){
                 bind.call(this, objectInstance, definition);
-			}else{
-				throw 'an object for interface binding should be defined';
-			}
-        };
+            }else{
+                throw 'an object for interface binding should be defined';
+            }
+        }
+        
+        Construct.className = name;
+        
+        Class.prototype.validateInput(name, definition, pckg);
         
         Construct.bind = function(objectInstance){
             return new Construct(objectInstance);
         };
         
-		if(input.ns){
-			utils.createNS(input.ns, Construct);
-		}
-		
         Class.prototype.mixinProto(Construct, definition);
-        
+		Class.prototype.applyToPackage(pckg, Construct);
+		
         return Construct;
     }
     
@@ -84,4 +85,4 @@
     
     $NS.Interface = Interface;
     
-}(patternity));
+}(patternity, this));

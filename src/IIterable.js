@@ -3,7 +3,7 @@
      * IIterable interface definition.
      * @interface
      */	
-	$NS.IIterable = $NS.Interface({
+	$NS.Interface('IIterable', {
 	    /**
 	     * Function should reset iterator to first item 
 	     * and return this item
@@ -30,6 +30,6 @@
          * @param {Object} fn
 		 */
 		each: function(fn){}
-	});
+	}, $NS);
 	
 }(patternity));

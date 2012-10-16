@@ -11,7 +11,7 @@
 	}
 	
 	
-	$NS.Sync = $NS.Class({
+	$NS.Class('Sync', {
 		construct: function(settings){
 			var self = this;
 			
@@ -103,6 +103,6 @@
 		},
 		
 		onAllReady: function(){}
-	});
+	}, $NS);
 	
 }(patternity));

@@ -3,7 +3,7 @@
 	describe("Singleton",function(){
 		
 		it("should create a singleton object according to provided definition", function(){
-			var single = $NS.Singleton({
+			$NS.Singleton('single',{
 				construct: function(){
 					this.name = 'singleton'
 				},
@@ -18,14 +18,14 @@
 		});
 		
 		it("should create a singleton within provided namespace", function(){
-			$NS.Singleton('my.single.ton', {
+			$NS.Singleton('ton', {
 				construct: function(){
 					this.name = 'singleton'
 				},
 				getName: function(){
 					return this.name;
 				}
-			});
+			}, 'my.single');
 			
 			expect(my.single.ton).toBeDefined();
 			expect(typeof(my.single.ton.getInstance)).toBe('function');

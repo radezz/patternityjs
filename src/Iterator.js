@@ -30,8 +30,8 @@
      * @class
      * @constructor
      */
-	$NS.Iterator = $NS.Class({
-		Implements: $NS.IIterable,
+	$NS.Class('Iterator', { Implements: $NS.IIterable,
+		
 		construct: function(iterableObject){
 			
 			if(iterableObject instanceof Array){
@@ -114,6 +114,6 @@
 			}
 		}
 		
-	});
+	}, $NS);
 	
 }(patternity));

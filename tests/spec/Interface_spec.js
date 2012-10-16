@@ -4,7 +4,7 @@
 		
 		it("should create and interface object according to the definition", function(){
 			
-			var ISaveable = $NS.Interface({
+			$NS.Interface('ISaveable',{
 				save: function(){},
 				cache: function(){}
 			});
@@ -25,7 +25,7 @@
 			expect(creator).toThrow();
 		});
 		
-		it("should throw an error when firs argument is not a string or object", function(){
+		it("should throw an error when firs argument is not a string", function(){
 			
 			function creator(){
 				var IKlass = $NS.Interface(function(){});
@@ -41,7 +41,7 @@
 			expect(creator3).toThrow();
 		});
 		
-		it("should throw an error when namespace provided as string but wrong object definition", function(){
+		it("should throw an error when name is provided but wrong object definition", function(){
 			function creator(){
 				var IKlass = $NS.Interface("ns",function(){});
 			}
@@ -57,10 +57,10 @@
 		});
 		
 		it("should create an Interface object within provided namespace", function(){
-			$NS.Interface("my.name.space.ISaveable", {
+			$NS.Interface("ISaveable", {
 				save: function(){},
 				cache: function(){}
-			});
+			}, "my.name.space");
 			
 			expect(my.name.space.ISaveable).toBeDefined();
 			expect(typeof(my.name.space.ISaveable)).toBe('function');
@@ -68,12 +68,12 @@
 		});
 		
 		it("should bind the interface to the object", function(){
-			var ISaveable = $NS.Interface({
+			$NS.Interface("ISaveable",{
 				save: function(){},
 				cache: function(){}
 			});
 			
-			var DataObject = $NS.Class({
+			$NS.Class("DataObject", {
 				construct: function(data){
 					this._data = data;
 				},
@@ -111,12 +111,12 @@
 		});
 		
 		it("should throw an error when bind target does not implement the functionality", function(){
-			var ISaveable = $NS.Interface({
+			$NS.Interface("ISaveable",{
 				save: function(){},
 				cache: function(){}
 			});
 			
-			var DataObject = $NS.Class({
+			$NS.Class("DataObject", {
 				construct: function(data){
 					this._data = data;
 				}
@@ -131,7 +131,7 @@
 		});
 		
 		it("should throw an error when bind target is not an existing object", function(){
-			var ISaveable = $NS.Interface({
+			$NS.Interface("ISaveable" ,{
 				save: function(){},
 				cache: function(){}
 			});

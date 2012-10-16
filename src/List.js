@@ -6,7 +6,7 @@
 	 * 
 	 * @constructor
 	 */
-	$NS.List = $NS.Class({
+	$NS.Class('List', {
 		construct: function(){
 			this.__elements = [];
 		},
@@ -131,6 +131,6 @@
 			
 			this.__elements = uniqueElements;
 		}
-	});
+	}, $NS);
 	
 }(patternity));

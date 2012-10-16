@@ -6,7 +6,7 @@
 	/**
 	 * 
 	 */
-	$NS.Listenable = $NS.Class({
+	$NS.Class('Listenable', {
 		construct: function(){
 			this.__registry = {};
 		},
@@ -68,6 +68,6 @@
 			}
 			
 		}
-	});
+	}, $NS);
 	
 }(patternity));

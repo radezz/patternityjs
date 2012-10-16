@@ -1,7 +1,7 @@
 (function($NS){
 	
-	$NS.ListOf = $NS.Class({
-		Extends: $NS.List,
+	$NS.Class('ListOf', { Extends: $NS.List,
+		
 		construct: function(of){
 			if(typeof(of) === 'function'){
 				this.__of = of;
@@ -36,7 +36,7 @@
 				elem[property] = value;
 			});
 		}
-	});
+	}, $NS);
 	
 	
 }(patternity));

@@ -12,7 +12,8 @@
 			}
 	}
 	
-	$NS.Timer = $NS.Class({
+	$NS.Class('Timer', {
+	    
 		construct: function(interval){
 			var self = this;
 			if(typeof(interval) === 'number' && interval > 0){
@@ -77,6 +78,6 @@
 			return this.__isRunning;
 		}
 		
-	});
+	}, $NS);
 	
 }(patternity));

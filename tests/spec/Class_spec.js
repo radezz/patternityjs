@@ -2,8 +2,10 @@
 	
 	describe("Class", function(){
 		
+		var pckg = {};
+		
 		it("should create a constructable object", function(){
-			var klass = $NS.Class({
+			var klass = $NS.Class('klass', {
 				construct: function(){
 					this.prop = "hello";
 				}
@@ -26,7 +28,7 @@
 			expect(creator).toThrow();
 		});
 		
-		it("should throw an error when firs argument is not a string or object", function(){
+		it("should throw an error when firs argument is not a string (class name)", function(){
 			
 			function creator(){
 				var klass = $NS.Class(function(){});
@@ -42,15 +44,15 @@
 			expect(creator3).toThrow();
 		});
 		
-		it("should throw an error when namespace provided as string but wrong object definition", function(){
+		it("should throw an error when there is wrong object definition", function(){
 			function creator(){
-				var klass = $NS.Class("ns",function(){});
+				var klass = $NS.Class("klass",function(){});
 			}
 			function creator2(){
-				var klass = $NS.Class("ns",2);
+				var klass = $NS.Class("klass",2);
 			}
 			function creator3(){
-				var klass = $NS.Class("ns",null);
+				var klass = $NS.Class("klass",null);
 			}
 			expect(creator).toThrow();
 			expect(creator2).toThrow();
@@ -58,11 +60,11 @@
 		});
 		
 		it("should create a constructable object within provided namespace", function(){
-			$NS.Class("my.name.space.klass", {
+			$NS.Class("klass", {
 				construct: function(){
 					this.prop = "hello";
 				}
-			});
+			}, "my.name.space");
 			
 			expect(my.name.space.klass).toBeDefined();
 			var instance = new my.name.space.klass();
@@ -71,7 +73,7 @@
 		});
 		
 		it("should extend the parent class", function(){
-			var theParent = $NS.Class({
+			$NS.Class('theParent',{
 				construct: function(name){
 					this.name = name;
 					this.age = 40;
@@ -86,7 +88,7 @@
 				}
 			});
 			
-			var theChild = $NS.Class({
+			$NS.Class('theChild' ,{
 				Extends: theParent,
 				
 				construct: function(name, surname){
@@ -120,7 +122,7 @@
 					getName: function(){}
 				}
 				
-				var klass = $NS.Class({
+				$NS.Class('klass',{
 					Implements: interf,
 					constructs: function(){
 						//the constructor
@@ -145,7 +147,7 @@
 					getName: function(){}
 				};
 				
-				var klass = $NS.Class({
+				$NS.Class('klass',{
 					Implements: [interfOne, interfTwo],
 					constructs: function(){
 						//the constructor
@@ -170,7 +172,7 @@
 					getName: function(){}
 				};
 				
-				var klass = $NS.Class({
+				$NS.Class('klass',{
 					Implements: [interfOne, interfTwo],
 					constructs: function(){
 						//the constructor
@@ -198,7 +200,7 @@
 				}
 			};
 
-			var klass = $NS.Class({
+			$NS.Class('klass',{
 				Mixin: toBeMixed,
 				construct: function(){
 					//hello world
@@ -233,7 +235,7 @@
 				}
 			};
 
-			var klass = $NS.Class({
+			$NS.Class('klass', {
 				Mixin: [toBeMixed, toBeMixedTwo],
 				construct: function(){
 					//hello world

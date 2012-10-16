@@ -1,4 +1,4 @@
-(function($NS){
+(function($NS, $GLOBAL){
     
     var KeyProperties = {
         'Extends': 1,
@@ -29,33 +29,39 @@
         }
     }
 
+    function applyToPackage(pckg, Construct, name){
+        name = name || Construct.className;
+        if(isString(pckg)){
+            utils.createNS([pckg, '.', name].join(''), Construct);
+        }else if(isObject(pckg)){
+            pckg[name] = Construct;
+        }else{
+            $GLOBAL[name] = Construct;
+        }
+    }
+
 	/**
 	 * Function validates input for and returns an object
 	 * contanint a namespace and definition, which is used when creating
 	 * class.
 	 * 
-	 * @param {Object | String} nsOrDefinition
+	 * @param {String} name
 	 * @param {Object} definition
+	 * @param {Object | String} package or namespace 
 	 * 
-	 * @return {Object} - object containing namespace and definition
 	 */
-	function validateInput(nsOrDefinition, definition){
-		var ns;
-		if(isString(nsOrDefinition)){
-			ns = nsOrDefinition;
-			if(!definition || !isObject(definition)){
-				throw new TypeError('an object definition is required when namespace provided');
-			}
-		}else if(!nsOrDefinition || !isObject(nsOrDefinition)){
-		    throw new TypeError('parameter needs to be an object or namespace string');
-		}else{
-		    definition = nsOrDefinition;
+	function validateInput(name, definition, pckg){
+		if(!isString(name)){
+			throw new TypeError('a class name is required');
 		}
 		
-		return {
-			ns: ns,
-			definition: definition
-		};
+		if(!isObject(definition)){
+		    throw new TypeError(name + ': class definition must be an object');
+		}
+		
+		if(pckg && !isString(pckg) && !isObject(pckg)){
+            throw new TypeError(name + ': package must be an object or string');
+		}
     }
     
     /**
@@ -64,8 +70,7 @@
      * Class contains implementation of an previously created Interface
      * 
      * @param {Object} construct
-     * @param {Object | Function} implement
-     * @param {Object} nsOrDefinition
+     * @param {Object | Function}
      */
     function isImplementing(construct, implement, nsOrDefinition){
         var checkFor = (isFunction(implement))? implement.prototype : implement,
@@ -82,55 +87,54 @@
      * Base Class creator function. It will create instantiable constructor
      * of user defined class object.
      * 
-     * @param {Object | String} nsOrDefinition
+     * @param {String} name
      * @param {Object} definition
+     * @param {Object | String}
      * 
      * @returns {Function} - constructor which can create an defined object
      */
-    function Class(nsOrDefinition, definition){  
+    function Class(name, definition, pckg){  
         
-        var input = validateInput(nsOrDefinition, definition),
-            construct;
-        
-        definition = input.definition;
-        
-        construct = function(){
+        function Construct(){
             if(isFunction(definition.construct)){
                 definition.construct.apply(this, arguments);
             }
-        };
-        
-        if(isFunction(definition.Extends)){
-            utils.extend(construct, definition.Extends);
         }
         
-        mixinProto(construct, definition);
+        validateInput(name, definition, pckg);
+        
+        Construct.className = name;
+        
+        if(isFunction(definition.Extends)){
+            utils.extend(Construct, definition.Extends);
+        }
+        
+        mixinProto(Construct, definition);
         
         if(definition.Mixin){
-            utils.mixin(construct.prototype, definition.Mixin);
+            utils.mixin(Construct.prototype, definition.Mixin);
         }
         
         if(definition.Implements){
-            isImplementing(construct, definition.Implements, nsOrDefinition);
+            isImplementing(Construct, definition.Implements);
         }
         
         if(definition.Static){
-            utils.mixin(construct, definition.Static);
+            utils.mixin(Construct, definition.Static);
         }
 		
-		if(input.ns){
-			utils.createNS(input.ns, construct);
-		}
+		applyToPackage(pckg, Construct);
 		
-        return construct;
+        return Construct;
     }
     
     Class.prototype = {
         isImplementing: isImplementing,
         validateInput: validateInput,
-        mixinProto: mixinProto
+        mixinProto: mixinProto,
+        applyToPackage: applyToPackage
     };
     
     $NS.Class = Class;
     
-}(patternity));
+}(patternity, this));

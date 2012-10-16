@@ -17,7 +17,7 @@
 		
 	}
 	
-	$NS.Observable = $NS.Class({
+	$NS.Class('Observable', {
 		
 		construct: function(){
 			this.__observers = {};
@@ -66,10 +66,10 @@
 				
             i = observers.length;
             while(i--){
-            	if(observers[i] === observer){
-            		observers.splice(i,1);
-            		return;
-            	}
+                if(observers[i] === observer){
+                    observers.splice(i,1);
+                    return;
+                }
             }
 			
 		},
@@ -80,7 +80,7 @@
 				delete observers[property];
 			}    
 	    }
-	});
+	}, $NS);
 	
 	
 }(patternity));

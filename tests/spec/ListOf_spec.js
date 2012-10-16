@@ -40,7 +40,7 @@
 				
 				expect(adderOne).toThrow();
 				
-				var Person = $NS.Class({
+				$NS.Class('Person', {
 					construct: function(){
 						this.name = 'John Doe';
 					}
@@ -65,7 +65,7 @@
 				
 				expect(adderOne).not.toThrow();
 				
-				var Person = $NS.Class({
+				$NS.Class('Person', {
 					construct: function(){
 						this.name = 'John Doe';
 					}
@@ -85,7 +85,7 @@
 		
 		describe("#execute",function(){
 			it("should execute function on all elements", function(){
-				var Person = $NS.Class({
+				$NS.Class('Person', {
 					construct: function(){},
 					getValue: function(value){
 						return value;
@@ -108,7 +108,7 @@
 		describe("#setAll", function(){
 			it("should set a property value to all objects on the list", function(){
 				var name = "John Doe";
-				var Person = $NS.Class({
+				$NS.Class('Person', {
 					construct: function(){},
 					getValue: function(value){
 						return value;

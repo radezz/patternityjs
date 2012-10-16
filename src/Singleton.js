@@ -10,16 +10,11 @@
 		};
 	}
 	
-	function SingletonCreator(nsOrDefinition, definition){
-		var input = Class.prototype.validateInput(nsOrDefinition, definition),
-			singleton;
-			
-		singleton = new Singleton($NS.Class(input.definition));
-		
-		if(input.ns){
-			utils.createNS(input.ns, singleton);
-		}
-		
+	function SingletonCreator(name, definition, pckg){
+		var singleton;
+		Class.prototype.validateInput(name, definition, pckg);
+		singleton = new Singleton($NS.Class(name, definition, {}));
+		Class.prototype.applyToPackage(pckg, singleton, name);
 		return singleton;
 	}
 	
