@@ -16,12 +16,14 @@
 		}
 		
 	}
-	
+	/**
+	 * @class Observable
+	 * 
+	 * @constructor
+	 */
 	$NS.Class('Observable', {
 		
-		construct: function(){
-			this.__observers = {};
-		},
+		__observers: {},
 		
 		get: function(property){
 			return this[property];

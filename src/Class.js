@@ -6,6 +6,7 @@
         'Mixin': 1,
         'Static': 1
     },
+    typeofObject = 'object',
     utils = $NS.patternUtils,
     isObject = utils.isObject,
     isString = utils.isString,
@@ -17,26 +18,47 @@
 	 * constructor prototype. It will not mix in the 'Extend', 'Implements', 'Mixin', 'Static'
 	 * properties as they are the 'key' properties used to define the class
 	 * 
-	 * @param {Function} construct
+	 * @param {Function} proto
 	 * @param {Object} definition
 	 */
-	function mixinProto(construct, definition){
-        var key;
-        for(key in definition){
-            if(definition.hasOwnProperty(key) && !KeyProperties[key]){
-                construct.prototype[key] = definition[key];    
+	function mixinProto(proto, definition, forReinit){
+        var key,
+            defProperty,
+            i,
+            l;
+        if(isArray(definition)){
+            for(i=0, l=definition.length; i<l; i++){
+                mixinProto(proto, definition[i], forReinit);
             }
-        }
+        } else {
+            for(key in definition){
+                if(definition.hasOwnProperty(key) && !KeyProperties[key]){
+                    defProperty = definition[key];
+                    proto[key] = defProperty;
+                    if(typeof(defProperty) === typeofObject){
+                        forReinit[key] = defProperty;
+                    }
+                }
+            }
+        } 
     }
-
-    function applyToPackage(pckg, Construct, name){
-        name = name || Construct.className;
+    
+    /**
+     * Function creates namespace and applies object into 
+     * created namespace
+     * 
+     * @param {String} pckg
+     * @param {Object} source
+     * @param {String} name - optional name if source is not a class constructor
+     */
+    function applyToPackage(pckg, source, name){
+        name = name || source.className;
         if(isString(pckg)){
-            utils.createNS([pckg, '.', name].join(''), Construct);
+            utils.createNS([pckg, '.', name].join(''), source);
         }else if(isObject(pckg)){
-            pckg[name] = Construct;
+            pckg[name] = source;
         }else{
-            $GLOBAL[name] = Construct;
+            $GLOBAL[name] = source;
         }
     }
 
@@ -81,7 +103,26 @@
 			throw new Error(implementsErr);
         }
     }
+    
+    function getForReinit(src, forReinit){
+        var key;
+        for(key in src){
+            if(key !== '_parent' && src[key] && typeof(src[key]) === typeofObject){   
+                forReinit[key] = src[key];
+            }
+        }
+            
+    }
 
+    function reinitObjects(src){
+        var key,
+            prop;
+        for(key in src){
+            if(src.hasOwnProperty(key)){
+                this[key] = src[key].constructor();
+            }
+        }
+    }
 
     /**
      * Base Class creator function. It will create instantiable constructor
@@ -94,8 +135,12 @@
      * @returns {Function} - constructor which can create an defined object
      */
     function Class(name, definition, pckg){  
+        var forReinit = {};
         
         function Construct(){
+            if(forReinit){
+                reinitObjects.call(this, forReinit);
+            }
             if(isFunction(definition.construct)){
                 definition.construct.apply(this, arguments);
             }
@@ -107,12 +152,13 @@
         
         if(isFunction(definition.Extends)){
             utils.extend(Construct, definition.Extends);
+            getForReinit(Construct.prototype, forReinit);
         }
         
-        mixinProto(Construct, definition);
+        mixinProto(Construct.prototype, definition, forReinit);
         
         if(definition.Mixin){
-            utils.mixin(Construct.prototype, definition.Mixin);
+            mixinProto(Construct.prototype, definition.Mixin, forReinit);
         }
         
         if(definition.Implements){

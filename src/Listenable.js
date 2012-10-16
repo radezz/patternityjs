@@ -4,13 +4,22 @@
         isObject = utils.isObject;
 	
 	/**
+	 * @class Listenable
+	 * Listenable is used to emulate custom events and listeners
 	 * 
+	 * @constructor
 	 */
 	$NS.Class('Listenable', {
-		construct: function(){
-			this.__registry = {};
-		},
 		
+	    __registry: {},
+		
+		/**
+		 * Function adds a listener callback to the Listenable object,
+		 * to listen to the target custom event
+		 * 
+         * @param {String} eventName
+         * @param {Function} callback
+		 */
 		addListener: function(eventName, callback){
 			var self = this,
 				registry = self.__registry;
@@ -25,6 +34,12 @@
 			}
 		},
 		
+		/**
+		 * Function removes listening callback from target event
+		 * 
+         * @param {String} eventName
+         * @param {Function} callback
+		 */
 		removeListener: function(eventName, callback){
 			var self = this,
 				registry = self.__registry[eventName],
@@ -41,6 +56,12 @@
 			}
 		},
 		
+		/**
+		 * Function removes all listening callbacks
+		 * from target event
+		 * 
+         * @param {String} eventName
+		 */
 		removeListeners: function(eventName){
 			var registry = this.__registry;
 			if(registry[eventName]){
@@ -48,6 +69,13 @@
 			}
 		},
 		
+		/**
+		 * Function notifies all listeners listening to 
+		 * the provided event. All parameters besides the 
+		 * eventName are applied to every callback 
+		 * 
+         * @param {String} eventName
+		 */
 		dispatchEvent: function(eventName){
 			var self = this,
 				args = Array.prototype.slice.call(arguments, 1),

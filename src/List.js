@@ -7,9 +7,8 @@
 	 * @constructor
 	 */
 	$NS.Class('List', {
-		construct: function(){
-			this.__elements = [];
-		},
+		
+		__elements: [],
 		
         /**
          * Funcion adds element to the list

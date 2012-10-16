@@ -73,7 +73,7 @@
             return new Construct(objectInstance);
         };
         
-        Class.prototype.mixinProto(Construct, definition);
+        Class.prototype.mixinProto(Construct.prototype, definition);
 		Class.prototype.applyToPackage(pckg, Construct);
 		
         return Construct;
