@@ -11,7 +11,7 @@
 		script = scripts[i];
 		if(script.src.indexOf('patternity' !== -1)){
 			nsString = script.getAttribute('data-namespace');
-			if(nsString){
+			if(nsString && nsString !== 'this'){
 				nsString = nsString.split('.');
 				while(nsPart = nsString.shift()){
 					if(!targetObject[nsPart]){
@@ -19,8 +19,10 @@
 					}
 					targetObject = targetObject[nsPart];
 				}
-				break;
+				
 			}
+			
+			break;
 		}
 	}
 	patternity = targetObject;

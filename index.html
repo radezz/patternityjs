@@ -3,71 +3,205 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Patternitys</title>
-        <script src="dist/patternity.js" data-namespace="patternity.namespace"></script>      
+        <style>
+        	#logs {
+        		list-style-position: inside;
+        	}
+        	#logs li{ 
+        		float: left; 
+        		margin: 5px;
+        	}
+        	#ticker{
+        		width: 20px;
+        		height: 10px;
+        		background-color: red;
+        		position: absolute;
+        		left:0px;
+        		top:0px;
+        	}
+        </style>
+        <!-- 
+        	By specifying data-namespace you can generate library in certain namespace
+        	so it won't colide with other libraries you use or it could part of your apps
+        	namespace as example data-namespace="my.app". If using 'this' or when attribute
+        	is not specified then the library objects will be placed in the root namespace 
+        	(window in this case) as in the examples below:
+        -->
+        <script src="dist/patternity.js" data-namespace="this"></script>      
     </head>
     <body>
-        
+        <p>If there are no results plese run <code>'ant web'</code> in the root folder from console</p>
+        <div id="ticker"></div>
+        <ul id="logs">
+        	
+        </ul>
         <script>
-            
-            patternity.Interface('Saveable',{
-                save: function(){},
-                prepare: function(){}  
-            });
-            
-            var Runable = {
-                run: function(){
-                    
-                }
-            }
-            
-            var kl = patternity.Class({
-                construct: function(){
-                    console.log('aaaa');
-                },
-                
-                myMethod: function(){
-                    
-                }
-            });
-            
-            
-            
-            var kl2 = patternity.Class({
-                Extends: kl,
-                Implements: [Saveable, Runable],
-                someMethod: function(){
-                    
-                },
-                run: function(){
-                    console.log('run');
-                },
-                save: function(){
-                    console.log('save');
-                },
-                prepare: function(){
-                    console.log('prepare')
-                }
-             
-            });
-            
-			patternity.Class('nokia.maps.is.Shit',{
-				construct: function(){
-					console.log('aaaa');
-				},
-				
-				isShit: function(){
-					return true;
-				}
-			});
-			
-            var kl2Instance = new kl2();
-            
-            var ISave = Saveable.bind(kl2Instance);
-            
-            ISave.save();
-            //console.log(new kl());
-            console.log(kl2Instance);
-        </script>
+        /**
+         * lets start with the namespace
+         */
+        var libtester = {}
         
+        /**
+         * Okay so to begin tests lets create a simple Log class to 
+         * contain the log information and render it in some element 
+         */
+         
+         Class('Log', {
+         	construct: function(title, info){
+         		this.title = title;
+         		this.info = info;
+         	},
+         	
+         	toHtmlString: function(){
+         		//we could use some templating engine here...
+         		return ['<h2>', this.title || '', '</h2>', '<span>', this.info || '' , '</span>'].join('');
+         	},
+         	
+         	render: function(elementId){
+         		var elem = document.getElementById(elementId),
+         			logElem = document.createElement('li');
+         		if(elem){
+         			logElem.innerHTML = this.toHtmlString();
+         			elem.appendChild(logElem);
+         		}
+         	}
+         },'libtester');  
+            
+       	/**
+       	 * Okay so we have basic log class so now we would like to have container 
+       	 * only for logs to prevent adiding by mistake something different to this list.
+       	 * Lets create LogList definition and reuse some of the ListOf functionality
+       	 */
+       	 Class('LogList', { Extends: ListOf, 
+       	 	
+       	 	construct: function(){
+       	 		//let's initialize the ListOf functionality
+       	 		this._parent.construct.call(this, libtester.Log);
+       	 	},
+       	 	
+       	 	addLog: function(logDefinition){
+       	 		//adder to simplify the log adding => LogList.addLog({title: 'the title', info: 'the info'})
+       	 		this.add(new libtester.Log(logDefinition.title, logDefinition.info));
+       	 	},
+       	 	
+       	 	showLogs: function(){	
+       	 		var placeHolder = document.getElementById('logs');
+       	 		placeHolder.innerHTML = ''; //brrrr... should use removeChild ;)
+       	 		/**
+       	 		 * Since we have got a ListOf clone which contains
+       	 		 * only element of chosen type we can use execute!
+       	 		 */
+       	 		this.execute('render', 'logs');
+       	 	}
+       	 	
+       	 },'libtester');
+       	 
+       	 /**
+       	  * Okay some logic now. Lets create an instance of log list and a timer which will 
+       	  * add new 'tick' log every second
+       	  */
+       	 var tictac = ['tic', 'tac', 'toe'];
+       	 
+       	 libtester.logs = new libtester.LogList();
+       	 
+       	 libtester.runner = new Timer(1000);
+ 		    	
+       	 libtester.runner.addTask(function(timestamp){
+       	 	var logLength = libtester.logs.getLength();
+       	 	
+       	 	libtester.logs.addLog({
+       	 		title: tictac[logLength % 3],
+       	 		info: timestamp
+       	 	});
+       	 	
+       	 	libtester.logs.showLogs();
+       	 })
+       	 
+       	 libtester.runner.run();
+       	 
+       	 
+       	 /**
+       	  * Okay so we have a tic tac lets create an animation class to add 
+       	  * some more visualisation
+       	  */
+       	 
+       	 
+       	 Class('Animation', {
+       	 	construct: function(duration, ease){
+       	 		this._duration = duration;
+       	 		this._ease = ease || function(p){return p};
+       	 	},
+       	 	requestFrame: function(step){
+       	 		var self = this,
+       	 			requestFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                               window.webkitRequestAnimationFrame || window.msRequestAnimationFrame ||
+                               function(step){
+                               		return setTimeout(function(){
+                               			step.call(self, (new Date).getTime()); //emulating for older IE
+                               		},1);	
+                               };
+                this.requestFrame = function(step){
+                	return requestFrame(step);
+                };
+                return requestFrame(step);
+       	 	},
+       	 	cancelFrame: function(id){
+       	 		var cancelFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame ||
+                               window.webkitCancelAnimationFrame || window.msCancelAnimationFrame ||
+                               clearTimeout;
+                
+                this.cancelFrame = function(id){
+                	cancelFrame(id);
+                };
+                cancelFrame(id);
+       	 	},
+       	 	start: function(onFrame){
+       	 		var self = this;
+       	 		this.isRunning = true;
+       	 		this._started = (new Date()).getTime();
+       	 		
+       	 		function frameHandler(timestamp){
+       	 			if(self.isRunning){
+       	 				var progress = (timestamp - self._started) / self._duration;
+       	 				progress = (progress < 1)? progress : 1;
+       	 				progress = self._ease(progress);
+       	 				onFrame(progress);
+       	 				if(progress < 1){
+       	 					self._frameID = self.requestFrame(frameHandler)
+       	 				}else{
+       	 					self.stop();
+       	 				}
+       	 			}
+       	 		}
+       	 		
+       	 		this._frameID = this.requestFrame(frameHandler);
+       	 	},
+       	 	stop: function(){
+       	 		this.isRunning = false;
+       	 		this.cancelFrame(this._frameID);
+       	 		
+       	 	}
+       	 }, 'libtester');
+       	 
+       	 
+       	 /**
+       	  * lets add an animation to our timer
+       	  */
+          libtester.runner.addTask(function(){
+          		var elem = document.getElementById('ticker');
+          			start = parseInt(elem.style.left || 0),
+          			end = (start == 0)? screen.width - 20 : 0,
+          			delta = end - start,
+          			anim = new libtester.Animation(1000, function(p){
+          				return -p * (p-2); //ease out quad;
+          			});
+          		
+          		anim.start(function(progress){
+          			var newPos = start + delta * progress;
+          			elem.style.left = newPos + 'px';
+          		})
+          			
+          });
+        </script>
     </body>
 </html>

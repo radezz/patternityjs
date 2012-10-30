@@ -13,6 +13,17 @@
     isFunction = utils.isFunction,
     isArray = utils.isArray;
     
+    function createParenAccessFunction(fn, parent){
+        var result;
+        
+        return function(){
+            this._parent = parent.prototype;
+            result = fn.apply(this, arguments);
+            delete this._parent;
+            return result;
+        };
+    }
+    
 	/**
 	 * Function mixins the definition into the 
 	 * constructor prototype. It will not mix in the 'Extend', 'Implements', 'Mixin', 'Static'
@@ -34,10 +45,16 @@
             for(key in definition){
                 if(definition.hasOwnProperty(key) && !KeyProperties[key]){
                     defProperty = definition[key];
-                    proto[key] = defProperty;
-                    if(typeof(defProperty) === typeofObject){
-                        forReinit[key] = defProperty;
+                    if(isFunction(defProperty) && definition.Extends){
+                        proto[key] = createParenAccessFunction(defProperty, definition.Extends);
+                    }else{
+                        proto[key] = defProperty;
+                        if(typeof(defProperty) === typeofObject){
+                            forReinit[key] = defProperty;
+                        }
                     }
+                    
+                    
                 }
             }
         } 
@@ -81,7 +98,7 @@
 		    throw new TypeError(name + ': class definition must be an object');
 		}
 		
-		if(pckg && !isString(pckg) && !isObject(pckg)){
+		if(pckg && !isString(pckg) && (typeof(pckg) !== typeofObject)){
             throw new TypeError(name + ': package must be an object or string');
 		}
     }

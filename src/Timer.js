@@ -2,13 +2,14 @@
 	
 	function execute(tasks){
 		var self = this,
+		    now = (new Date()).getTime(),
 			task,
 			i,
 			l;
 			
 			for(i=0, l=tasks.length; i<l; i++){
 				task = tasks[i];
-				task.action.call(task.ctx || this);
+				task.action.call(task.ctx || this, now);
 			}
 	}
 	
