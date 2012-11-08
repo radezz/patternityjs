@@ -1,21 +1,10 @@
 (function($NS){
 	
 	var slice = Array.prototype.slice,
-		isFunction = $NS.patternUtils.isFunction;
+	    utils = $NS.patternUtils,
+		isFunction = utils.isFunction,
+		isObject = utils.isObject;
 	
-	function triggerObservers(property){
-		var self = this,
-			observers = self.__observers[property],
-			i=0,
-			l;
-		
-		if(observers){
-		    for(i=0, l=observers.length; i<l; i++){
-                observers[i].apply(self, arguments);
-            }
-		}
-		
-	}
 	/**
 	 * @class Observable
 	 * 
@@ -25,6 +14,20 @@
 		
 		__observers: {},
 		
+		triggerObservers: function(property){
+            var self = this,
+                observers = self.__observers[property],
+                i=0,
+                l;
+            
+            if(observers){
+                for(i=0, l=observers.length; i<l; i++){
+                    observers[i].apply(self, arguments);
+                }
+            }
+        
+        },
+		
 		get: function(property){
 			return this[property];
 		},
@@ -32,11 +35,13 @@
 		set: function(property, value){
 			var self = this,
 				oldValue;
-			if(!isFunction(self[property])){
-				oldValue = self[property];
-				self[property] = value;
-				triggerObservers.call(self, property, value, oldValue);
+				
+			if(!utils.pairCall(self.set, arguments[0], self) && !isFunction(self[property])){
+			    oldValue = self[property];
+                self[property] = value;
+                self.triggerObservers(property, value, oldValue);
 			}
+			
 		},
 		
 		callFunction: function(functionName){
@@ -46,20 +51,26 @@
 			
 			if(isFunction(self[functionName])){
 				result = self[functionName].apply(self, args);
-				triggerObservers.call(self, functionName, result, args);
+				self.triggerObservers(functionName, result, args);
 				return result;
 			}
 		},
 		
 		observe: function(property, observer){
-			var observers = this.__observers;
-			if(!observers[property]){
-				observers[property] = [];
-			}
+			var self = this,
+			    observers = self.__observers;
 			
-			if(isFunction(observer)){
-				observers[property].push(observer);	
-			}
+			if(!utils.pairCall(self.observe, arguments[0], self)){
+			    if(!observers[property]){
+                    observers[property] = [];
+                }
+                
+                if(isFunction(observer)){
+                    observers[property].push(observer); 
+                }
+			}    
+			
+			
 		},
 		
 		removeObserver: function(property, observer){

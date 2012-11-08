@@ -13,7 +13,8 @@
 		'Boolean': 1,
 		'Number': 1,
 		'RegExp': 1,
-		'JSON': 1
+		'JSON': 1,
+		'Arguments': 1
 	},
 	check = {}, 
 	key;
@@ -122,6 +123,22 @@
 			}
 	    }
 	    
+	    function pairCall(fn, pairArgs, context){
+	        var key;
+	            
+	        if(check.isFunction(fn) && check.isObject(pairArgs)){
+	            for(key in pairArgs){
+	                if(pairArgs.hasOwnProperty(key)){
+	                    fn.call(context, key, pairArgs[key]);
+	                }
+	            }
+	            return true;
+	        }
+	        
+	        return false;
+	    }
+	    
+	    
 	    function isDefined(object){
 			return object !== null && object !== undefined;
 	    }
@@ -130,6 +147,7 @@
 			createNS: createNS,
 			extend: extend,
 			mixin: mixin,
+			pairCall: pairCall,
 			isImplementing: isImplementing,
 			isDefined: isDefined,
 			getType: getType

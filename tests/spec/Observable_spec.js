@@ -39,6 +39,27 @@
 	            observableInstance.set(prop,newVal);
 	            expect(calls).toEqual(1);
 	        });
+	        
+	        it("should set multiple properties and trigger their observers", function(){
+	            var calls = 0;
+	            observableInstance.observe("name", function(){
+	                calls++;
+	            });
+	            
+	            observableInstance.observe("surname", function(){
+                    calls++;
+                });
+	            
+	            observableInstance.set({
+	                "name": 'John',
+	                "surname": 'Doe'
+	            });
+	            
+	            expect(calls).toEqual(2);
+	            expect(observableInstance.name).toBe('John');
+	            expect(observableInstance.surname).toBe('Doe');
+	            
+	        });
         });
         
         
@@ -55,6 +76,21 @@
 	           function observer(){};
 	           observableInstance.observe("property", observer);
 	           expect(observableInstance.__observers["property"][0]).toEqual(observer);
+	        });
+	        
+	        it("should add observers to multiple properties", function(){
+	            function ob1(){};
+	            function ob2(){};
+	            function ob3(){};
+	            observableInstance.observe({
+	                'prop1': ob1,
+	                'prop2': ob2,
+	                'prop3': ob3
+	            });
+	            
+	            expect(observableInstance.__observers["prop1"][0]).toEqual(ob1);
+	            expect(observableInstance.__observers["prop2"][0]).toEqual(ob2);
+	            expect(observableInstance.__observers["prop3"][0]).toEqual(ob3);
 	        });
         });
         
