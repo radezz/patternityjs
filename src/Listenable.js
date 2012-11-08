@@ -24,13 +24,15 @@
 			var self = this,
 				registry = self.__registry;
 			
-			if(callback && (isFunction(callback) || isObject(callback))){
-				if(!registry[eventName]){
-					registry[eventName] = [];	
-				}
-				registry[eventName].push(callback);
-			}else{
-				throw "listener has to be a function or an object";
+			if(!utils.pairCall(self.addListener, arguments[0], self)){
+			    if(callback && (isFunction(callback) || isObject(callback))){
+                    if(!registry[eventName]){
+                        registry[eventName] = [];   
+                    }
+                    registry[eventName].push(callback);
+                }else{
+                    throw "listener has to be a function or an object";
+                }
 			}
 		},
 		

@@ -138,9 +138,8 @@
 	        return false;
 	    }
 	    
-	    
 	    function isDefined(object){
-			return object !== null && object !== undefined;
+			return !check.isNull(object) && !check.isUndefined(object);
 	    }
 		
 		$NS.patternUtils = mixin(check ,{

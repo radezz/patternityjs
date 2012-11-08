@@ -26,6 +26,23 @@
 				expect(listenInstance.__registry['myEvent'][0]).toBe(myListener);
 			});
 			
+			it("should add multiple events listeners", function(){
+			    function ml1(){};
+			    function ml2(){};
+			    function ml3(){};
+			    
+			    listenInstance.addListener({
+			        'ev1': ml1,
+			        'ev2': ml2,
+			        'ev3': ml3,
+			    });
+			    
+			    expect(listenInstance.__registry['ev1'][0]).toBe(ml1);
+			    expect(listenInstance.__registry['ev2'][0]).toBe(ml2);
+			    expect(listenInstance.__registry['ev3'][0]).toBe(ml3);
+			    
+			});
+			
 			it("should throw an error when listener is not and object or function", function(){
 				function adderNumber(){
 					listenInstance.addListener('myEvent', 4);
@@ -49,6 +66,8 @@
 				expect(adderNull).toThrow();
 				expect(adderFunction).not.toThrow();
 			});
+			
+			
 		});
 		
 		describe("#removeListener", function(){
