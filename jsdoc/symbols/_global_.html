@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.Listenable</title>
+		<title>JsDoc Reference - _global_</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.Listenable
+				Built-In Namespace _global_
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -234,35 +234,12 @@ ul.inheritsList
 				
 				
 			
-				Listenable
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_Listenable.js.html">Listenable.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
-			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Listenable.">
-				<caption>Class Summary</caption>
-				<thead>
-					<tr>
-						<th scope="col">Constructor Attributes</th>
-						<th scope="col">Constructor Name and Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="attributes">&nbsp;</td>
-						<td class="nameDescription" >
-							<div class="fixedFont">
-								<b><a href="../symbols/py.Listenable.html#constructor">py.Listenable</a></b>()
-							</div>
-							<div class="description">Listenable is used to emulate custom events and listeners</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			
 
 <!-- ============================== properties summary ===================== -->
@@ -272,7 +249,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Listenable.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class _global_.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -285,39 +262,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#addListener">addListener</a></b>(eventName, callback)
+								<div class="fixedFont"><b>Construct</b>()
 								</div>
-								<div class="description">Function adds a listener callback to the Listenable object,
-to listen to the target custom event.</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#dispatchEvent">dispatchEvent</a></b>(eventName)
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#pyGetRoot">pyGetRoot</a></b>()
 								</div>
-								<div class="description">Function notifies all listeners listening to 
-the provided event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#removeListener">removeListener</a></b>(eventName, callback)
-								</div>
-								<div class="description">Function removes listening callback from target event</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#removeListeners">removeListeners</a></b>(eventName)
-								</div>
-								<div class="description">Function removes all listening callbacks
-from target event</div>
+								<div class="description">Global function returns patternity root object namespace</div>
 							</td>
 						</tr>
 					
@@ -332,33 +288,6 @@ from target event</div>
 
 <!-- ============================== constructor details ==================== -->		
 			
-			<div class="details"><a name="constructor"> </a>
-				<div class="sectionTitle">
-					Class Detail
-				</div>
-				
-				<div class="fixedFont">
-						<b>py.Listenable</b>()
-				</div>
-				
-				<div class="description">
-					Listenable is used to emulate custom events and listeners
-					
-				</div>
-				
-				
-				
-				
-					
-					
-					
-					
-					
-					
-					
-
-			</div>
-			
 
 <!-- ============================== field details ========================== -->		
 			
@@ -369,56 +298,24 @@ from target event</div>
 					Method Detail
 				</div>
 				
-					<a name="addListener"> </a>
+					<a name="Construct"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>addListener</b>(eventName, callback)
+					<b>Construct</b>()
 					
 					</div>
 					<div class="description">
-						Function adds a listener callback to the Listenable object,
-to listen to the target custom event. This class should be used as 
-a Mixin when creating object which can trigger custom events.
+						
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/src_Class.js.html">Class.js</a>.
 						
 						
 					</div>
 					
 					
 					
-					<pre class="code">
-py.Class('MyClass',{ Mixin: py.Listenable, 
-   execute: function(){
-       this.dispatchEvent('onExecuteCall');
-   }
-},'pckg');
-
-var myInstance = new pckg.MyClass();
-myInstance.addListener('onExecuteCall, function(){
-   //handle custom event 
-});
-//...
-myInstance.execute();</pre>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>eventName</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>callback</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
 						
 						
 						
@@ -429,117 +326,35 @@ myInstance.execute();</pre>
 
 					<hr />
 				
-					<a name="dispatchEvent"> </a>
+					<a name="pyGetRoot"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>dispatchEvent</b>(eventName)
+					<span class="light">{String}</span>
+					<b>pyGetRoot</b>()
 					
 					</div>
 					<div class="description">
-						Function notifies all listeners listening to 
-the provided event. All parameters besides the 
-eventName are applied to every callback
+						Global function returns patternity root object namespace
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/src_namespace.js.html">namespace.js</a>.
 						
 						
 					</div>
 					
 					
 					
+						
+						
+						
+						
 						
 							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
+							<dt class="heading">Returns:</dt>
 							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>eventName</b>
-									
-								</dt>
-								<dd></dd>
+								<dd><span class="light fixedFont">{String}</span> patternity namespace</dd>
 							
 							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="removeListener"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>removeListener</b>(eventName, callback)
-					
-					</div>
-					<div class="description">
-						Function removes listening callback from target event
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>eventName</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>callback</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="removeListeners"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>removeListeners</b>(eventName)
-					
-					</div>
-					<div class="description">
-						Function removes all listening callbacks
-from target event
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>eventName</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
 						
 						
 						
@@ -558,7 +373,7 @@ from target event
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

@@ -17,7 +17,7 @@
 	<taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpath="${JS_LINT}" />
 
 	<target name="build" depends="clean, lint, bundle_javascript, nswrap, compress_javascript, create_doc" />
-	<target name="web" depends="clean, lint, bundle_javascript, nswebdetect, compress_javascript, create_doc" />
+	<target name="web" depends="clean, lint, bundle_javascript, nswebdetect, compress_javascript" />
 
 	<target name="lint">
 		<jslint options="undef, eqeqeq, bitwise, regexp, newcap, immed, browser">
@@ -106,7 +106,7 @@
 			<arg line="-jar"/>
 			<arg path="${JS_DOC_TOOLKIT}/jsrun.jar"/>
 			<arg line="${JS_DOC_TOOLKIT}/app/run.js"/>
-			<arg line="-d=${BUILD_DIR}/jsdoc"/>
+			<arg line="-d=jsdoc"/>
 			<arg line="-t=${JS_DOC_TOOLKIT}/templates/jsdoc"/>
 			<arg line="src/"/>
 			

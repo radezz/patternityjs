@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.Class</title>
+		<title>JsDoc Reference - py.Sync</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.Class
+				Class py.Sync
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -237,13 +237,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_Class.js.html">Class.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_Sync.js.html">Sync.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Class.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Sync.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -256,9 +256,10 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.Class.html#constructor">py.Class</a></b>(name, definition, pckg)
+								<b><a href="../symbols/py.Sync.html#constructor">py.Sync</a></b>()
 							</div>
-							<div class="description">Base Class creator function.</div>
+							<div class="description">Sync is used synchronise callbacks as well as to notify when
+all registered callback were called.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -272,7 +273,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Class.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Sync.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -285,40 +286,38 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Class.html#applyToPackage">applyToPackage</a></b>(pckg, source, name)
+								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#addHandler">addHandler</a></b>(source, handlerName, context)
 								</div>
-								<div class="description">Class's helper function.</div>
+								<div class="description">Function adds handler which should be synchronized
+to the registry.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Class.html#isImplementing">isImplementing</a></b>(construct, implement)
+								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#clear">clear</a></b>()
 								</div>
-								<div class="description">Function validates if constructor's prototype implements
-provided Interface.</div>
+								<div class="description">Function clears the current handlers registry.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Class.html#mixinProto">mixinProto</a></b>(proto, definition, forReinit)
+								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#isAllReady">isAllReady</a></b>()
 								</div>
-								<div class="description">Function mixins the definition into the 
-constructor prototype.</div>
+								<div class="description">Function indicates if all handlers are ready</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Class.html#validateInput">validateInput</a></b>(name, definition, package)
+								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#onAllReady">onAllReady</a></b>()
 								</div>
-								<div class="description">Function validates input for and returns an object
-contanint a namespace and definition, which is used when creating
-class.</div>
+								<div class="description">User defined function which will be called whan all handlers 
+were executed</div>
 							</td>
 						</tr>
 					
@@ -339,78 +338,39 @@ class.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.Class</b>(name, definition, pckg)
+						<b>py.Sync</b>()
 				</div>
 				
 				<div class="description">
-					Base Class creator function. It will create instantiable constructor
-of user defined class object.
+					Sync is used synchronise callbacks as well as to notify when
+all registered callback were called.
 					
 				</div>
 				
 				
 				
-				<pre class="code">py.Class('MyParentClass', {
-   construct: function(){
-        //parent constructor 
-   },
-   prop: 'value',
-   func: function(){
-    
-   } 
-   //...
-   //define methods and properties here
-}, 'my.package'); //package will be created if not defined
+				<pre class="code">
+var handlers = {
+    onJsonLoad: function(xhr){},
+    onTemplateLoad: function(template){}
+};
 
+var sync = new py.Sync({
+    onAllReady: function(){
+        //json is loaded and template too
+    }
+});
 
-py.Class('MyClass', { Extends: my.package.MyParentClass
-   construct: function(){
-     //use this._parent to access parent functions, and apply to do 'super' calls
-     this._parent.construct.apply(this, arguments);
-
-     //place constructor code here 
-   } 
-}, 'my.package')
-
-var myInstance = new my.package.MyClass();</pre>
+sync.addHandler(handlers, 'onJsonLoad');
+sync.addHandler(handlers, 'onTemplateLoad');</pre>
 				
 				
 				
 				
 					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{String}</span>  <b>name</b>
-								
-							</dt>
-								<dd>name for the created class</dd>
-						
-							<dt>
-								<span class="light fixedFont">{Object}</span>  <b>definition</b>
-								
-							</dt>
-								<dd>definition formed as object</dd>
-						
-							<dt>
-								<span class="light fixedFont">{Object | String}</span>  <b>pckg</b>
-								
-							</dt>
-								<dd>optional package a namespace in which the class constructor should be placed</dd>
-						
-						</dl>
 					
 					
 					
-					
-					
-						<dl class="detailList">
-						<dt class="heading">Returns:</dt>
-						
-								<dd><span class="light fixedFont">{Function}</span> - constructor which can create an defined object</dd>
-						
-						</dl>
 					
 					
 					
@@ -427,16 +387,16 @@ var myInstance = new my.package.MyClass();</pre>
 					Method Detail
 				</div>
 				
-					<a name="applyToPackage"> </a>
+					<a name="addHandler"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>applyToPackage</b>(pckg, source, name)
+					<b>addHandler</b>(source, handlerName, context)
 					
 					</div>
 					<div class="description">
-						Class's helper function. It creates namespace/package and applies object into 
-created namespace
+						Function adds handler which should be synchronized
+to the registry.
 						
 						
 					</div>
@@ -446,24 +406,24 @@ created namespace
 						
 							<dl class="detailList">
 							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>pckg</b>
-									
-								</dt>
-								<dd></dd>
 							
 								<dt>
 									<span class="light fixedFont">{Object}</span> <b>source</b>
 									
 								</dt>
+								<dd>an object which contains handler (i.e XMLHttpRequest instance)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>handlerName</b>
+									
+								</dt>
 								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>name</b>
+									<span class="light fixedFont">{[Object]}</span> <b>context</b>
 									
 								</dt>
-								<dd>- optional name if source is not a class constructor</dd>
+								<dd>(optional) to which handler should be applied</dd>
 							
 							</dl>
 						
@@ -476,40 +436,23 @@ created namespace
 
 					<hr />
 				
-					<a name="isImplementing"> </a>
+					<a name="clear"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>isImplementing</b>(construct, implement)
+					<b>clear</b>()
 					
 					</div>
 					<div class="description">
-						Function validates if constructor's prototype implements
-provided Interface. Is used within class to check if created
-Class contains implementation of an previously created Interface
+						Function clears the current handlers registry.
+Registry should be cleared before adding new set of handlers,
+to synchronize.
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>construct</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object | Function}</span> <b>implement</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
 						
 						
 						
@@ -520,17 +463,15 @@ Class contains implementation of an previously created Interface
 
 					<hr />
 				
-					<a name="mixinProto"> </a>
+					<a name="isAllReady"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>mixinProto</b>(proto, definition, forReinit)
+					<span class="light">{Boolean}</span>
+					<b>isAllReady</b>()
 					
 					</div>
 					<div class="description">
-						Function mixins the definition into the 
-constructor prototype. It will not mix in the 'Extend', 'Implements', 'Mixin', 'Static'
-properties as they are the 'key' properties used to define the class
+						Function indicates if all handlers are ready
 						
 						
 					</div>
@@ -538,78 +479,38 @@ properties as they are the 'key' properties used to define the class
 					
 					
 						
+						
+						
+						
+						
 							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
+							<dt class="heading">Returns:</dt>
 							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>proto</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>definition</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>forReinit</b>
-									
-								</dt>
-								<dd></dd>
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
 							
 							</dl>
-						
-						
-						
-						
 						
 						
 						
 
 					<hr />
 				
-					<a name="validateInput"> </a>
+					<a name="onAllReady"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>validateInput</b>(name, definition, package)
+					<b>onAllReady</b>()
 					
 					</div>
 					<div class="description">
-						Function validates input for and returns an object
-contanint a namespace and definition, which is used when creating
-class.
+						User defined function which will be called whan all handlers 
+were executed
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>name</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>definition</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object | String}</span> <b>package</b>
-									
-								</dt>
-								<dd>or namespace</dd>
-							
-							</dl>
 						
 						
 						
@@ -632,7 +533,7 @@ class.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

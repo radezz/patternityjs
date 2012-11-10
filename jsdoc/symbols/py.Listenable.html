@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.List</title>
+		<title>JsDoc Reference - py.Listenable</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.List
+				Class py.Listenable
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -234,16 +234,16 @@ ul.inheritsList
 				
 				
 			
-				List
+				Listenable
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_List.js.html">List.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_Listenable.js.html">Listenable.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.List.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Listenable.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -256,9 +256,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.List.html#constructor">py.List</a></b>()
+								<b><a href="../symbols/py.Listenable.html#constructor">py.Listenable</a></b>()
 							</div>
-							<div class="description">List implementation.</div>
+							<div class="description">Listenable is used to emulate custom events and listeners</div>
 						</td>
 					</tr>
 				</tbody>
@@ -272,7 +272,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.List.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Listenable.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -285,98 +285,39 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#add">add</a></b>(element)
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#addListener">addListener</a></b>(eventName, callback)
 								</div>
-								<div class="description">Funcion adds element to the list</div>
+								<div class="description">Function adds a listener callback to the Listenable object,
+to listen to the target custom event.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#getAt">getAt</a></b>(index)
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#dispatchEvent">dispatchEvent</a></b>(eventName)
 								</div>
-								<div class="description">Function returns element at specified
-position from the list</div>
+								<div class="description">Function notifies all listeners listening to 
+the provided event.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#getElements">getElements</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#removeListener">removeListener</a></b>(eventName, callback)
 								</div>
-								<div class="description">Function returns an full list element array</div>
+								<div class="description">Function removes listening callback from target event</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#getLength">getLength</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#removeListeners">removeListeners</a></b>(eventName)
 								</div>
-								<div class="description">Function returns the length of 
-the list</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#hasElement">hasElement</a></b>(element)
-								</div>
-								<div class="description">Function checks if list contains provided element
-returns either true if yes or false if no</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#indexOf">indexOf</a></b>(element)
-								</div>
-								<div class="description">Function returns last index 
-of provided element</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#iterator">iterator</a></b>()
-								</div>
-								<div class="description">Function creates and returns IIterbale interface
-which can be used to iterate over the list
-object</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#remove">remove</a></b>(element)
-								</div>
-								<div class="description">Function removes provided element from the list 
-if list contains that element</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#removeAt">removeAt</a></b>(index)
-								</div>
-								<div class="description">Function removes element at specified index</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.List.html#unique">unique</a></b>()
-								</div>
-								<div class="description">Function reduces the list to contain 
-unique values only</div>
+								<div class="description">Function removes all listening callbacks
+from target event</div>
 							</td>
 						</tr>
 					
@@ -397,11 +338,11 @@ unique values only</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.List</b>()
+						<b>py.Listenable</b>()
 				</div>
 				
 				<div class="description">
-					List implementation.
+					Listenable is used to emulate custom events and listeners
 					
 				</div>
 				
@@ -428,18 +369,36 @@ unique values only</div>
 					Method Detail
 				</div>
 				
-					<a name="add"> </a>
+					<a name="addListener"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>add</b>(element)
+					<b>addListener</b>(eventName, callback)
 					
 					</div>
 					<div class="description">
-						Funcion adds element to the list
+						Function adds a listener callback to the Listenable object,
+to listen to the target custom event. This class should be used as 
+a Mixin when creating object which can trigger custom events.
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">
+py.Class('MyClass',{ Mixin: py.Listenable, 
+   execute: function(){
+       this.dispatchEvent('onExecuteCall');
+   }
+},'pckg');
+
+var myInstance = new pckg.MyClass();
+myInstance.addListener('onExecuteCall, function(){
+   //handle custom event 
+});
+//...
+myInstance.execute();</pre>
 					
 					
 					
@@ -448,7 +407,13 @@ unique values only</div>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Object}</span> <b>element</b>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
 									
 								</dt>
 								<dd></dd>
@@ -464,16 +429,17 @@ unique values only</div>
 
 					<hr />
 				
-					<a name="getAt"> </a>
+					<a name="dispatchEvent"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{Object}</span>
-					<b>getAt</b>(index)
+					
+					<b>dispatchEvent</b>(eventName)
 					
 					</div>
 					<div class="description">
-						Function returns element at specified
-position from the list
+						Function notifies all listeners listening to 
+the provided event. All parameters besides the 
+eventName are applied to every callback
 						
 						
 					</div>
@@ -485,238 +451,7 @@ position from the list
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Number}</span> <b>index</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Object}</span> element at chosen position</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getElements"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Array}</span>
-					<b>getElements</b>()
-					
-					</div>
-					<div class="description">
-						Function returns an full list element array
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Array}</span> returns list elements array</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getLength"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Number}</span>
-					<b>getLength</b>()
-					
-					</div>
-					<div class="description">
-						Function returns the length of 
-the list
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Number}</span> list length</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="hasElement"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Boolean}</span>
-					<b>hasElement</b>(element)
-					
-					</div>
-					<div class="description">
-						Function checks if list contains provided element
-returns either true if yes or false if no
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>element</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Boolean}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="indexOf"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Number}</span>
-					<b>indexOf</b>(element)
-					
-					</div>
-					<div class="description">
-						Function returns last index 
-of provided element
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>element</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Number}</span> - index</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="iterator"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{IIterable}</span>
-					<b>iterator</b>()
-					
-					</div>
-					<div class="description">
-						Function creates and returns IIterbale interface
-which can be used to iterate over the list
-object
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{IIterable}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="remove"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>remove</b>(element)
-					
-					</div>
-					<div class="description">
-						Function removes provided element from the list 
-if list contains that element
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>element</b>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
 									
 								</dt>
 								<dd></dd>
@@ -732,15 +467,15 @@ if list contains that element
 
 					<hr />
 				
-					<a name="removeAt"> </a>
+					<a name="removeListener"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>removeAt</b>(index)
+					<b>removeListener</b>(eventName, callback)
 					
 					</div>
 					<div class="description">
-						Function removes element at specified index
+						Function removes listening callback from target event
 						
 						
 					</div>
@@ -752,7 +487,13 @@ if list contains that element
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Number}</span> <b>index</b>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
 									
 								</dt>
 								<dd></dd>
@@ -768,22 +509,33 @@ if list contains that element
 
 					<hr />
 				
-					<a name="unique"> </a>
+					<a name="removeListeners"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>unique</b>()
+					<b>removeListeners</b>(eventName)
 					
 					</div>
 					<div class="description">
-						Function reduces the list to contain 
-unique values only
+						Function removes all listening callbacks
+from target event
 						
 						
 					</div>
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -806,7 +558,7 @@ unique values only
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

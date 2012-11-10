@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.Scheduler</title>
+		<title>JsDoc Reference - py.ListOf</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,24 +226,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.Scheduler
+				Class py.ListOf
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/py.List.html">py.List</a>.<br />
 				
 			
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_Scheduler.js.html">Scheduler.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_ListOf.js.html">ListOf.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Scheduler.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.ListOf.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -256,10 +258,10 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.Scheduler.html#constructor">py.Scheduler</a></b>(interval)
+								<b><a href="../symbols/py.ListOf.html#constructor">py.ListOf</a></b>(constructor)
 							</div>
-							<div class="description">Scheduler objcet is used to schedule multiple tasks to run
-periodically with preset interval.</div>
+							<div class="description">ListOf creates a List of provided type, and 
+prevents object of different from being added</div>
 						</td>
 					</tr>
 				</tbody>
@@ -273,7 +275,7 @@ periodically with preset interval.</div>
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Scheduler.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.ListOf.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -286,65 +288,29 @@ periodically with preset interval.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#addTask">addTask</a></b>(fn, optional)
+								<div class="fixedFont"><b><a href="../symbols/py.ListOf.html#add">add</a></b>(element)
 								</div>
-								<div class="description">Function adds task to be scheduled using previously 
-set interval.</div>
+								<div class="description">Function adds element to the list.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#interval">interval</a></b>(interval)
+								<div class="fixedFont"><b><a href="../symbols/py.ListOf.html#execute">execute</a></b>(functionName, arguments)
 								</div>
-								<div class="description">Function changes interval for the current scheduler instance</div>
+								<div class="description">Function executes provided method on every 
+object on the list.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#isRunning">isRunning</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.ListOf.html#setAll">setAll</a></b>(property, value)
 								</div>
-								<div class="description">Function indicates if the scheduler is currently
-running.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#removeTask">removeTask</a></b>(fn)
-								</div>
-								<div class="description">Function removes previously added tasks from scheduler.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#reset">reset</a></b>()
-								</div>
-								<div class="description">Function stops the scheduler and clears all registered tasks.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#run">run</a></b>(fn)
-								</div>
-								<div class="description">Function starts scheduler.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#stop">stop</a></b>()
-								</div>
-								<div class="description">Function stops the scheduler</div>
+								<div class="description">Function sets a property of all objects on the list 
+with provided value</div>
 							</td>
 						</tr>
 					
@@ -352,6 +318,10 @@ running.</div>
 				</table>
 				
 				
+				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/py.List.html">py.List</a>: </dt><dd><a href="../symbols/py.List.html#getAt">getAt</a>, <a href="../symbols/py.List.html#getElements">getElements</a>, <a href="../symbols/py.List.html#getLength">getLength</a>, <a href="../symbols/py.List.html#hasElement">hasElement</a>, <a href="../symbols/py.List.html#indexOf">indexOf</a>, <a href="../symbols/py.List.html#iterator">iterator</a>, <a href="../symbols/py.List.html#remove">remove</a>, <a href="../symbols/py.List.html#removeAt">removeAt</a>, <a href="../symbols/py.List.html#unique">unique</a></dd>
+				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -365,14 +335,19 @@ running.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.Scheduler</b>(interval)
+						<b>py.ListOf</b>(constructor)
 				</div>
 				
 				<div class="description">
-					Scheduler objcet is used to schedule multiple tasks to run
-periodically with preset interval.
+					ListOf creates a List of provided type, and 
+prevents object of different from being added
 					
 				</div>
+				
+				
+				
+				<pre class="code">var list = new ListOf(Number);
+list.add({}); //will throw exception</pre>
 				
 				
 				
@@ -382,10 +357,10 @@ periodically with preset interval.
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{Number}</span>  <b>interval</b>
+								<span class="light fixedFont">{Function}</span>  <b>constructor</b>
 								
 							</dt>
-								<dd>in milliseconds</dd>
+								<dd>of chosen type</dd>
 						
 						</dl>
 					
@@ -408,16 +383,15 @@ periodically with preset interval.
 					Method Detail
 				</div>
 				
-					<a name="addTask"> </a>
+					<a name="add"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>addTask</b>(fn, optional)
+					<b>add</b>(element)
 					
 					</div>
 					<div class="description">
-						Function adds task to be scheduled using previously 
-set interval.
+						Function adds element to the list.
 						
 						
 					</div>
@@ -429,118 +403,7 @@ set interval.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Function}</span> <b>fn</b>
-									
-								</dt>
-								<dd>function which will be scheduled</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>optional</b>
-									<i>Optional</i>
-								</dt>
-								<dd>context which should be applied to task</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="interval"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>interval</b>(interval)
-					
-					</div>
-					<div class="description">
-						Function changes interval for the current scheduler instance
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Number}</span> <b>interval</b>
-									
-								</dt>
-								<dd>in milliseconds</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="isRunning"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Boolean}</span>
-					<b>isRunning</b>()
-					
-					</div>
-					<div class="description">
-						Function indicates if the scheduler is currently
-running.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Boolean}</span> is running</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="removeTask"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>removeTask</b>(fn)
-					
-					</div>
-					<div class="description">
-						Function removes previously added tasks from scheduler.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>fn</b>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
 									
 								</dt>
 								<dd></dd>
@@ -556,43 +419,40 @@ running.
 
 					<hr />
 				
-					<a name="reset"> </a>
+					<a name="execute"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>reset</b>()
+					<b>execute</b>(functionName, arguments)
 					
 					</div>
 					<div class="description">
-						Function stops the scheduler and clears all registered tasks.
+						Function executes provided method on every 
+object on the list. Additional arguments are passed into the
+executing method.
 						
 						
 					</div>
 					
 					
 					
-						
-						
-						
-						
-						
-						
-						
+					<pre class="code">py.Class('Point',{
+    construct: function(x,y){
+       this.x = x;
+       this.y = y;
+    },
+    move: function(byX, byY){
+       this.x += byX;
+       this.y += byY;
+    }
+}, 'geomery');
 
-					<hr />
-				
-					<a name="run"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>run</b>(fn)
-					
-					</div>
-					<div class="description">
-						Function starts scheduler.
-						
-						
-					</div>
+var points = py.ListOf(geometry.Point);
+pointList.add(new geometry.Point(10,10));
+pointList.add(new geometry.Point(5,5));
+pointList.add(new geometry.Point(7,9));
+
+points.execute('move', 4, 5);</pre>
 					
 					
 					
@@ -601,10 +461,16 @@ running.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{[Function]}</span> <b>fn</b>
+									<span class="light fixedFont">{String}</span> <b>functionName</b>
 									
 								</dt>
-								<dd>(optional) if provided will be added to current tasks list</dd>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Arguments}</span> <b>arguments</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
 						
@@ -617,21 +483,59 @@ running.
 
 					<hr />
 				
-					<a name="stop"> </a>
+					<a name="setAll"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>stop</b>()
+					<b>setAll</b>(property, value)
 					
 					</div>
 					<div class="description">
-						Function stops the scheduler
+						Function sets a property of all objects on the list 
+with provided value
 						
 						
 					</div>
 					
 					
 					
+					<pre class="code">py.Class('Point',{
+    construct: function(x,y){
+       this.x = x;
+       this.y = y;
+    },
+    move: function(byX, byY){
+       this.x += byX;
+       this.y += byY;
+    }
+}, 'geomery');
+
+var points = py.ListOf(geometry.Point);
+pointList.add(new geometry.Point(10,10));
+pointList.add(new geometry.Point(5,5));
+pointList.add(new geometry.Point(7,9));
+
+points.setAll('x', 10);</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>property</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>value</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -654,7 +558,7 @@ running.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

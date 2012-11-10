@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.IIterable</title>
+		<title>JsDoc Reference - py.Class</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.IIterable
+				Class py.Class
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -237,13 +237,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_IIterable.js.html">IIterable.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_Class.js.html">Class.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.IIterable.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Class.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -256,9 +256,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.IIterable.html#constructor">py.IIterable</a></b>()
+								<b><a href="../symbols/py.Class.html#constructor">py.Class</a></b>(name, definition, pckg)
 							</div>
-							<div class="description">IIterable interface definition.</div>
+							<div class="description">Base Class creator function.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -272,7 +272,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.IIterable.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Class.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -285,50 +285,40 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#currentItem">currentItem</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Class.html#applyToPackage">applyToPackage</a></b>(pckg, source, name)
 								</div>
-								<div class="description">Function should return current item which
-iterator is pointing to</div>
+								<div class="description">Class's helper function.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#each">each</a></b>(fn)
+								<div class="fixedFont"><b><a href="../symbols/py.Class.html#isImplementing">isImplementing</a></b>(construct, implement)
 								</div>
-								<div class="description">Function should execute provided handler 
-on every element of the iterable object</div>
+								<div class="description">Function validates if constructor's prototype implements
+provided Interface.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#first">first</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Class.html#mixinProto">mixinProto</a></b>(proto, definition, forReinit)
 								</div>
-								<div class="description">Function should reset iterator to first item 
-and return this item</div>
+								<div class="description">Function mixins the definition into the 
+constructor prototype.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#isDone">isDone</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Class.html#validateInput">validateInput</a></b>(name, definition, package)
 								</div>
-								<div class="description">Function should return boolean value which indicates 
-if the interation came to an end</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#next">next</a></b>()
-								</div>
-								<div class="description">Function should move iterator to next
-object and return that object</div>
+								<div class="description">Function validates input for and returns an object
+contanint a namespace and definition, which is used when creating
+class.</div>
 							</td>
 						</tr>
 					
@@ -349,21 +339,78 @@ object and return that object</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.IIterable</b>()
+						<b>py.Class</b>(name, definition, pckg)
 				</div>
 				
 				<div class="description">
-					IIterable interface definition.
+					Base Class creator function. It will create instantiable constructor
+of user defined class object.
 					
 				</div>
 				
 				
 				
+				<pre class="code">py.Class('MyParentClass', {
+   construct: function(){
+        //parent constructor 
+   },
+   prop: 'value',
+   func: function(){
+    
+   } 
+   //...
+   //define methods and properties here
+}, 'my.package'); //package will be created if not defined
+
+
+py.Class('MyClass', { Extends: my.package.MyParentClass
+   construct: function(){
+     //use this._parent to access parent functions, and apply to do 'super' calls
+     this._parent.construct.apply(this, arguments);
+
+     //place constructor code here 
+   } 
+}, 'my.package')
+
+var myInstance = new my.package.MyClass();</pre>
+				
+				
+				
 				
 					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>name</b>
+								
+							</dt>
+								<dd>name for the created class</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>definition</b>
+								
+							</dt>
+								<dd>definition formed as object</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object | String}</span>  <b>pckg</b>
+								
+							</dt>
+								<dd>optional package a namespace in which the class constructor should be placed</dd>
+						
+						</dl>
 					
 					
 					
+					
+					
+						<dl class="detailList">
+						<dt class="heading">Returns:</dt>
+						
+								<dd><span class="light fixedFont">{Function}</span> - constructor which can create an defined object</dd>
+						
+						</dl>
 					
 					
 					
@@ -380,42 +427,16 @@ object and return that object</div>
 					Method Detail
 				</div>
 				
-					<a name="currentItem"> </a>
+					<a name="applyToPackage"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>currentItem</b>()
+					<b>applyToPackage</b>(pckg, source, name)
 					
 					</div>
 					<div class="description">
-						Function should return current item which
-iterator is pointing to
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="each"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>each</b>(fn)
-					
-					</div>
-					<div class="description">
-						Function should execute provided handler 
-on every element of the iterable object
+						Class's helper function. It creates namespace/package and applies object into 
+created namespace
 						
 						
 					</div>
@@ -427,7 +448,63 @@ on every element of the iterable object
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Object}</span> <b>fn</b>
+									<span class="light fixedFont">{String}</span> <b>pckg</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>source</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>name</b>
+									
+								</dt>
+								<dd>- optional name if source is not a class constructor</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isImplementing"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isImplementing</b>(construct, implement)
+					
+					</div>
+					<div class="description">
+						Function validates if constructor's prototype implements
+provided Interface. Is used within class to check if created
+Class contains implementation of an previously created Interface
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>construct</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object | Function}</span> <b>implement</b>
 									
 								</dt>
 								<dd></dd>
@@ -443,22 +520,46 @@ on every element of the iterable object
 
 					<hr />
 				
-					<a name="first"> </a>
+					<a name="mixinProto"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>first</b>()
+					<b>mixinProto</b>(proto, definition, forReinit)
 					
 					</div>
 					<div class="description">
-						Function should reset iterator to first item 
-and return this item
+						Function mixins the definition into the 
+constructor prototype. It will not mix in the 'Extend', 'Implements', 'Mixin', 'Static'
+properties as they are the 'key' properties used to define the class
 						
 						
 					</div>
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>proto</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>definition</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>forReinit</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -469,16 +570,17 @@ and return this item
 
 					<hr />
 				
-					<a name="isDone"> </a>
+					<a name="validateInput"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>isDone</b>()
+					<b>validateInput</b>(name, definition, package)
 					
 					</div>
 					<div class="description">
-						Function should return boolean value which indicates 
-if the interation came to an end
+						Function validates input for and returns an object
+contanint a namespace and definition, which is used when creating
+class.
 						
 						
 					</div>
@@ -486,31 +588,28 @@ if the interation came to an end
 					
 					
 						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="next"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>next</b>()
-					
-					</div>
-					<div class="description">
-						Function should move iterator to next
-object and return that object
-						
-						
-					</div>
-					
-					
-					
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>definition</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object | String}</span> <b>package</b>
+									
+								</dt>
+								<dd>or namespace</dd>
+							
+							</dl>
 						
 						
 						
@@ -533,7 +632,7 @@ object and return that object
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py</title>
+		<title>JsDoc Reference - py.Interface</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace py
+				Class py.Interface
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -237,14 +237,14 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_namespace.js.html">namespace.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_Interface.js.html">Interface.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.">
-				<caption>Namespace Summary</caption>
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Interface.">
+				<caption>Class Summary</caption>
 				<thead>
 					<tr>
 						<th scope="col">Constructor Attributes</th>
@@ -256,9 +256,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.html#constructor">py</a></b>
+								<b><a href="../symbols/py.Interface.html#constructor">py.Interface</a></b>(name, definition, pckg)
 							</div>
-							<div class="description">PatternitY lib</div>
+							<div class="description">Base Interface object creator.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -267,13 +267,36 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Interface.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Interface.html#bind">bind</a></b>(objectInstance, interfaceDefinition)
+								</div>
+								<div class="description">Function binds the current interface functions to call
+the target object class function which implement the interface</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -282,25 +305,85 @@ ul.inheritsList
 			
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
-					Namespace Detail
+					Class Detail
 				</div>
 				
 				<div class="fixedFont">
-						<b>py</b>
+						<b>py.Interface</b>(name, definition, pckg)
 				</div>
 				
 				<div class="description">
-					PatternitY lib
+					Base Interface object creator. It will create a constructor
+for user defined interface, which can be initialized and bounded 
+to the target object which implements the interface functionality.
 					
 				</div>
 				
 				
 				
+				<pre class="code">//create interface definition
+py.Interface('ISaveable',{
+    save:function(){},
+    load:function(){}
+},'pckg');
+
+//create class
+py.Class('Model', { Implements: pckg.ISaveable,
+    save: function(){
+         //implement save code (if interface function odes not
+         //exists Class definer will throw an error
+    },
+    load: function(){
+         //implement load code
+    },
+    parse: function(){},
+    set: function(){}
+},'pckg')
+
+var MyModel = new pckg.Model();
+//bnd interface to the Class's instance
+var IMyModel = new pckg.ISaveable(MyModel);
+
+//You will notice here that IMyModel contains only
+//save() and load() functions will same functions on instantiated object</pre>
+				
+				
+				
 				
 					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>name</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>definition</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object | String}</span>  <b>pckg</b>
+								
+							</dt>
+								<dd></dd>
+						
+						</dl>
 					
 					
 					
+					
+					
+						<dl class="detailList">
+						<dt class="heading">Returns:</dt>
+						
+								<dd><span class="light fixedFont">{Function}</span> constructor for the defined interface</dd>
+						
+						</dl>
 					
 					
 					
@@ -313,6 +396,54 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="bind"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>bind</b>(objectInstance, interfaceDefinition)
+					
+					</div>
+					<div class="description">
+						Function binds the current interface functions to call
+the target object class function which implement the interface
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>objectInstance</b>
+									
+								</dt>
+								<dd>- target object into which we bind the interface</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>interfaceDefinition</b>
+									
+								</dt>
+								<dd>- definition, which functions should be bound</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -324,7 +455,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:30 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.Iterator</title>
+		<title>JsDoc Reference - py.Scheduler</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.Iterator
+				Class py.Scheduler
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -237,13 +237,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_Iterator.js.html">Iterator.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_Scheduler.js.html">Scheduler.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Iterator.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Scheduler.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -256,9 +256,10 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.Iterator.html#constructor">py.Iterator</a></b>(iterableObject)
+								<b><a href="../symbols/py.Scheduler.html#constructor">py.Scheduler</a></b>(interval)
 							</div>
-							<div class="description">Iterator.</div>
+							<div class="description">Scheduler objcet is used to schedule multiple tasks to run
+periodically with preset interval.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -272,7 +273,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Iterator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Scheduler.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -285,50 +286,65 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#currentItem">currentItem</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#addTask">addTask</a></b>(fn, optional)
 								</div>
-								<div class="description">Function returns current item iterator
-pointer is poiniting to</div>
+								<div class="description">Function adds task to be scheduled using previously 
+set interval.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#each">each</a></b>(fn)
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#interval">interval</a></b>(interval)
 								</div>
-								<div class="description">Function will execute provided function handler
-on every element in the iterable object</div>
+								<div class="description">Function changes interval for the current scheduler instance</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#first">first</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#isRunning">isRunning</a></b>()
 								</div>
-								<div class="description">Function returns first element on iterable object
-and reset the iterator pointer to the first element</div>
+								<div class="description">Function indicates if the scheduler is currently
+running.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#isDone">isDone</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#removeTask">removeTask</a></b>(fn)
 								</div>
-								<div class="description">Function returns true if the iteration has 
-reached the limit</div>
+								<div class="description">Function removes previously added tasks from scheduler.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#next">next</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#reset">reset</a></b>()
 								</div>
-								<div class="description">Function moves iterator pointer to point the next element
-and returns that element.</div>
+								<div class="description">Function stops the scheduler and clears all registered tasks.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#run">run</a></b>(fn)
+								</div>
+								<div class="description">Function starts scheduler.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Scheduler.html#stop">stop</a></b>()
+								</div>
+								<div class="description">Function stops the scheduler</div>
 							</td>
 						</tr>
 					
@@ -349,13 +365,12 @@ and returns that element.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.Iterator</b>(iterableObject)
+						<b>py.Scheduler</b>(interval)
 				</div>
 				
 				<div class="description">
-					Iterator. 
-Creates an instance of Iterator object which can be used 
-to iterate over the objects, arrays, and strings.
+					Scheduler objcet is used to schedule multiple tasks to run
+periodically with preset interval.
 					
 				</div>
 				
@@ -367,10 +382,10 @@ to iterate over the objects, arrays, and strings.
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{Array | String | Object}</span>  <b>iterableObject</b>
+								<span class="light fixedFont">{Number}</span>  <b>interval</b>
 								
 							</dt>
-								<dd></dd>
+								<dd>in milliseconds</dd>
 						
 						</dl>
 					
@@ -393,49 +408,16 @@ to iterate over the objects, arrays, and strings.
 					Method Detail
 				</div>
 				
-					<a name="currentItem"> </a>
+					<a name="addTask"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{Object}</span>
-					<b>currentItem</b>()
+					
+					<b>addTask</b>(fn, optional)
 					
 					</div>
 					<div class="description">
-						Function returns current item iterator
-pointer is poiniting to
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Object}</span> current item on iterable list</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="each"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Array}</span>
-					<b>each</b>(fn)
-					
-					</div>
-					<div class="description">
-						Function will execute provided function handler
-on every element in the iterable object
+						Function adds task to be scheduled using previously 
+set interval.
 						
 						
 					</div>
@@ -447,39 +429,37 @@ on every element in the iterable object
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Object}</span> <b>fn</b>
+									<span class="light fixedFont">{Function}</span> <b>fn</b>
 									
 								</dt>
-								<dd>fuction which will be executed on each element</dd>
+								<dd>function which will be scheduled</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>optional</b>
+									<i>Optional</i>
+								</dt>
+								<dd>context which should be applied to task</dd>
 							
 							</dl>
 						
 						
 						
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Array}</span> array of results</dd>
-							
-							</dl>
 						
 						
 						
 
 					<hr />
 				
-					<a name="first"> </a>
+					<a name="interval"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{Object}</span>
-					<b>first</b>()
+					
+					<b>interval</b>(interval)
 					
 					</div>
 					<div class="description">
-						Function returns first element on iterable object
-and reset the iterator pointer to the first element
+						Function changes interval for the current scheduler instance
 						
 						
 					</div>
@@ -487,32 +467,36 @@ and reset the iterator pointer to the first element
 					
 					
 						
-						
-						
-						
-						
 							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">Parameters:</dt>
 							
-								<dd><span class="light fixedFont">{Object}</span> first item on the iterable list</dd>
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>interval</b>
+									
+								</dt>
+								<dd>in milliseconds</dd>
 							
 							</dl>
+						
+						
+						
+						
 						
 						
 						
 
 					<hr />
 				
-					<a name="isDone"> </a>
+					<a name="isRunning"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{Boolean}</span>
-					<b>isDone</b>()
+					<b>isRunning</b>()
 					
 					</div>
 					<div class="description">
-						Function returns true if the iteration has 
-reached the limit
+						Function indicates if the scheduler is currently
+running.
 						
 						
 					</div>
@@ -527,7 +511,7 @@ reached the limit
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+								<dd><span class="light fixedFont">{Boolean}</span> is running</dd>
 							
 							</dl>
 						
@@ -536,17 +520,51 @@ reached the limit
 
 					<hr />
 				
-					<a name="next"> </a>
+					<a name="removeTask"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{Object}</span>
-					<b>next</b>()
+					
+					<b>removeTask</b>(fn)
 					
 					</div>
 					<div class="description">
-						Function moves iterator pointer to point the next element
-and returns that element. It will return undefined value
-if iteration has ended
+						Function removes previously added tasks from scheduler.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>fn</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="reset"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>reset</b>()
+					
+					</div>
+					<div class="description">
+						Function stops the scheduler and clears all registered tasks.
 						
 						
 					</div>
@@ -558,12 +576,66 @@ if iteration has ended
 						
 						
 						
+						
+						
+
+					<hr />
+				
+					<a name="run"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>run</b>(fn)
+					
+					</div>
+					<div class="description">
+						Function starts scheduler.
+						
+						
+					</div>
+					
+					
+					
+						
 							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">Parameters:</dt>
 							
-								<dd><span class="light fixedFont">{Object}</span> next item on iterable list</dd>
+								<dt>
+									<span class="light fixedFont">{[Function]}</span> <b>fn</b>
+									
+								</dt>
+								<dd>(optional) if provided will be added to current tasks list</dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="stop"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>stop</b>()
+					
+					</div>
+					<div class="description">
+						Function stops the scheduler
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
 						
 						
 						
@@ -582,7 +654,7 @@ if iteration has ended
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.ListOf</title>
+		<title>JsDoc Reference - py.IIterable</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,26 +226,24 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.ListOf
+				Class py.IIterable
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
-				<br />Extends
-					<a href="../symbols/py.List.html">py.List</a>.<br />
 				
 			
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_ListOf.js.html">ListOf.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_IIterable.js.html">IIterable.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.ListOf.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.IIterable.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -258,10 +256,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.ListOf.html#constructor">py.ListOf</a></b>(constructor)
+								<b><a href="../symbols/py.IIterable.html#constructor">py.IIterable</a></b>()
 							</div>
-							<div class="description">ListOf creates a List of provided type, and 
-prevents object of different from being added</div>
+							<div class="description">IIterable interface definition.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -275,7 +272,7 @@ prevents object of different from being added</div>
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.ListOf.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.IIterable.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -288,29 +285,50 @@ prevents object of different from being added</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.ListOf.html#add">add</a></b>(element)
+								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#currentItem">currentItem</a></b>()
 								</div>
-								<div class="description">Function adds element to the list.</div>
+								<div class="description">Function should return current item which
+iterator is pointing to</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.ListOf.html#execute">execute</a></b>(functionName, arguments)
+								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#each">each</a></b>(fn)
 								</div>
-								<div class="description">Function executes provided method on every 
-object on the list.</div>
+								<div class="description">Function should execute provided handler 
+on every element of the iterable object</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.ListOf.html#setAll">setAll</a></b>(property, value)
+								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#first">first</a></b>()
 								</div>
-								<div class="description">Function sets a property of all objects on the list 
-with provided value</div>
+								<div class="description">Function should reset iterator to first item 
+and return this item</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#isDone">isDone</a></b>()
+								</div>
+								<div class="description">Function should return boolean value which indicates 
+if the interation came to an end</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.IIterable.html#next">next</a></b>()
+								</div>
+								<div class="description">Function should move iterator to next
+object and return that object</div>
 							</td>
 						</tr>
 					
@@ -318,10 +336,6 @@ with provided value</div>
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/py.List.html">py.List</a>: </dt><dd><a href="../symbols/py.List.html#getAt">getAt</a>, <a href="../symbols/py.List.html#getElements">getElements</a>, <a href="../symbols/py.List.html#getLength">getLength</a>, <a href="../symbols/py.List.html#hasElement">hasElement</a>, <a href="../symbols/py.List.html#indexOf">indexOf</a>, <a href="../symbols/py.List.html#iterator">iterator</a>, <a href="../symbols/py.List.html#remove">remove</a>, <a href="../symbols/py.List.html#removeAt">removeAt</a>, <a href="../symbols/py.List.html#unique">unique</a></dd>
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -335,34 +349,17 @@ with provided value</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.ListOf</b>(constructor)
+						<b>py.IIterable</b>()
 				</div>
 				
 				<div class="description">
-					ListOf creates a List of provided type, and 
-prevents object of different from being added
+					IIterable interface definition.
 					
 				</div>
 				
 				
 				
-				<pre class="code">var list = new ListOf(Number);
-list.add({}); //will throw exception</pre>
 				
-				
-				
-				
-					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{Function}</span>  <b>constructor</b>
-								
-							</dt>
-								<dd>of chosen type</dd>
-						
-						</dl>
 					
 					
 					
@@ -383,15 +380,42 @@ list.add({}); //will throw exception</pre>
 					Method Detail
 				</div>
 				
-					<a name="add"> </a>
+					<a name="currentItem"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>add</b>(element)
+					<b>currentItem</b>()
 					
 					</div>
 					<div class="description">
-						Function adds element to the list.
+						Function should return current item which
+iterator is pointing to
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="each"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>each</b>(fn)
+					
+					</div>
+					<div class="description">
+						Function should execute provided handler 
+on every element of the iterable object
 						
 						
 					</div>
@@ -403,7 +427,7 @@ list.add({}); //will throw exception</pre>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Object}</span> <b>element</b>
+									<span class="light fixedFont">{Object}</span> <b>fn</b>
 									
 								</dt>
 								<dd></dd>
@@ -419,60 +443,22 @@ list.add({}); //will throw exception</pre>
 
 					<hr />
 				
-					<a name="execute"> </a>
+					<a name="first"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>execute</b>(functionName, arguments)
+					<b>first</b>()
 					
 					</div>
 					<div class="description">
-						Function executes provided method on every 
-object on the list. Additional arguments are passed into the
-executing method.
+						Function should reset iterator to first item 
+and return this item
 						
 						
 					</div>
 					
 					
 					
-					<pre class="code">py.Class('Point',{
-    construct: function(x,y){
-       this.x = x;
-       this.y = y;
-    },
-    move: function(byX, byY){
-       this.x += byX;
-       this.y += byY;
-    }
-}, 'geomery');
-
-var points = py.ListOf(geometry.Point);
-pointList.add(new geometry.Point(10,10));
-pointList.add(new geometry.Point(5,5));
-pointList.add(new geometry.Point(7,9));
-
-points.execute('move', 4, 5);</pre>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>functionName</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Arguments}</span> <b>arguments</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
 						
 						
 						
@@ -483,59 +469,48 @@ points.execute('move', 4, 5);</pre>
 
 					<hr />
 				
-					<a name="setAll"> </a>
+					<a name="isDone"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>setAll</b>(property, value)
+					<b>isDone</b>()
 					
 					</div>
 					<div class="description">
-						Function sets a property of all objects on the list 
-with provided value
+						Function should return boolean value which indicates 
+if the interation came to an end
 						
 						
 					</div>
 					
 					
 					
-					<pre class="code">py.Class('Point',{
-    construct: function(x,y){
-       this.x = x;
-       this.y = y;
-    },
-    move: function(byX, byY){
-       this.x += byX;
-       this.y += byY;
-    }
-}, 'geomery');
-
-var points = py.ListOf(geometry.Point);
-pointList.add(new geometry.Point(10,10));
-pointList.add(new geometry.Point(5,5));
-pointList.add(new geometry.Point(7,9));
-
-points.setAll('x', 10);</pre>
-					
-					
-					
 						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>property</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>value</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="next"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>next</b>()
+					
+					</div>
+					<div class="description">
+						Function should move iterator to next
+object and return that object
+						
+						
+					</div>
+					
+					
+					
 						
 						
 						
@@ -558,7 +533,7 @@ points.setAll('x', 10);</pre>
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

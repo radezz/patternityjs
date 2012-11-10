@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - py.Sync</title>
+		<title>JsDoc Reference - py.Iterator</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,7 +226,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class py.Sync
+				Class py.Iterator
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -237,13 +237,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_Sync.js.html">Sync.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_Iterator.js.html">Iterator.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Sync.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class py.Iterator.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -256,10 +256,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/py.Sync.html#constructor">py.Sync</a></b>()
+								<b><a href="../symbols/py.Iterator.html#constructor">py.Iterator</a></b>(iterableObject)
 							</div>
-							<div class="description">Sync is used synchronise callbacks as well as to notify when
-all registered callback were called.</div>
+							<div class="description">Iterator.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -273,7 +272,7 @@ all registered callback were called.</div>
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Sync.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class py.Iterator.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -286,38 +285,50 @@ all registered callback were called.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#addHandler">addHandler</a></b>(source, handlerName, context)
+								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#currentItem">currentItem</a></b>()
 								</div>
-								<div class="description">Function adds handler which should be synchronized
-to the registry.</div>
+								<div class="description">Function returns current item iterator
+pointer is poiniting to</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#clear">clear</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#each">each</a></b>(fn)
 								</div>
-								<div class="description">Function clears the current handlers registry.</div>
+								<div class="description">Function will execute provided function handler
+on every element in the iterable object</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#isAllReady">isAllReady</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#first">first</a></b>()
 								</div>
-								<div class="description">Function indicates if all handlers are ready</div>
+								<div class="description">Function returns first element on iterable object
+and reset the iterator pointer to the first element</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/py.Sync.html#onAllReady">onAllReady</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#isDone">isDone</a></b>()
 								</div>
-								<div class="description">User defined function which will be called whan all handlers 
-were executed</div>
+								<div class="description">Function returns true if the iteration has 
+reached the limit</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Iterator.html#next">next</a></b>()
+								</div>
+								<div class="description">Function moves iterator pointer to point the next element
+and returns that element.</div>
 							</td>
 						</tr>
 					
@@ -338,35 +349,30 @@ were executed</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>py.Sync</b>()
+						<b>py.Iterator</b>(iterableObject)
 				</div>
 				
 				<div class="description">
-					Sync is used synchronise callbacks as well as to notify when
-all registered callback were called.
+					Iterator. 
+Creates an instance of Iterator object which can be used 
+to iterate over the objects, arrays, and strings.
 					
 				</div>
 				
 				
 				
-				<pre class="code">
-var handlers = {
-    onJsonLoad: function(xhr){},
-    onTemplateLoad: function(template){}
-};
-
-var sync = new py.Sync({
-    onAllReady: function(){
-        //json is loaded and template too
-    }
-});
-
-sync.addHandler(handlers, 'onJsonLoad');
-sync.addHandler(handlers, 'onTemplateLoad');</pre>
 				
-				
-				
-				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Array | String | Object}</span>  <b>iterableObject</b>
+								
+							</dt>
+								<dd></dd>
+						
+						</dl>
 					
 					
 					
@@ -387,16 +393,49 @@ sync.addHandler(handlers, 'onTemplateLoad');</pre>
 					Method Detail
 				</div>
 				
-					<a name="addHandler"> </a>
+					<a name="currentItem"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>addHandler</b>(source, handlerName, context)
+					<span class="light">{Object}</span>
+					<b>currentItem</b>()
 					
 					</div>
 					<div class="description">
-						Function adds handler which should be synchronized
-to the registry.
+						Function returns current item iterator
+pointer is poiniting to
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> current item on iterable list</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="each"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>each</b>(fn)
+					
+					</div>
+					<div class="description">
+						Function will execute provided function handler
+on every element in the iterable object
 						
 						
 					</div>
@@ -408,22 +447,10 @@ to the registry.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Object}</span> <b>source</b>
+									<span class="light fixedFont">{Object}</span> <b>fn</b>
 									
 								</dt>
-								<dd>an object which contains handler (i.e XMLHttpRequest instance)</dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>handlerName</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{[Object]}</span> <b>context</b>
-									
-								</dt>
-								<dd>(optional) to which handler should be applied</dd>
+								<dd>fuction which will be executed on each element</dd>
 							
 							</dl>
 						
@@ -431,22 +458,28 @@ to the registry.
 						
 						
 						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> array of results</dd>
+							
+							</dl>
+						
 						
 						
 
 					<hr />
 				
-					<a name="clear"> </a>
+					<a name="first"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>clear</b>()
+					<span class="light">{Object}</span>
+					<b>first</b>()
 					
 					</div>
 					<div class="description">
-						Function clears the current handlers registry.
-Registry should be cleared before adding new set of handlers,
-to synchronize.
+						Function returns first element on iterable object
+and reset the iterator pointer to the first element
 						
 						
 					</div>
@@ -458,20 +491,28 @@ to synchronize.
 						
 						
 						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> first item on the iterable list</dd>
+							
+							</dl>
+						
 						
 						
 
 					<hr />
 				
-					<a name="isAllReady"> </a>
+					<a name="isDone"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{Boolean}</span>
-					<b>isAllReady</b>()
+					<b>isDone</b>()
 					
 					</div>
 					<div class="description">
-						Function indicates if all handlers are ready
+						Function returns true if the iteration has 
+reached the limit
 						
 						
 					</div>
@@ -495,16 +536,17 @@ to synchronize.
 
 					<hr />
 				
-					<a name="onAllReady"> </a>
+					<a name="next"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>onAllReady</b>()
+					<span class="light">{Object}</span>
+					<b>next</b>()
 					
 					</div>
 					<div class="description">
-						User defined function which will be called whan all handlers 
-were executed
+						Function moves iterator pointer to point the next element
+and returns that element. It will return undefined value
+if iteration has ended
 						
 						
 					</div>
@@ -515,6 +557,13 @@ were executed
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> next item on iterable list</dd>
+							
+							</dl>
 						
 						
 						
@@ -533,7 +582,7 @@ were executed
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 22:36:31 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Nov 10 2012 23:00:34 GMT+0100 (CET)
 		</div>
 	</body>
 </html>
