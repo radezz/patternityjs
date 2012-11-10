@@ -24,7 +24,7 @@
      * @param {Function} fn
      * @param {Object} parent
      */
-    function createParenAccessFunction(fn, parent){
+    function createParentAccessFunction(fn, parent){
         var result;
         
         return function(){
@@ -61,7 +61,7 @@
                 if(definition.hasOwnProperty(key) && !KeyProperties[key]){
                     defProperty = definition[key];
                     if(isFunction(defProperty) && definition.Extends){
-                        proto[key] = createParenAccessFunction(defProperty, definition.Extends);
+                        proto[key] = createParentAccessFunction(defProperty, definition.Extends);
                     }else{
                         proto[key] = defProperty;
                         if(typeof(defProperty) === typeofObject){
@@ -246,7 +246,7 @@
             utils.extend(Construct, definition.Extends);
             getForReinit(Construct.prototype, forReinit);
             if(isFunction(definition.construct)){
-                definition.construct = createParenAccessFunction(definition.construct, definition.Extends);
+                definition.construct = createParentAccessFunction(definition.construct, definition.Extends);
             }
         }
         
