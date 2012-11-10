@@ -5,7 +5,7 @@
 		nsString,
 		nsPart,
 		targetObject = this,
-		patternity;
+		py;
 		
 	while(i--){
 		script = scripts[i];
@@ -25,7 +25,7 @@
 			break;
 		}
 	}
-	patternity = targetObject;
+	py = targetObject;
 	
 	/**
 	 * Global function returns patternity root object namespace
@@ -195,7 +195,7 @@
 		});
 		
 	}());	
-}(patternity, this));
+}(py, this));
 (function($NS, $GLOBAL){
     
     var KeyProperties = {
@@ -469,7 +469,7 @@
     
     $NS.Class = Class;
     
-}(patternity, this));(function($NS){
+}(py, this));(function($NS){
 	var utils = $NS.utils,
 		Class = $NS.Class;
 	
@@ -526,7 +526,7 @@
 	
 	$NS.Singleton = SingletonCreator;
 	
-}(patternity));
+}(py));
 (function($NS, $GLOBAL){
     
     var Class = $NS.Class,
@@ -648,7 +648,7 @@
     
     $NS.Interface = Interface;
     
-}(patternity, this));(function($NS){
+}(py, this));(function($NS){
 	
 	var slice = Array.prototype.slice,
 	    utils = $NS.utils,
@@ -854,7 +854,7 @@
 	}, $NS);
 	
 	
-}(patternity));
+}(py));
 (function($NS){
     /**
      * IIterable interface definition.
@@ -905,7 +905,7 @@
 		each: function(fn){}
 	}, $NS);
 	
-}(patternity));
+}(py));
 (function($NS){
     var utils = $NS.utils;
     
@@ -1037,7 +1037,7 @@
 		
 	}, $NS);
 	
-}(patternity));
+}(py));
 (function($NS){
 	
 	/**
@@ -1200,7 +1200,7 @@
 		}
 	}, $NS);
 	
-}(patternity));
+}(py));
 (function($NS){
 	
 	/**
@@ -1323,7 +1323,7 @@
 	}, $NS);
 	
 	
-}(patternity));
+}(py));
 (function($NS){
 	var utils = $NS.utils,
         isFunction = utils.isFunction,
@@ -1451,7 +1451,7 @@
 		}
 	}, $NS);
 	
-}(patternity));(function($NS){
+}(py));(function($NS){
 	
 	/**
 	 * Helper function creates new key for 
@@ -1626,5 +1626,5 @@
 		onAllReady: function(){}
 	}, $NS);
 	
-}(patternity));
+}(py));
 }());

@@ -48,4 +48,4 @@
 		each: function(fn){}
 	}, $NS);
 	
-}(patternity));
+}(py));

@@ -2,7 +2,7 @@
 <project name="sample_project" default="build" basedir=".">
    
    <!-- Namespace to be created and used for the patternity.js objects -->
-	<property name="namespace" value=""/>
+	<property name="namespace" value="py"/>
 
 	<property name="BUILD_DIR"      value="dist" />
 	<property name="SOURCE_DIR"     value="src" />
@@ -21,7 +21,7 @@
 
 	<target name="lint">
 		<jslint options="undef, eqeqeq, bitwise, regexp, newcap, immed, browser">
-			<predef>window, patternity</predef>
+			<predef>window, py</predef>
 			<formatter type="plain" />
 			<fileset dir="${SOURCE_DIR}" includes="**/*.js" excludes="nswrap/*.js"/>
 		</jslint>

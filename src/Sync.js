@@ -173,4 +173,4 @@
 		onAllReady: function(){}
 	}, $NS);
 	
-}(patternity));
+}(py));

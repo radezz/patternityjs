@@ -5,7 +5,7 @@
 		nsString,
 		nsPart,
 		targetObject = this,
-		patternity;
+		py;
 		
 	while(i--){
 		script = scripts[i];
@@ -25,7 +25,7 @@
 			break;
 		}
 	}
-	patternity = targetObject;
+	py = targetObject;
 	
 	/**
 	 * Global function returns patternity root object namespace

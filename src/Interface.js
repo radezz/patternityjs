@@ -119,4 +119,4 @@
     
     $NS.Interface = Interface;
     
-}(patternity, this));
+}(py, this));

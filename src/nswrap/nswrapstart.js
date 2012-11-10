@@ -1,7 +1,7 @@
 (function(nsString){
 	var nsPart,
 		targetObject = this,
-		patternity;
+		py;
 	if(nsString && typeof(nsString) === 'string'){
 		nsString = nsString.split('.');
 		while(nsPart = nsString.shift()){
@@ -11,4 +11,4 @@
 			targetObject = targetObject[nsPart];
 		}
 	}
-	patternity = targetObject;
+	py = targetObject;

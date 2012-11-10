@@ -55,4 +55,4 @@
 	
 	$NS.Singleton = SingletonCreator;
 	
-}(patternity));
+}(py));

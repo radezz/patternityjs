@@ -271,4 +271,4 @@
     
     $NS.Class = Class;
     
-}(patternity, this));
+}(py, this));

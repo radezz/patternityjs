@@ -3,7 +3,7 @@
  * @namespace
  * @name py
  */
-patternity = {};
+py = {};
 
 
 /**
