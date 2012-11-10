@@ -7,7 +7,7 @@
         'Static': 1
     },
     typeofObject = 'object',
-    utils = $NS.patternUtils,
+    utils = $NS.utils,
     isObject = utils.isObject,
     isString = utils.isString,
     isFunction = utils.isFunction,

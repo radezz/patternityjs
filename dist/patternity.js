@@ -184,7 +184,7 @@
 			return !check.isNull(object) && !check.isUndefined(object);
 	    }
 		
-		$NS.patternUtils = mixin(check ,{
+		$NS.utils = mixin(check ,{
 			createNS: createNS,
 			extend: extend,
 			mixin: mixin,
@@ -205,7 +205,7 @@
         'Static': 1
     },
     typeofObject = 'object',
-    utils = $NS.patternUtils,
+    utils = $NS.utils,
     isObject = utils.isObject,
     isString = utils.isString,
     isFunction = utils.isFunction,
@@ -470,7 +470,7 @@
     $NS.Class = Class;
     
 }(patternity, this));(function($NS){
-	var utils = $NS.patternUtils,
+	var utils = $NS.utils,
 		Class = $NS.Class;
 	
 	/**
@@ -533,7 +533,7 @@
 		implementsErr,
 		typeofObject = 'object',
 		typeofFunction = 'function',
-		utils = $NS.patternUtils,
+		utils = $NS.utils,
 		isObject = utils.isObject,
 		isString = utils.isString,
 		isFunction = utils.isFunction;
@@ -651,7 +651,7 @@
 }(patternity, this));(function($NS){
 	
 	var slice = Array.prototype.slice,
-	    utils = $NS.patternUtils,
+	    utils = $NS.utils,
 		isFunction = utils.isFunction,
 		isObject = utils.isObject;
 	
@@ -907,7 +907,7 @@
 	
 }(patternity));
 (function($NS){
-    var utils = $NS.patternUtils;
+    var utils = $NS.utils;
     
     /**
      * Function transforms an object into 
@@ -1325,7 +1325,7 @@
 	
 }(patternity));
 (function($NS){
-	var utils = $NS.patternUtils,
+	var utils = $NS.utils,
         isFunction = utils.isFunction,
         isObject = utils.isObject;
 	

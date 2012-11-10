@@ -4,7 +4,7 @@
 		implementsErr,
 		typeofObject = 'object',
 		typeofFunction = 'function',
-		utils = $NS.patternUtils,
+		utils = $NS.utils,
 		isObject = utils.isObject,
 		isString = utils.isString,
 		isFunction = utils.isFunction;

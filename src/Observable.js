@@ -1,7 +1,7 @@
 (function($NS){
 	
 	var slice = Array.prototype.slice,
-	    utils = $NS.patternUtils,
+	    utils = $NS.utils,
 		isFunction = utils.isFunction,
 		isObject = utils.isObject;
 	

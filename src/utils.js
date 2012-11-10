@@ -147,7 +147,7 @@
 			return !check.isNull(object) && !check.isUndefined(object);
 	    }
 		
-		$NS.patternUtils = mixin(check ,{
+		$NS.utils = mixin(check ,{
 			createNS: createNS,
 			extend: extend,
 			mixin: mixin,

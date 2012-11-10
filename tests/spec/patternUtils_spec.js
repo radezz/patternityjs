@@ -1,5 +1,5 @@
 (function($NS){
-	describe("patternUtils", function(){
+	describe("utils", function(){
 		
 		describe("#createNS", function(){
 			it("should create namespace", function(){
@@ -71,4 +71,4 @@
 		});
 		
 	});
-}(patternity.patternUtils));
+}(patternity.utils));

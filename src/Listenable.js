@@ -1,5 +1,5 @@
 (function($NS){
-	var utils = $NS.patternUtils,
+	var utils = $NS.utils,
         isFunction = utils.isFunction,
         isObject = utils.isObject;
 	

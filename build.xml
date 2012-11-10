@@ -37,7 +37,7 @@
 		<echo>Bundle JavaScript Files...</echo>
 		<concat destfile="${BUILD_DIR}/${OUTPUT_SRC_FILE}">
 			<filelist dir="${SOURCE_DIR}">
-				<file name="patternUtils.js"/>
+				<file name="utils.js"/>
 				<file name="Class.js"/>
 				<file name="Singleton.js"/>
 				<file name="Interface.js"/>
