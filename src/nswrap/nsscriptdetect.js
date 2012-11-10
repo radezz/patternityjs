@@ -10,7 +10,7 @@
 	while(i--){
 		script = scripts[i];
 		if(script.src.indexOf('patternity' !== -1)){
-			nsString = script.getAttribute('data-namespace');
+			nsString = script.getAttribute('data-namespace') || 'py';
 			if(nsString && nsString !== 'this'){
 				nsString = nsString.split('.');
 				while(nsPart = nsString.shift()){
@@ -26,3 +26,13 @@
 		}
 	}
 	patternity = targetObject;
+	
+	/**
+	 * Global function returns patternity root object namespace
+	 * @name pyGetRoot
+	 * @function
+	 * @returns {String} patternity namespace
+	 */
+    this.pyGetRoot = function(){
+        return patternity;
+    }

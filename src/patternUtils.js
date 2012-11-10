@@ -1,3 +1,8 @@
+/**
+ * This namespace defines utility functions used within library clasees
+ * @namespace
+ * @name py.utils
+ */
 (function($NS, $Global){
 	
 	var toString = Object.prototype.toString,

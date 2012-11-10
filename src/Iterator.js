@@ -5,6 +5,8 @@
      * Function transforms an object into 
      * iterable array
      * 
+     * @function
+     * @private
      * @param {Object} obj
      * 
      * @returns {Array}
@@ -26,9 +28,11 @@
      * Iterator. 
      * Creates an instance of Iterator object which can be used 
      * to iterate over the objects, arrays, and strings.
-     * 
      * @class
+     * @name py.Iterator
+     * @implements py.IIterable
      * @constructor
+     * @param {Array | String | Object} iterableObject
      */
 	$NS.Class('Iterator', { Implements: $NS.IIterable,
 		
@@ -52,8 +56,9 @@
 		/**
 		 * Function returns first element on iterable object
 		 * and reset the iterator pointer to the first element
-		 * 
-		 * @returns {Object}
+		 * @function
+		 * @name py.Iterator#first
+		 * @returns {Object} first item on the iterable list
 		 */
 		first: function(){
 			this.__index = 0;
@@ -64,8 +69,9 @@
 		 * Function moves iterator pointer to point the next element
 		 * and returns that element. It will return undefined value
 		 * if iteration has ended
-		 * 
-		 * @returns {Object}
+		 * @function
+		 * @name py.Iterator#next
+		 * @returns {Object} next item on iterable list
 		 */
 		next: function(){
 			var self = this;
@@ -78,8 +84,9 @@
 		/**
 		 * Function returns current item iterator
 		 * pointer is poiniting to
-		 * 
-		 * @returns {Object}
+		 * @function
+		 * @name py.Iterator#currentItem
+		 * @returns {Object} current item on iterable list
 		 */
 		currentItem: function(){
 			return this.__iterable[this.__index];
@@ -88,8 +95,9 @@
 		/**
 		 * Function returns true if the iteration has 
 		 * reached the limit
-		 * 
-		 * @returns {Boolean}
+		 * @function
+		 * @name py.Iterator#isDone
+		 * @returns {Boolean} 
 		 */
 		isDone: function(){
 			return this.__index === this.__iterable.length;
@@ -98,20 +106,25 @@
         /**
          * Function will execute provided function handler
          * on every element in the iterable object
-         * 
-         * @param {Object} fn
+         * @function
+         * @name py.Iterator#each
+         * @param {Object} fn fuction which will be executed on each element
+         * @returns {Array} array of results 
          */
 		each: function(fn){
 			var self = this,
 				iterable = self.__iterable,
+				results = [],
 				i,
 				l = iterable.length;
 			if(utils.isFunction(fn)){
 				for(i=0; i<l; i++){
 					self.__index = i;
-					fn(iterable[i], i, iterable);
+					results.push(fn(iterable[i], i, iterable));
 				}
 			}
+			
+			return results;
 		}
 		
 	}, $NS);

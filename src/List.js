@@ -1,8 +1,9 @@
 (function($NS){
 	
 	/**
+	 * List implementation.
 	 * @class List
-	 * List implementation which can be extended
+	 * @name py.List 
 	 * 
 	 * @constructor
 	 */
@@ -12,6 +13,8 @@
 		
         /**
          * Funcion adds element to the list
+         * @function
+         * @name py.List#add
          * @param {Object} element
          */
 		add: function(element){
@@ -21,8 +24,10 @@
         /**
          * Function returns element at specified
          * position from the list
-         * 
+         * @function
+         * @name py.List#getAt
          * @param {Number} index
+         * @returns {Object} element at chosen position
          */
 		getAt: function(index){
 			return this.__elements[index];
@@ -31,7 +36,8 @@
         /**
          * Function returns last index 
          * of provided element
-         * 
+         * @function
+         * @name py.List#indexOf
          * @param {Object} element
          * 
          * @returns {Number} - index
@@ -52,8 +58,9 @@
         /**
          * Function returns the length of 
          * the list
-         * 
-         * @returns {Number}
+         * @function
+         * @name py.List#getLength
+         * @returns {Number} list length
          */
 		getLength: function(){
 			return this.__elements.length;
@@ -62,6 +69,9 @@
         /**
          * Function checks if list contains provided element
          * returns either true if yes or false if no
+         * 
+         * @function
+         * @name py.List#hasElement
          * @param {Object} element
          * 
          * @returns {Boolean}
@@ -72,6 +82,9 @@
 
         /**
          * Function removes element at specified index
+         * 
+         * @function
+         * @name py.List#removeAt
          * @param {Number} index
          */
 		removeAt: function(index){
@@ -83,16 +96,25 @@
         /**
          * Function removes provided element from the list 
          * if list contains that element
+         * 
+         * @function
+         * @name py.List#remove
          * @param {Object} element
          */		
 		remove: function(element){
 			var idx = this.indexOf(element);
-			this.removeAt(idx);
+			while(idx !== -1){
+			    this.removeAt(idx);
+			    idx = this.indexOf(element);
+			}
 		},
 		
 		/**
 		 * Function returns an full list element array
-		 * @returns {Array} 
+		 * @function
+		 * @name py.List#getElements
+		 * 
+		 * @returns {Array} returns list elements array
 		 */
 		getElements: function(){
 			return this.__elements;
@@ -103,7 +125,10 @@
 		 * which can be used to iterate over the list
 		 * object
 		 * 
-		 * @returns {Object} IIterable
+		 * @function
+		 * @name py.List#iterator
+		 * 
+		 * @returns {IIterable}
 		 */
 		iterator: function(){
 			return $NS.IIterable.bind(new $NS.Iterator(this.__elements));
@@ -112,6 +137,9 @@
 		/**
 		 * Function reduces the list to contain 
 		 * unique values only
+		 * 
+		 * @function
+		 * @name py.List#unique
 		 */
 		unique: function(){
 			var elements = this.__elements,

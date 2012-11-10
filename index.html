@@ -104,7 +104,7 @@
        	 
        	 libtester.logs = new libtester.LogList();
        	 
-       	 libtester.runner = new Timer(1000);
+       	 libtester.runner = new Scheduler(1000);
  		    	
        	 libtester.runner.addTask(function(timestamp){
        	 	var logLength = libtester.logs.getLength();

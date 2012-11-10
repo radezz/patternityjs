@@ -9,14 +9,15 @@
 	<property name="RESOURCE_DIR"   value="resource" />
 	<property name="CLOSURE" value="${RESOURCE_DIR}/compiler.jar" />
 	<property name="JS_LINT" value="${RESOURCE_DIR}/jslint4java-1.4.4.jar" />
+	<property name="JS_DOC_TOOLKIT" value="${RESOURCE_DIR}/jsdoc-toolkit" />
 
 	<property name="OUTPUT_SRC_FILE" value="source.concat.js" />
 	<property name="OUTPUT_JS_FILE" value="patternity.js" />
 
 	<taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpath="${JS_LINT}" />
 
-	<target name="build" depends="clean, lint, bundle_javascript, nswrap, compress_javascript" />
-	<target name="web" depends="clean, lint, bundle_javascript, nswebdetect, compress_javascript" />
+	<target name="build" depends="clean, lint, bundle_javascript, nswrap, compress_javascript, create_doc" />
+	<target name="web" depends="clean, lint, bundle_javascript, nswebdetect, compress_javascript, create_doc" />
 
 	<target name="lint">
 		<jslint options="undef, eqeqeq, bitwise, regexp, newcap, immed, browser">
@@ -98,6 +99,21 @@
 		</apply>
 		<echo>JavaScript Compression Done!!!</echo>
 	</target>
+	
+	<target name="create_doc">
+		<echo>Generating documentation...</echo>
+		<exec executable="java">
+			<arg line="-jar"/>
+			<arg path="${JS_DOC_TOOLKIT}/jsrun.jar"/>
+			<arg line="${JS_DOC_TOOLKIT}/app/run.js"/>
+			<arg line="-d=${BUILD_DIR}/jsdoc"/>
+			<arg line="-t=${JS_DOC_TOOLKIT}/templates/jsdoc"/>
+			<arg line="src/"/>
+			
+		</exec>
+		<echo>Generating doc done!!!</echo>
+	</target>
+	
 	<!--
 	This task will clean out any previous build files by
 	deleting the current build folder and re-creating it
@@ -105,7 +121,10 @@
 	<target name="clean">
 		<echo>Delete old build folder...</echo>
 		<delete dir="${BUILD_DIR}"/>
+		<delete dir="${BUILD_DIR}/jsdoc"/>
 		<echo>Create new build folder...</echo>
 		<mkdir dir="${BUILD_DIR}"/>
+		<mkdir dir="${BUILD_DIR}/jsdoc"/>
+		
 	</target>
 </project>
