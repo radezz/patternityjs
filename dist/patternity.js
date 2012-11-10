@@ -34,7 +34,7 @@
 	 * @returns {String} patternity namespace
 	 */
     this.pyGetRoot = function(){
-        return patternity;
+        return py;
     }/**
  * This namespace defines utility functions used within library clasees
  * @namespace
@@ -43,19 +43,99 @@
 (function($NS, $Global){
 	
 	var toString = Object.prototype.toString,
+	    //every checkFor key is converted to a is... function
 		checkFor = {
+		 /**
+		  * Function check if object is a function
+		  * @function
+		  * @name py.utils#isFunction
+		  * @param {Object} object
+		  */
 		'Function': 1,
+		/**
+          * Function check if object is undefined
+          * @function
+          * @name py.utils#isUndefined
+          * @param {Object} object
+          */
 		'Undefined': 1,
+		/**
+          * Function check if object is null
+          * @function
+          * @name py.utils#isNull
+          * @param {Object} object
+          */
 		'Null': 1,
+		/**
+          * Function check if object is a atring
+          * @function
+          * @name py.utils#isString
+          * @param {Object} object
+          */
 		'String': 1,
+		/**
+          * Function check if object is an array
+          * @function
+          * @name py.utils#isArray
+          * @param {Object} object
+          */
 		'Array': 1,
+		/**
+          * Function check if object is object (user defined object, function will return
+          * false for arrays, regexp etc).
+          * @function
+          * @name py.utils#isObject
+          * @param {Object} object
+          */
 		'Object': 1,
+		/**
+          * Function check if object is math
+          * @function
+          * @name py.utils#isMath
+          * @param {Object} object
+          */
 		'Math': 1,
+		/**
+          * Function check if object is date
+          * @function
+          * @name py.utils#isDate
+          * @param {Object} object
+          */
 		'Date': 1,
+		/**
+          * Function check if object is boolean value
+          * @function
+          * @name py.utils#isBoolean
+          * @param {Object} object
+          */
 		'Boolean': 1,
+		/**
+          * Function check if object is a number
+          * @function
+          * @name py.utils#isNumber
+          * @param {Object} object
+          */
 		'Number': 1,
+		/**
+          * Function check if object is RegExp
+          * @function
+          * @name py.utils#isRegExp
+          * @param {Object} object
+          */
 		'RegExp': 1,
+		/**
+          * Function check if object is JSON
+          * @function
+          * @name py.utils#isJSON
+          * @param {Object} object
+          */
 		'JSON': 1,
+		/**
+          * Function check if object is arguments
+          * @function
+          * @name py.utils#isArguments
+          * @param {Object} object
+          */
 		'Arguments': 1
 	},
 	check = {}, 
@@ -81,12 +161,34 @@
 		var isArray = check.isArray,
 			isObject = check.isObject,
 			isUndefined = check.isUndefined;
-		
+		/**
+		 * Function extracts object type returned by object.toString.
+		 * It can be used for more strict object typing
+		 * @function
+		 * @name py.utils#getType
+		 * @returns {String}
+		 */
 		function getType(object){
 			var stringified = toString.call(object);
 			return stringified.substring(8,stringified.length-1);
 		}
 		
+		/**
+		 * Function creates namespace (if does not exists) and 
+		 * applies and object to the namespace (if provided).
+		 * @function
+		 * @name py.utils#createNS
+		 * 
+		 * @param {String} namespace 
+		 * @param {Object} [optional] object to apply in this namespace
+		 * 
+		 * @example
+		 * var myObj = {};
+		 * py.utils.createNS('my.name.space.myObj',myObj);
+		 * 
+		 * my.name.space.myObj === myObj //will be true
+		 * 
+		 */
 		function createNS(namespace, apply){
 			var ns = namespace.split('.'),
 				nsPart = ns.shift(),
@@ -108,13 +210,33 @@
 			return targetObject;
 		}	
 		
+		/**
+		 * Function implements base for prototype inheritance,
+		 * it extends constructor with parent prototype.
+		 * 
+		 * @function
+		 * @name py.utils#extend
+		 * 
+         * @param {Function} construct
+         * @param {Function} parent
+		 */
 		function extend(construct, parent){
 	        var Extends = function(){};
 	        Extends.prototype = parent.prototype;
 	        construct.prototype = new Extends();
-	        construct.prototype._parent = parent.prototype;
+	        return construct;
 	    }
 	    
+	    /**
+	     * Function mixins methods and properties from source  object(s)
+	     * to target object, but does not modify the prototype
+	     * 
+	     * @function
+	     * @name py.utils#mixin
+	     * 
+         * @param {Object} target
+         * @param {Object | Array} source it can be also array of objects
+	     */
 	    function mixin(target, source){
 	        var key,
 	            i,
@@ -136,6 +258,16 @@
 	        }    
 	    }
 	    
+	    /**
+	     * Function checks if target object implements provided 
+	     * interface (object functions and properties)
+	     * 
+	     * @function
+	     * @name py.utils#isImplementing
+	     * 
+         * @param {Object} target
+         * @param {Object} implement
+	     */
 	    function isImplementing(target, implement){
 			var targetProperty, 
 				key, 
@@ -165,6 +297,38 @@
 			}
 	    }
 	    
+	    /**
+	     * Function applies pair arguments to target function. It is 
+	     * possible to overload 'key-value' type function to consume 
+	     * objects as single parameter
+	     * 
+	     * @function
+	     * @name py.utils#pairCall
+	     * 
+         * @param {Object} fn
+         * @param {Object} pairArgs
+         * @param {Object} context [optional]
+         * 
+         * @returns {Boolean} which states if pairCall is applied
+         * 
+         * @example
+         * 
+         * function set(prop, value){
+         *     if(arguments.length === 1 && !pairCall(set, arguments[0])){
+         *         target[prop] = value;
+         *     }
+         * }
+         * 
+         * //instead of calling 
+         * set('prop', 10);
+         * //you can call
+         * set({
+         *     prop: 10,
+         *     prop2: 20,
+         *     prop3: 30
+         * })
+         * 
+	     */
 	    function pairCall(fn, pairArgs, context){
 	        var key;
 	            
@@ -180,6 +344,12 @@
 	        return false;
 	    }
 	    
+	    /**
+	     * Function returns true if object is not null and not 'undefined'
+	     * @function
+	     * @name py.utils#isDefined
+         * @param {Object} object
+	     */
 	    function isDefined(object){
 			return !check.isNull(object) && !check.isUndefined(object);
 	    }
@@ -422,23 +592,30 @@
      * @returns {Function} - constructor which can create an defined object
      */
     function Class(name, definition, pckg){  
-        var forReinit = {};
-        
-        function Construct(){
-            reinitObjects.call(this, forReinit);
-            
-            if(isFunction(definition.construct)){
-                definition.construct.apply(this, arguments);
-            }
-        }
+        var Construct,
+            forReinit = {};
         
         validateInput(name, definition, pckg);
+        
+        if(isFunction(definition.construct)){
+            Construct = function(){
+                reinitObjects.call(this, forReinit); 
+                definition.construct.apply(this, arguments);
+            };  
+        }else{
+            Construct = function(){
+                reinitObjects.call(this, forReinit); 
+            };
+        }
         
         Construct.className = name;
         
         if(isFunction(definition.Extends)){
             utils.extend(Construct, definition.Extends);
             getForReinit(Construct.prototype, forReinit);
+            if(isFunction(definition.construct)){
+                definition.construct = createParenAccessFunction(definition.construct, definition.Extends);
+            }
         }
         
         mixinProto(Construct.prototype, definition, forReinit);
@@ -1452,6 +1629,161 @@
 	}, $NS);
 	
 }(py));(function($NS){
+	
+	/**
+	 * Scheduler helper function, executes
+	 * registered tasks
+	 * @private
+     * @param {Object} tasks
+	 */
+	function execute(tasks){
+		var self = this,
+		    now = (new Date()).getTime(),
+			task,
+			i,
+			l;
+			
+			for(i=0, l=tasks.length; i<l; i++){
+				task = tasks[i];
+				task.action.call(task.ctx || this, now);
+			}
+	}
+	
+	/**
+	 * Scheduler objcet is used to schedule multiple tasks to run
+	 * periodically with preset interval.
+	 * @class
+	 * @name py.Scheduler
+	 * 
+	 * @constructor
+	 * @param {Number} interval in milliseconds
+	 */
+	$NS.Class('Scheduler', {
+	    
+		construct: function(interval){
+			var self = this;
+			if(typeof(interval) === 'number' && interval > 0){
+				self.__interval = interval;	
+				self.__tasks = [];
+				self.__isRunning = false;
+				self.__handle = null;
+			}else{
+				throw "interval required";
+			}
+		},
+		
+		/**
+		 * Function adds task to be scheduled using previously 
+		 * set interval.
+		 * 
+		 * @function
+		 * @name py.Scheduler#addTask
+         * @param {Function} fn function which will be scheduled
+         * @param {Object} [optional] context which should be applied to task 
+		 */
+		addTask: function(fn, context){
+			if(typeof(fn) === 'function'){
+				this.__tasks.push({
+					action: fn,
+					ctx: context
+				});	
+			}else{
+				throw "taks must be a function";
+			}
+		},
+		
+		/**
+		 * Function changes interval for the current scheduler instance
+		 * 
+		 * @function
+		 * @name py.Scheduler#interval
+         * @param {Number} interval in milliseconds
+		 */
+		interval: function(interval){
+		    this.__interval = interval;
+		},
+		
+		/**
+		 * Function removes previously added tasks from scheduler.
+         * 
+         * @function
+         * @name py.Scheduler#removeTask
+         * @param {Function} fn
+		 */
+		removeTask: function(fn){
+			var self = this,
+				tasks = self.__tasks,
+				i = tasks.length;
+			while(i--){
+				if(tasks[i].action === fn){
+					tasks.splice(i,1);
+					return;
+				}
+			}
+		},
+		
+		/**
+		 * Function stops the scheduler and clears all registered tasks.
+		 * 
+		 * @function
+		 * @name py.Scheduler#reset
+		 */
+		reset: function(){
+			this.stop();
+			this.__tasks = [];
+		},
+		
+		/**
+		 * Function starts scheduler.
+		 * 
+		 * @function
+		 * @name py.Scheduler#run
+         * @param {[Function]} fn (optional) if provided will be added to current tasks list
+		 */
+		run: function(fn){
+			var self = this;
+			
+			if(fn){
+				self.addTask(fn);	
+			}
+			
+			self.__isRunning = true;
+			self.__handle = setInterval(function(){
+				if(self.__isRunning){
+					execute(self.__tasks);
+				}
+			},self.__interval);
+		},
+		
+		/**
+		 * Function stops the scheduler
+		 * 
+		 * @function
+		 * @name py.Scheduler#stop
+		 * 
+		 */
+		stop: function(){
+			this.__isRunning = false;
+			clearInterval(this.__handle);
+		},
+		
+		/**
+		 * Function indicates if the scheduler is currently
+		 * running.
+		 * 
+		 * @function
+		 * @name py.Scheduler#isRunning
+		 * 
+		 * @returns {Boolean} is running
+		 */
+		isRunning: function(){
+			return this.__isRunning;
+		}
+		
+	}, $NS);
+	
+}(py));
+(function($NS){
 	
 	/**
 	 * Helper function creates new key for 

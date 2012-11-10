@@ -53,7 +53,6 @@
 				$NS.extend(classB, classA);
 				
 				expect(classB.prototype.setName).toBe(classA.prototype.setName);
-				expect(classB.prototype._parent).toBe(classA.prototype);
 			});
 		});
 		

@@ -224,23 +224,30 @@
      * @returns {Function} - constructor which can create an defined object
      */
     function Class(name, definition, pckg){  
-        var forReinit = {};
-        
-        function Construct(){
-            reinitObjects.call(this, forReinit);
-            
-            if(isFunction(definition.construct)){
-                definition.construct.apply(this, arguments);
-            }
-        }
+        var Construct,
+            forReinit = {};
         
         validateInput(name, definition, pckg);
+        
+        if(isFunction(definition.construct)){
+            Construct = function(){
+                reinitObjects.call(this, forReinit); 
+                definition.construct.apply(this, arguments);
+            };  
+        }else{
+            Construct = function(){
+                reinitObjects.call(this, forReinit); 
+            };
+        }
         
         Construct.className = name;
         
         if(isFunction(definition.Extends)){
             utils.extend(Construct, definition.Extends);
             getForReinit(Construct.prototype, forReinit);
+            if(isFunction(definition.construct)){
+                definition.construct = createParenAccessFunction(definition.construct, definition.Extends);
+            }
         }
         
         mixinProto(Construct.prototype, definition, forReinit);
