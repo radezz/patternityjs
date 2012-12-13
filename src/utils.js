@@ -327,5 +327,7 @@
 			getType: getType
 		});
 		
+		$NS.NS = createNS;
+		
 	}());	
 }(py, this));

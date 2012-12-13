@@ -4,7 +4,8 @@
         'Extends': 1,
         'Implements' : 1,
         'Mixin': 1,
-        'Static': 1
+        'Static': 1,
+        'className': 1
     },
     typeofObject = 'object',
     utils = $NS.utils,
@@ -28,9 +29,14 @@
         var result;
         
         return function(){
+            var prev = this._parent;
             this._parent = parent.prototype;
             result = fn.apply(this, arguments);
-            delete this._parent;
+            if(prev){
+                this._parent = prev;
+            }else{
+                delete this._parent;    
+            }
             return result;
         };
     }
@@ -65,7 +71,10 @@
                     }else{
                         proto[key] = defProperty;
                         if(typeof(defProperty) === typeofObject){
-                            forReinit[key] = defProperty;
+                            forReinit.push({
+                                key: key,
+                                value: defProperty
+                            });
                         }
                     }
                     
@@ -153,13 +162,16 @@
      * @private
      * 
      * @param {Object} src 
-     * @param {Object} forReinit
+     * @param {Array} forReinit
      */
     function getForReinit(src, forReinit){
         var key;
         for(key in src){
-            if(key !== '_parent' && src[key] && typeof(src[key]) === typeofObject){   
-                forReinit[key] = src[key];
+            if(src[key] && typeof(src[key]) === typeofObject){   
+                forReinit.push({
+                   key: key,
+                   value: src[key] 
+                });
             }
         }
             
@@ -172,16 +184,17 @@
      * 
      * @private
      * 
-     * @param {Object} forReinit
+     * @param {Array} forReinit
      */
     function reinitObjects(forReinit){
-        var key,
+        var i = forReinit.length,
+            key,
             prop;
-        for(key in forReinit){
-            if(forReinit.hasOwnProperty(key)){
-                this[key] = forReinit[key].constructor();
-            }
-        }
+         
+         while(i--) {
+            prop = forReinit[i];
+            this[prop.key] = prop.value.constructor();
+         }
     }
 
     /**
@@ -225,43 +238,60 @@
      */
     function Class(name, definition, pckg){  
         var Construct,
-            forReinit = {};
+            forReinit = [],
+            Extends,
+            Mixin,
+            Static,
+            Implements;
         
         validateInput(name, definition, pckg);
         
+        Extends = definition.Extends;
+        Mixin = definition.Mixin;
+        Static = definition.Static;
+        Implements = definition.Implements;
+        
         if(isFunction(definition.construct)){
             Construct = function(){
-                reinitObjects.call(this, forReinit); 
+                if(forReinit.length){
+                    reinitObjects.call(this, forReinit);    
+                }
                 definition.construct.apply(this, arguments);
             };  
         }else{
             Construct = function(){
-                reinitObjects.call(this, forReinit); 
+                if(forReinit.length){
+                    reinitObjects.call(this, forReinit);    
+                }
             };
         }
         
         Construct.className = name;
         
-        if(isFunction(definition.Extends)){
-            utils.extend(Construct, definition.Extends);
+        if(isFunction(Extends)){
+            utils.extend(Construct, Extends);
             getForReinit(Construct.prototype, forReinit);
             if(isFunction(definition.construct)){
-                definition.construct = createParentAccessFunction(definition.construct, definition.Extends);
+                definition.construct = createParentAccessFunction(definition.construct, Extends);
             }
         }
         
         mixinProto(Construct.prototype, definition, forReinit);
         
-        if(definition.Mixin){
-            mixinProto(Construct.prototype, definition.Mixin, forReinit);
+        if(Mixin){
+            if(isFunction(Mixin)){
+                mixinProto(Construct.prototype, Mixin.prototype, forReinit);    
+            }else{
+                mixinProto(Construct.prototype, Mixin, forReinit);    
+            }
         }
         
-        if(definition.Implements){
-            isImplementing(Construct, definition.Implements);
+        if(Implements){
+            isImplementing(Construct, Implements);
         }
         
-        if(definition.Static){
-            utils.mixin(Construct, definition.Static);
+        if(Static){
+            utils.mixin(Construct, Static);
         }
 		
 		applyToPackage(pckg, Construct);
