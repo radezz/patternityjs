@@ -49,7 +49,7 @@
 	 * 
 	 */
 	$NS.Class('Sync', {
-		construct: function(settings){
+		initialize: function(settings){
 			var self = this;
 			
 			settings = settings || {};

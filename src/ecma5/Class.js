@@ -1,5 +1,4 @@
 (function($NS, $GLOBAL){
-    
     var KeyProperties = {
         'Extends': 1,
         'Implements' : 1,
@@ -11,8 +10,7 @@
     utils = $NS.utils,
     isObject = utils.isObject,
     isString = utils.isString,
-    isFunction = utils.isFunction,
-    isArray = utils.isArray;
+    isFunction = utils.isFunction;
     
     
 	/**
@@ -29,32 +27,26 @@
 	 */
 	function mixinProto(proto, definition, forReinit){
         var key,
-            defProperty,
-            i,
-            l;
-        if(isArray(definition)){
-            for(i=0, l=definition.length; i<l; i++){
-                mixinProto(proto, definition[i], forReinit);
-            }
+            defProperty;
+        
+        if(Array.isArray(definition)){
+			definition.forEach(function(def){
+				mixinProto(proto, def, forReinit);
+			});
         } else {
-            for(key in definition){
-                if(definition.hasOwnProperty(key) && !KeyProperties[key]){
-                    defProperty = definition[key];
-                    if(isFunction(defProperty) && definition.Extends){
-                        proto[key] = defProperty;
-                    }else{
-                        proto[key] = defProperty;
-                        if(forReinit && typeof(defProperty) === typeofObject){
-                            forReinit.push({
-                                key: key,
-                                value: defProperty
-                            });
-                        }
-                    }
-                    
-                    
-                }
-            }
+			Object.keys(definition).forEach(function(key){
+				defProperty = definition[key];
+				if(!KeyProperties[key]){
+					 proto[key] = defProperty;
+					 if(forReinit && typeof(defProperty) === typeofObject){
+						forReinit.push({
+							key: key,
+							value: defProperty
+						});
+					 }
+				}
+			});
+            
         } 
     }
     
@@ -162,12 +154,16 @@
      */
     function reinitObjects(forReinit){
         var i = forReinit.length,
+            self = this,
             key,
             prop;
          
          while(i--) {
             prop = forReinit[i];
-            this[prop.key] = prop.value.constructor();
+            key = prop.key;
+            if(self[key] && typeof(self[key]) === typeofObject){
+                self[key] = prop.value.constructor();
+            }
          }
     }
 
@@ -244,7 +240,7 @@
         Construct.className = name;
         
         if(isFunction(Extends)){
-            utils.extend(Construct, Extends);
+            Construct.prototype = Object.create(Extends.prototype);
             getForReinit(Construct.prototype, forReinit);
         }
         
@@ -260,11 +256,6 @@
         
         if(Implements){
             isImplementing(Construct, Implements);
-            if(isString(Implements.className)){
-                Construct.prototype[Implements.className] = function () {
-                    return new Implements(this);
-                };
-            }
         }
         
         if(Static){

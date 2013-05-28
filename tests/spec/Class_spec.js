@@ -6,7 +6,7 @@
 		
 		it("should create a constructable object", function(){
 			var klass = $NS.Class('klass', {
-				construct: function(){
+				initialize: function(){
 					this.prop = "hello";
 				}
 			});
@@ -61,7 +61,7 @@
 		
 		it("should create a constructable object within provided namespace", function(){
 			$NS.Class("klass", {
-				construct: function(){
+				initialize: function(){
 					this.prop = "hello";
 				}
 			}, "my.name.space");
@@ -74,7 +74,7 @@
 		
 		it("should extend the parent class", function(){
 			$NS.Class('theParent',{
-				construct: function(name){
+				initialize: function(name){
 					this.name = name;
 					this.age = 40;
 				},
@@ -91,8 +91,8 @@
 			$NS.Class('theChild' ,{
 				Extends: theParent,
 				
-				construct: function(name, surname){
-					this._parent.construct.call(this, name);
+				initialize: function(name, surname){
+					theParent.call(this, name);
 					this.surname = surname;
 				},
 				
@@ -106,7 +106,8 @@
 			});
 			
 			var childInstance = new theChild('Jan', 'Kowalski');
-			
+			expect(childInstance instanceof theChild).toBeTruthy();
+			expect(childInstance instanceof theParent).toBeTruthy();
 			expect(childInstance.name).toBe("Jan");
 			expect(childInstance.surname).toBe("Kowalski");
 			expect(childInstance.getName()).toBe("Jan");
@@ -202,7 +203,7 @@
 
 			$NS.Class('klass',{
 				Mixin: toBeMixed,
-				construct: function(){
+				initialize: function(){
 					//hello world
 				},
 				name: 'Tom'
@@ -237,7 +238,7 @@
 
 			$NS.Class('klass', {
 				Mixin: [toBeMixed, toBeMixedTwo],
-				construct: function(){
+				initialize: function(){
 					//hello world
 				},
 				name: 'Tom'

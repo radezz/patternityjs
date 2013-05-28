@@ -18,7 +18,7 @@
 	 */
 	$NS.Class('ListOf', { Extends: $NS.List,
 		
-		construct: function(of){
+		initialize: function(of){
 			if(typeof(of) === 'function'){
 				this.__of = of;
 			}else{
@@ -34,7 +34,7 @@
 		 */
 		add: function(element){
 			if((element instanceof this.__of) || (element.constructor && element.constructor === this.__of)){
-				this._parent.add.call(this, element);
+				$NS.List.prototype.add.call(this, element);
 			}else{ 
 				throw "not allowed type";
 			}

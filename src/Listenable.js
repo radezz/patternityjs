@@ -55,6 +55,18 @@
 			}
 		},
 		
+		on: function(){
+		    this.addListener.apply(this, arguments);    
+		},
+		
+		cancel: function(){
+		    this.removeListener.apply(this, arguments);
+		},
+		
+		cancelAll: function(){
+		    this.removeListeners.apply(this, arguments);    
+		},
+		
 		/**
 		 * Function removes listening callback from target event
 		 * 
@@ -115,7 +127,7 @@
 				for(i=0, l=registry.length; i<l; i++){
 					listener = registry[i];
 					if(isFunction(listener)){
-						listener.apply(this, args);
+						listener.apply(self, args);
 					}else if(isFunction(listener[eventName])){
 						listener[eventName].apply(listener, args);
 					}

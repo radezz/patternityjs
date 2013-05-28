@@ -1,17 +1,41 @@
-(function(nsString){
-	var nsPart,
+(function(){
+	var scripts = document.getElementsByTagName('script'),
+		i = scripts.length,
+		script,
+		nsString,
+		nsPart,
 		targetObject = this,
 		py;
-	if(nsString && typeof(nsString) === 'string'){
-		nsString = nsString.split('.');
-		while(nsPart = nsString.shift()){
-			if(!targetObject[nsPart]){
-				targetObject[nsPart] = {};
+		
+	while(i--){
+		script = scripts[i];
+		if(script.src.indexOf('patternity' !== -1)){
+			nsString = script.getAttribute('data-namespace') || 'py';
+			if(nsString && nsString !== 'this'){
+				nsString = nsString.split('.');
+				while(nsPart = nsString.shift()){
+					if(!targetObject[nsPart]){
+						targetObject[nsPart] = {};
+					}
+					targetObject = targetObject[nsPart];
+				}
+				
 			}
-			targetObject = targetObject[nsPart];
+			
+			break;
 		}
 	}
-	py = targetObject;/**
+	py = targetObject;
+	
+	/**
+	 * Global function returns patternity root object namespace
+	 * @name pyGetRoot
+	 * @function
+	 * @returns {String} patternity namespace
+	 */
+    this.pyGetRoot = function(){
+        return py;
+    }/**
  * This namespace defines utility functions used within library clasees
  * @namespace
  * @name py.utils
@@ -360,32 +384,6 @@
     isFunction = utils.isFunction,
     isArray = utils.isArray;
     
-    /**
-     * Function creates create this._parent 
-     * access wrapper function. It is Class's private method 
-     * to create access to inherited Class
-     * 
-     * @function
-     * @private
-     * 
-     * @param {Function} fn
-     * @param {Object} parent
-     */
-    function createParentAccessFunction(fn, parent){
-        var result;
-        
-        return function(){
-            var prev = this._parent;
-            this._parent = parent.prototype;
-            result = fn.apply(this, arguments);
-            if(prev){
-                this._parent = prev;
-            }else{
-                delete this._parent;    
-            }
-            return result;
-        };
-    }
     
 	/**
 	 * Function mixins the definition into the 
@@ -413,10 +411,10 @@
                 if(definition.hasOwnProperty(key) && !KeyProperties[key]){
                     defProperty = definition[key];
                     if(isFunction(defProperty) && definition.Extends){
-                        proto[key] = createParentAccessFunction(defProperty, definition.Extends);
+                        proto[key] = defProperty;
                     }else{
                         proto[key] = defProperty;
-                        if(typeof(defProperty) === typeofObject){
+                        if(forReinit && typeof(defProperty) === typeofObject){
                             forReinit.push({
                                 key: key,
                                 value: defProperty
@@ -551,7 +549,7 @@
      * 
      * @example
      * py.Class('MyParentClass', {
-     *    construct: function(){
+     *    initialize: function(){
      *         //parent constructor 
      *    },
      *    prop: 'value',
@@ -564,9 +562,9 @@
      * 
      * 
      * py.Class('MyClass', { Extends: my.package.MyParentClass
-     *    construct: function(){
+     *    initialize: function(){
      *      //use this._parent to access parent functions, and apply to do 'super' calls
-     *      this._parent.construct.apply(this, arguments);
+     *      this._parent.initialize.apply(this, arguments);
      * 
      *      //place constructor code here 
      *    } 
@@ -597,12 +595,12 @@
         Static = definition.Static;
         Implements = definition.Implements;
         
-        if(isFunction(definition.construct)){
+        if(isFunction(definition.initialize)){
             Construct = function(){
                 if(forReinit.length){
                     reinitObjects.call(this, forReinit);    
                 }
-                definition.construct.apply(this, arguments);
+                definition.initialize.apply(this, arguments);
             };  
         }else{
             Construct = function(){
@@ -610,6 +608,7 @@
                     reinitObjects.call(this, forReinit);    
                 }
             };
+            definition.initialize = Construct;
         }
         
         Construct.className = name;
@@ -617,9 +616,6 @@
         if(isFunction(Extends)){
             utils.extend(Construct, Extends);
             getForReinit(Construct.prototype, forReinit);
-            if(isFunction(definition.construct)){
-                definition.construct = createParentAccessFunction(definition.construct, Extends);
-            }
         }
         
         mixinProto(Construct.prototype, definition, forReinit);
@@ -1129,7 +1125,7 @@
      */
 	$NS.Class('Iterator', { Implements: $NS.IIterable,
 		
-		construct: function(iterableObject){
+		initialize: function(iterableObject){
 			
 			if(iterableObject instanceof Array){
 				this.__iterable = iterableObject;
@@ -1406,7 +1402,7 @@
 	 */
 	$NS.Class('ListOf', { Extends: $NS.List,
 		
-		construct: function(of){
+		initialize: function(of){
 			if(typeof(of) === 'function'){
 				this.__of = of;
 			}else{
@@ -1422,7 +1418,7 @@
 		 */
 		add: function(element){
 			if((element instanceof this.__of) || (element.constructor && element.constructor === this.__of)){
-				this._parent.add.call(this, element);
+				$NS.List.prototype.add.call(this, element);
 			}else{ 
 				throw "not allowed type";
 			}
@@ -1566,6 +1562,18 @@
 			}
 		},
 		
+		on: function(){
+		    this.addListener.apply(this, arguments);    
+		},
+		
+		cancel: function(){
+		    this.removeListener.apply(this, arguments);
+		},
+		
+		cancelAll: function(){
+		    this.removeListeners.apply(this, arguments);    
+		},
+		
 		/**
 		 * Function removes listening callback from target event
 		 * 
@@ -1626,7 +1634,7 @@
 				for(i=0, l=registry.length; i<l; i++){
 					listener = registry[i];
 					if(isFunction(listener)){
-						listener.apply(this, args);
+						listener.apply(self, args);
 					}else if(isFunction(listener[eventName])){
 						listener[eventName].apply(listener, args);
 					}
@@ -1668,7 +1676,7 @@
 	 */
 	$NS.Class('Scheduler', {
 	    
-		construct: function(interval){
+		initialize: function(interval){
 			var self = this;
 			if(typeof(interval) === 'number' && interval > 0){
 				self.__interval = interval;	
@@ -1842,7 +1850,7 @@
 	 * 
 	 */
 	$NS.Class('Sync', {
-		construct: function(settings){
+		initialize: function(settings){
 			var self = this;
 			
 			settings = settings || {};
@@ -1967,4 +1975,4 @@
 	}, $NS);
 	
 }(py));
-}('py'));
+}());

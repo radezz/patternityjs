@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Patternitys</title>
+        <style>
+        	#logs {
+        		list-style-position: inside;
+        	}
+        	#logs li{ 
+        		float: left; 
+        		margin: 5px;
+        	}
+        	#ticker{
+        		width: 20px;
+        		height: 10px;
+        		background-color: red;
+        		position: absolute;
+        		left:0px;
+        		top:0px;
+        	}
+        </style>
+        <!-- 
+        	By specifying data-namespace you can generate library in certain namespace
+        	so it won't colide with other libraries you use or it could part of your apps
+        	namespace as example data-namespace="my.app". If using 'this' or when attribute
+        	is not specified then the library objects will be placed in the root namespace 
+        	(window in this case) as in the examples below:
+        -->
+        <script>
+        	if(!this.py){
+        		this.py = {};
+        	}
+        </script>
+        <!--script src="src/ecma5/Class.js"></script-->
+        <script src="ecma5.js"></script>      
+    </head>
+    <body>
+        <h1>Hallo</h1>
+    </body>
+</html>

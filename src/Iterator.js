@@ -36,7 +36,7 @@
      */
 	$NS.Class('Iterator', { Implements: $NS.IIterable,
 		
-		construct: function(iterableObject){
+		initialize: function(iterableObject){
 			
 			if(iterableObject instanceof Array){
 				this.__iterable = iterableObject;

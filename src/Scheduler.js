@@ -30,7 +30,7 @@
 	 */
 	$NS.Class('Scheduler', {
 	    
-		construct: function(interval){
+		initialize: function(interval){
 			var self = this;
 			if(typeof(interval) === 'number' && interval > 0){
 				self.__interval = interval;	

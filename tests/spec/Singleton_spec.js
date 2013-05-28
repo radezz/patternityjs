@@ -4,7 +4,7 @@
 		
 		it("should create a singleton object according to provided definition", function(){
 			$NS.Singleton('single',{
-				construct: function(){
+				initialize: function(){
 					this.name = 'singleton'
 				},
 				getName: function(){
@@ -19,7 +19,7 @@
 		
 		it("should create a singleton within provided namespace", function(){
 			$NS.Singleton('ton', {
-				construct: function(){
+				initialize: function(){
 					this.name = 'singleton'
 				},
 				getName: function(){
