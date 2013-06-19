@@ -9,6 +9,7 @@
     },
     typeofObject = 'object',
     utils = $NS.utils,
+    createObject = utils.createObject,
     isObject = utils.isObject,
     isString = utils.isString,
     isFunction = utils.isFunction,
@@ -44,7 +45,7 @@
                         proto[key] = defProperty;
                     }else{
                         proto[key] = defProperty;
-                        if(forReinit && typeof(defProperty) === typeofObject){
+                        if(forReinit && defProperty && typeof(defProperty) === typeofObject){
                             forReinit.push({
                                 key: key,
                                 value: defProperty
@@ -141,7 +142,7 @@
     function getForReinit(src, forReinit){
         var key;
         for(key in src){
-            if(src[key] && typeof(src[key]) === typeofObject){   
+            if(src[key] && typeof(src[key]) === typeofObject){
                 forReinit.push({
                    key: key,
                    value: src[key] 
@@ -167,7 +168,7 @@
          
          while(i--) {
             prop = forReinit[i];
-            this[prop.key] = prop.value.constructor();
+            this[prop.key] = createObject(prop.value);
          }
     }
 

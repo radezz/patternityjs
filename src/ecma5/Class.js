@@ -38,7 +38,7 @@
 				defProperty = definition[key];
 				if(!KeyProperties[key]){
 					 proto[key] = defProperty;
-					 if(forReinit && typeof(defProperty) === typeofObject){
+					 if(forReinit && (defProperty === Object || defProperty === Array)){
 						forReinit.push({
 							key: key,
 							value: defProperty
@@ -131,12 +131,13 @@
      * @param {Array} forReinit
      */
     function getForReinit(src, forReinit){
-        var key;
+        var key,
+            val;
         for(key in src){
-            if(src[key] && typeof(src[key]) === typeofObject){   
+            if(src[key] && (src[key] === Object || src[key] === Array)){   
                 forReinit.push({
                    key: key,
-                   value: src[key] 
+                   value: val 
                 });
             }
         }

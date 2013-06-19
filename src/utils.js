@@ -191,6 +191,21 @@
 	    }
 	    
 	    /**
+	     * Function implements Object.create or uses native implementation
+	     * if available. 
+	     * 
+	     * @function
+	     * @name py.utils#createObject
+	     * 
+	     * @param {Object} proto 
+	     */
+	    function createObject ( proto ) {
+	       function F(){}
+	       F.prototype = proto;
+	       return new F();
+	    }
+	    
+	    /**
 	     * Function mixins methods and properties from source  object(s)
 	     * to target object, but does not modify the prototype
 	     * 
@@ -320,6 +335,7 @@
 		$NS.utils = mixin(check ,{
 			createNS: createNS,
 			extend: extend,
+			createObject: Object.create || createObject,
 			mixin: mixin,
 			pairCall: pairCall,
 			isImplementing: isImplementing,

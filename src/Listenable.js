@@ -59,6 +59,21 @@
 		    this.addListener.apply(this, arguments);    
 		},
 		
+		once: function(eventName, callback) {
+		    var self = this;
+		    function listener () {
+                if(isFunction(callback)){
+                    callback.apply(self, arguments);
+                } else if (isFunction(callback[eventName])) {
+                    callback[eventName].apply(self, arguments);
+                }
+                
+                self.removeListener(eventName, listener);
+		    }
+		    self.addListener(eventName, listener);
+		    return listener;
+		},
+		
 		cancel: function(){
 		    this.removeListener.apply(this, arguments);
 		},

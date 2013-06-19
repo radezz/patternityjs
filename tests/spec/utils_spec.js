@@ -56,6 +56,42 @@
 			});
 		});
 		
+		describe("createObject", function () {
+		  
+		  it("should create object with a given prototype", function () {
+		      var ob = $NS.createObject({
+		          prop: 'val'
+		      });
+		      
+		      expect(ob).toBeDefined();
+		      expect(ob.prop).toBe('val');
+		      
+		  });
+		  
+		  it("should create object where modifying prototype is not possible", function() {
+		      var proto = {
+		          prop1: 'val1'
+		      };
+		  
+		      var ob = $NS.createObject(proto);
+		      
+		      expect(ob).toBeDefined();
+		      ob.prop2 = 'val2';
+		      expect(proto.prop2).not.toBeDefined();
+		  });
+		  
+		  it("should create object using array as prototype and not allow proto modification", function () {
+		      var proto = [];
+		      
+		      var ob =  $NS.createObject(proto);
+		      expect(ob instanceof Array).toBeTruthy();
+		      ob.push(1);
+		      expect(proto.length).toBe(0);
+		  });
+		  
+		  
+		});
+		
 		describe("isDefined", function(){
 			it("should return true if object is not a null or undefined", function(){
 				expect($NS.isDefined(0)).toBeTruthy();

@@ -1,41 +1,17 @@
-(function(){
-	var scripts = document.getElementsByTagName('script'),
-		i = scripts.length,
-		script,
-		nsString,
-		nsPart,
+(function(nsString){
+	var nsPart,
 		targetObject = this,
 		py;
-		
-	while(i--){
-		script = scripts[i];
-		if(script.src.indexOf('patternity' !== -1)){
-			nsString = script.getAttribute('data-namespace') || 'py';
-			if(nsString && nsString !== 'this'){
-				nsString = nsString.split('.');
-				while(nsPart = nsString.shift()){
-					if(!targetObject[nsPart]){
-						targetObject[nsPart] = {};
-					}
-					targetObject = targetObject[nsPart];
-				}
-				
+	if(nsString && typeof(nsString) === 'string'){
+		nsString = nsString.split('.');
+		while(nsPart = nsString.shift()){
+			if(!targetObject[nsPart]){
+				targetObject[nsPart] = {};
 			}
-			
-			break;
+			targetObject = targetObject[nsPart];
 		}
 	}
-	py = targetObject;
-	
-	/**
-	 * Global function returns patternity root object namespace
-	 * @name pyGetRoot
-	 * @function
-	 * @returns {String} patternity namespace
-	 */
-    this.pyGetRoot = function(){
-        return py;
-    }/**
+	py = targetObject;/**
  * This namespace defines utility functions used within library clasees
  * @namespace
  * @name py.utils
@@ -227,6 +203,12 @@
 	        return construct;
 	    }
 	    
+	    function createObject ( proto ) {
+	       function F(){}
+	       F.prototype = proto;
+	       return new F();
+	    }
+	    
 	    /**
 	     * Function mixins methods and properties from source  object(s)
 	     * to target object, but does not modify the prototype
@@ -357,6 +339,7 @@
 		$NS.utils = mixin(check ,{
 			createNS: createNS,
 			extend: extend,
+			createObject: Object.create || createObject,
 			mixin: mixin,
 			pairCall: pairCall,
 			isImplementing: isImplementing,
@@ -379,6 +362,7 @@
     },
     typeofObject = 'object',
     utils = $NS.utils,
+    createObject = utils.createObject,
     isObject = utils.isObject,
     isString = utils.isString,
     isFunction = utils.isFunction,
@@ -414,7 +398,7 @@
                         proto[key] = defProperty;
                     }else{
                         proto[key] = defProperty;
-                        if(forReinit && typeof(defProperty) === typeofObject){
+                        if(forReinit && defProperty && typeof(defProperty) === typeofObject){
                             forReinit.push({
                                 key: key,
                                 value: defProperty
@@ -511,7 +495,7 @@
     function getForReinit(src, forReinit){
         var key;
         for(key in src){
-            if(src[key] && typeof(src[key]) === typeofObject){   
+            if(src[key] && typeof(src[key]) === typeofObject){
                 forReinit.push({
                    key: key,
                    value: src[key] 
@@ -537,7 +521,7 @@
          
          while(i--) {
             prop = forReinit[i];
-            this[prop.key] = prop.value.constructor();
+            this[prop.key] = createObject(prop.value);
          }
     }
 
@@ -630,6 +614,11 @@
         
         if(Implements){
             isImplementing(Construct, Implements);
+            if(isString(Implements.className)){
+                Construct.prototype[Implements.className] = function () {
+                    return new Implements(this);
+                };
+            }
         }
         
         if(Static){
@@ -1566,6 +1555,21 @@
 		    this.addListener.apply(this, arguments);    
 		},
 		
+		once: function(eventName, callback) {
+		    var self = this;
+		    function listener () {
+                if(isFunction(callback)){
+                    callback.apply(self, arguments);
+                } else if (isFunction(callback[eventName])) {
+                    callback[eventName].apply(self, arguments);
+                }
+                
+                self.removeListener(eventName, listener);
+		    }
+		    self.addListener(eventName, listener);
+		    return listener;
+		},
+		
 		cancel: function(){
 		    this.removeListener.apply(this, arguments);
 		},
@@ -1975,4 +1979,4 @@
 	}, $NS);
 	
 }(py));
-}());
+}('py'));
