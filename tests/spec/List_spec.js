@@ -118,14 +118,14 @@
 		});
 		
 		describe("#iterator", function(){
-			it("should return an IIterable object for iterating the list", function(){
+			it("should return an IIterator object for iterating the list", function(){
 				listInstance = new $NS.List();
 				listInstance.add('hello');
 				listInstance.add('bye');
 				
 				var iter = listInstance.iterator();
 				expect(iter).toBeDefined();
-				expect(iter instanceof $NS.IIterable).toBeTruthy();
+				expect(iter instanceof $NS.IIterator).toBeTruthy();
 			});
 			
 			it("should return iterator which refers to current list elements", function(){
