@@ -1,7 +1,8 @@
 (function($NS, $GLOBAL){
-    
     var Class = $NS.Class,
-		implementsErr,
+        UNDEF,
+        implementsErr,
+        defineProperty = Object.defineProperty || function(){},
 		typeofObject = 'object',
 		typeofFunction = 'function',
 		utils = $NS.utils,
@@ -33,18 +34,26 @@
      * @param {Object} interfaceDefinition - definition, which functions should be bound
      */
     function bind(objectInstance, interfaceDefinition){
-        var key;
-            
-        for(key in interfaceDefinition){
-            if(interfaceDefinition.hasOwnProperty(key)){
-                if(isFunction(objectInstance[key])){
-                    this[key] = interfaceCallerFactory(objectInstance, key);
-                }else{
-					implementsErr = 'cannot bind ' + key + '() implementation is missing';
-					throw implementsErr;
-                }
-            }
-        }
+		var self = this;
+		Object.keys(interfaceDefinition).forEach(function(key){
+			if(isFunction(objectInstance[key])){
+                self[key] = interfaceCallerFactory(objectInstance, key);
+			} else if(typeof(objectInstance[key]) !== "undefined"){
+				defineProperty(self, key, {
+					set: function (value) {
+						objectInstance[key] = value;
+					},
+					get: function () {
+						return objectInstance[key];
+					},
+					enumerable: true,
+					writeable: true
+				});
+			} else {
+				implementsErr = 'cannot bind ' + key + '() implementation is missing';
+				throw implementsErr;
+			}
+        });
     }
     
     /**

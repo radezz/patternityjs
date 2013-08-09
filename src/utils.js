@@ -5,44 +5,53 @@
  */
 (function($NS, $Global){
 	
+	//create checkers
 	var toString = Object.prototype.toString,
 	    //every checkFor key is converted to a is... function
-		checkFor = {
+	    //lowercase will use typeof other will use toString as comparison
+		checkFor = [
 		 /**
 		  * Function check if object is a function
 		  * @function
 		  * @name py.utils#isFunction
 		  * @param {Object} object
 		  */
-		'Function': 1,
+		'function',
 		/**
           * Function check if object is undefined
           * @function
           * @name py.utils#isUndefined
           * @param {Object} object
           */
-		'Undefined': 1,
-		/**
-          * Function check if object is null
-          * @function
-          * @name py.utils#isNull
-          * @param {Object} object
-          */
-		'Null': 1,
+		'undefined',
 		/**
           * Function check if object is a atring
           * @function
           * @name py.utils#isString
           * @param {Object} object
           */
-		'String': 1,
+		'string',
 		/**
           * Function check if object is an array
           * @function
           * @name py.utils#isArray
           * @param {Object} object
           */
-		'Array': 1,
+        'boolean',
+        /**
+          * Function check if object is a number
+          * @function
+          * @name py.utils#isNumber
+          * @param {Object} object
+          */
+        'number',
+        /**
+          * Function check if object is RegExp
+          * @function
+          * @name py.utils#isRegExp
+          * @param {Object} object
+          */
+		'Array',
 		/**
           * Function check if object is object (user defined object, function will return
           * false for arrays, regexp etc).
@@ -50,73 +59,87 @@
           * @name py.utils#isObject
           * @param {Object} object
           */
-		'Object': 1,
+		'Object',
 		/**
           * Function check if object is math
           * @function
           * @name py.utils#isMath
           * @param {Object} object
           */
-		'Math': 1,
+		'Math',
 		/**
           * Function check if object is date
           * @function
           * @name py.utils#isDate
           * @param {Object} object
           */
-		'Date': 1,
+		'Date',
 		/**
           * Function check if object is boolean value
           * @function
           * @name py.utils#isBoolean
           * @param {Object} object
           */
-		'Boolean': 1,
-		/**
-          * Function check if object is a number
-          * @function
-          * @name py.utils#isNumber
-          * @param {Object} object
-          */
-		'Number': 1,
-		/**
-          * Function check if object is RegExp
-          * @function
-          * @name py.utils#isRegExp
-          * @param {Object} object
-          */
-		'RegExp': 1,
+		'RegExp',
 		/**
           * Function check if object is JSON
           * @function
           * @name py.utils#isJSON
           * @param {Object} object
           */
-		'JSON': 1,
+		'JSON',
 		/**
           * Function check if object is arguments
           * @function
           * @name py.utils#isArguments
           * @param {Object} object
           */
-		'Arguments': 1
-	},
+		'Arguments'
+	],
+	i = checkFor.length,
+	typeofCheck,
 	check = {}, 
 	key;
 	
 	//create s list of type checkers
-	function createChecker(objectType){
+	function createChecker(objectType, typeofCheck){
 		var typeString = ["[object ", objectType, "]"].join("");
-		return function(object){
-			return toString.call(object) === typeString;
-		};
-	}
-
-	for(key in checkFor){
-		if(checkFor.hasOwnProperty(key)){
-			check["is" + key] = createChecker(key);
+		if(typeofCheck){
+		    return function (arg) {
+		      return typeof(arg) === objectType;
+		    };
+		} else {
+            return function(arg){
+                return toString.call(arg) === typeString;
+            };
 		}
 	}
+    //generate checkers
+	while(i--){
+		key = checkFor[i];
+		check["is" + key.charAt(0).toUpperCase() + key.substr(1,key.length)] = createChecker(key, key.charCodeAt(0) > 90);
+	}
+	//use native isArray if available
+	check.isArray = Array.isArray || check.isArray;
+	/**
+     * Function check if object is null
+     * @function
+     * @name py.utils#isNull
+     * @param {Object} object
+     */   
+	check.isNull = function (arg) {
+	   return arg === null;
+	};
+	/**
+     * Function returns true if object is not null and not 'undefined'
+     * @function
+     * @name py.utils#isDefined
+     * @param {Object} object
+     */
+	check.isDefined = function (arg) {
+	   return !(check.isNull(arg) || check.isUndefined(arg));
+	};
+	
 	
 	//create utils 
 	(function(){
@@ -323,23 +346,45 @@
 	    }
 	    
 	    /**
-	     * Function returns true if object is not null and not 'undefined'
+	     * Utility function which implemnts ecs5 Array.forEach
+	     * needs to be called in the array scope
 	     * @function
-	     * @name py.utils#isDefined
-         * @param {Object} object
+	     * @name py.utils#forEach
+	     * 
+	     * @example
+	     * py.utils.forEach.call([1,2,3], function(item, index, array){
+	     *     //...
+	     * });
+	     * 
+         * @param {Object} fn
 	     */
-	    function isDefined(object){
-			return !check.isNull(object) && !check.isUndefined(object);
+	    function forEach(fn) {
+	        var self = this,
+	            i,
+	            l;
+	            
+	        if(!check.isArray(this)){
+	            throw new TypeError("Need an Array as scope");
+	        }
+	        
+	        if(!check.isFunction(fn)) {
+	            throw new TypeError("Need function");
+	        }
+	        
+	        for(i=0, l=self.length; i<l; i++) {
+	            fn(self[i], i, self);   
+	        } 
 	    }
-		
+	    
+	   
 		$NS.utils = mixin(check ,{
 			createNS: createNS,
 			extend: extend,
 			createObject: Object.create || createObject,
+			forEach: Array.prototype.forEach || forEach,
 			mixin: mixin,
 			pairCall: pairCall,
 			isImplementing: isImplementing,
-			isDefined: isDefined,
 			getType: getType
 		});
 		

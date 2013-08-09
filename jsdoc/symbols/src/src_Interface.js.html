@@ -6,124 +6,133 @@
 	.REGX {color: #339;}
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">$NS</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$GLOBAL</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>  2</span> </span><span class="WHIT">    
-<span class='line'>  3</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$NS.Class</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>  4</span> </span><span class="WHIT">		</span><span class="NAME">implementsErr</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>  5</span> </span><span class="WHIT">		</span><span class="NAME">typeofObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>  6</span> </span><span class="WHIT">		</span><span class="NAME">typeofFunction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>  7</span> </span><span class="WHIT">		</span><span class="NAME">utils</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$NS.utils</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>  8</span> </span><span class="WHIT">		</span><span class="NAME">isObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">utils.isObject</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>  9</span> </span><span class="WHIT">		</span><span class="NAME">isString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">utils.isString</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 10</span> </span><span class="WHIT">		</span><span class="NAME">isFunction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">utils.isFunction</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 11</span> 
-<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 13</span>      * Function creates a function which wraps the real object
-<span class='line'> 14</span>      * function and calls it with provided arguments
-<span class='line'> 15</span>      * @function
-<span class='line'> 16</span>      * @private
-<span class='line'> 17</span>      * @param {Object} objectInstance
-<span class='line'> 18</span>      * @param {String} key
-<span class='line'> 19</span>      */</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">interfaceCallerFactory</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 21</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 22</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">apply</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="WHIT">    
-<span class='line'> 26</span>     </span><span class="COMM">/**
-<span class='line'> 27</span>      * Function binds the current interface functions to call
-<span class='line'> 28</span>      * the target object class function which implement the interface
-<span class='line'> 29</span>      * 
-<span class='line'> 30</span>      * @function
-<span class='line'> 31</span>      * @name py.Interface#bind
-<span class='line'> 32</span>      * @param {Object} objectInstance - target object into which we bind the interface
-<span class='line'> 33</span>      * @param {Object} interfaceDefinition - definition, which functions should be bound
-<span class='line'> 34</span>      */</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">interfaceDefinition</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">            
-<span class='line'> 38</span>         </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">interfaceDefinition</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">interfaceDefinition.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">isFunction</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">interfaceCallerFactory</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 43</span> </span><span class="WHIT">					</span><span class="NAME">implementsErr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'cannot bind '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'() implementation is missing'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 44</span> </span><span class="WHIT">					</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">implementsErr</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 46</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 47</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 48</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 49</span> </span><span class="WHIT">    
-<span class='line'> 50</span>     </span><span class="COMM">/**
-<span class='line'> 51</span>      * Base Interface object creator. It will create a constructor
-<span class='line'> 52</span>      * for user defined interface, which can be initialized and bounded 
-<span class='line'> 53</span>      * to the target object which implements the interface functionality.
-<span class='line'> 54</span>      * @class 
-<span class='line'> 55</span>      * @name py.Interface
-<span class='line'> 56</span>      * @example
-<span class='line'> 57</span>      * //create interface definition
-<span class='line'> 58</span>      * py.Interface('ISaveable',{
-<span class='line'> 59</span>      *     save:function(){},
-<span class='line'> 60</span>      *     load:function(){}
-<span class='line'> 61</span>      * },'pckg');
-<span class='line'> 62</span>      * 
-<span class='line'> 63</span>      * //create class
-<span class='line'> 64</span>      * py.Class('Model', { Implements: pckg.ISaveable,
-<span class='line'> 65</span>      *     save: function(){
-<span class='line'> 66</span>      *          //implement save code (if interface function odes not
-<span class='line'> 67</span>      *          //exists Class definer will throw an error
-<span class='line'> 68</span>      *     },
-<span class='line'> 69</span>      *     load: function(){
-<span class='line'> 70</span>      *          //implement load code
-<span class='line'> 71</span>      *     },
-<span class='line'> 72</span>      *     parse: function(){},
-<span class='line'> 73</span>      *     set: function(){}
-<span class='line'> 74</span>      * },'pckg')
-<span class='line'> 75</span>      * 
-<span class='line'> 76</span>      * var MyModel = new pckg.Model();
-<span class='line'> 77</span>      * //bnd interface to the Class's instance
-<span class='line'> 78</span>      * var IMyModel = new pckg.ISaveable(MyModel);
-<span class='line'> 79</span>      * 
-<span class='line'> 80</span>      * //You will notice here that IMyModel contains only
-<span class='line'> 81</span>      * //save() and load() functions will same functions on instantiated object
-<span class='line'> 82</span>      * 
-<span class='line'> 83</span>      * 
-<span class='line'> 84</span>      * @constructor
-<span class='line'> 85</span>      * 
-<span class='line'> 86</span>      * @param {Object} name
-<span class='line'> 87</span>      * @param {Object} definition
-<span class='line'> 88</span>      * @param {Object | String} pckg
-<span class='line'> 89</span>      * 
-<span class='line'> 90</span>      * @returns {Function} constructor for the defined interface
-<span class='line'> 91</span>      */</span><span class="WHIT">
-<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Interface</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pckg</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">    
-<span class='line'> 94</span>         </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">isObject</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">                </span><span class="NAME">bind.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 97</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 98</span> </span><span class="WHIT">                </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">'an object for interface binding should be defined'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 99</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>100</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>101</span> </span><span class="WHIT">        
-<span class='line'>102</span>         </span><span class="NAME">Construct.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">        
-<span class='line'>104</span>         </span><span class="NAME">Class.prototype.validateInput</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pckg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">        
-<span class='line'>106</span>         </span><span class="NAME">Construct.bind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="WHIT">        
-<span class='line'>110</span>         </span><span class="NAME">Class.prototype.mixinProto</span><span class="PUNC">(</span><span class="NAME">Construct.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>111</span> </span><span class="WHIT">		</span><span class="NAME">Class.prototype.applyToPackage</span><span class="PUNC">(</span><span class="NAME">pckg</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>112</span> </span><span class="WHIT">		
-<span class='line'>113</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">    
-<span class='line'>116</span>     </span><span class="NAME">Interface.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>117</span> </span><span class="WHIT">        </span><span class="NAME">bind</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">bind</span><span class="WHIT">
-<span class='line'>118</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>119</span> </span><span class="WHIT">    
-<span class='line'>120</span>     </span><span class="NAME">$NS.Interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Interface</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">    
-<span class='line'>122</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">py</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>  2</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$NS.Class</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="WHIT">        </span><span class="NAME">UNDEF</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">        </span><span class="NAME">implementsErr</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">        </span><span class="NAME">defineProperty</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.defineProperty</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">		</span><span class="NAME">typeofObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">		</span><span class="NAME">typeofFunction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">		</span><span class="NAME">utils</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$NS.utils</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">		</span><span class="NAME">isObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">utils.isObject</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">		</span><span class="NAME">isString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">utils.isString</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">		</span><span class="NAME">isFunction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">utils.isFunction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 14</span>      * Function creates a function which wraps the real object
+<span class='line'> 15</span>      * function and calls it with provided arguments
+<span class='line'> 16</span>      * @function
+<span class='line'> 17</span>      * @private
+<span class='line'> 18</span>      * @param {Object} objectInstance
+<span class='line'> 19</span>      * @param {String} key
+<span class='line'> 20</span>      */</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">interfaceCallerFactory</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">apply</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    
+<span class='line'> 27</span>     </span><span class="COMM">/**
+<span class='line'> 28</span>      * Function binds the current interface functions to call
+<span class='line'> 29</span>      * the target object class function which implement the interface
+<span class='line'> 30</span>      * 
+<span class='line'> 31</span>      * @function
+<span class='line'> 32</span>      * @name py.Interface#bind
+<span class='line'> 33</span>      * @param {Object} objectInstance - target object into which we bind the interface
+<span class='line'> 34</span>      * @param {Object} interfaceDefinition - definition, which functions should be bound
+<span class='line'> 35</span>      */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">interfaceDefinition</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">interfaceDefinition</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">isFunction</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">                </span><span class="NAME">self</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">interfaceCallerFactory</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">				</span><span class="NAME">defineProperty</span><span class="PUNC">(</span><span class="NAME">self</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">					</span><span class="NAME">set</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">						</span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">					</span><span class="NAME">get</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">						</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">objectInstance</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">					</span><span class="NAME">enumerable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">					</span><span class="NAME">writeable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">				</span><span class="NAME">implementsErr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'cannot bind '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'() implementation is missing'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">implementsErr</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    
+<span class='line'> 59</span>     </span><span class="COMM">/**
+<span class='line'> 60</span>      * Base Interface object creator. It will create a constructor
+<span class='line'> 61</span>      * for user defined interface, which can be initialized and bounded 
+<span class='line'> 62</span>      * to the target object which implements the interface functionality.
+<span class='line'> 63</span>      * @class 
+<span class='line'> 64</span>      * @name py.Interface
+<span class='line'> 65</span>      * @example
+<span class='line'> 66</span>      * //create interface definition
+<span class='line'> 67</span>      * py.Interface('ISaveable',{
+<span class='line'> 68</span>      *     save:function(){},
+<span class='line'> 69</span>      *     load:function(){}
+<span class='line'> 70</span>      * },'pckg');
+<span class='line'> 71</span>      * 
+<span class='line'> 72</span>      * //create class
+<span class='line'> 73</span>      * py.Class('Model', { Implements: pckg.ISaveable,
+<span class='line'> 74</span>      *     save: function(){
+<span class='line'> 75</span>      *          //implement save code (if interface function odes not
+<span class='line'> 76</span>      *          //exists Class definer will throw an error
+<span class='line'> 77</span>      *     },
+<span class='line'> 78</span>      *     load: function(){
+<span class='line'> 79</span>      *          //implement load code
+<span class='line'> 80</span>      *     },
+<span class='line'> 81</span>      *     parse: function(){},
+<span class='line'> 82</span>      *     set: function(){}
+<span class='line'> 83</span>      * },'pckg')
+<span class='line'> 84</span>      * 
+<span class='line'> 85</span>      * var MyModel = new pckg.Model();
+<span class='line'> 86</span>      * //bnd interface to the Class's instance
+<span class='line'> 87</span>      * var IMyModel = new pckg.ISaveable(MyModel);
+<span class='line'> 88</span>      * 
+<span class='line'> 89</span>      * //You will notice here that IMyModel contains only
+<span class='line'> 90</span>      * //save() and load() functions will same functions on instantiated object
+<span class='line'> 91</span>      * 
+<span class='line'> 92</span>      * 
+<span class='line'> 93</span>      * @constructor
+<span class='line'> 94</span>      * 
+<span class='line'> 95</span>      * @param {Object} name
+<span class='line'> 96</span>      * @param {Object} definition
+<span class='line'> 97</span>      * @param {Object | String} pckg
+<span class='line'> 98</span>      * 
+<span class='line'> 99</span>      * @returns {Function} constructor for the defined interface
+<span class='line'>100</span>      */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Interface</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pckg</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">    
+<span class='line'>103</span>         </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">isObject</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">                </span><span class="NAME">bind.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">objectInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">                </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">'an object for interface binding should be defined'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">        
+<span class='line'>111</span>         </span><span class="NAME">Construct.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">        
+<span class='line'>113</span>         </span><span class="NAME">Class.prototype.validateInput</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pckg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">        
+<span class='line'>115</span>         </span><span class="NAME">Construct.bind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">(</span><span class="NAME">objectInstance</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">        
+<span class='line'>119</span>         </span><span class="NAME">Class.prototype.mixinProto</span><span class="PUNC">(</span><span class="NAME">Construct.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">		</span><span class="NAME">Class.prototype.applyToPackage</span><span class="PUNC">(</span><span class="NAME">pckg</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">		
+<span class='line'>122</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">    
+<span class='line'>125</span>     </span><span class="NAME">Interface.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">        </span><span class="NAME">bind</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">bind</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">    
+<span class='line'>129</span>     </span><span class="NAME">$NS.Interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Interface</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    
+<span class='line'>131</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">py</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

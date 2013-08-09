@@ -18,44 +18,53 @@
  */
 (function($NS, $Global){
 	
+	//create checkers
 	var toString = Object.prototype.toString,
 	    //every checkFor key is converted to a is... function
-		checkFor = {
+	    //lowercase will use typeof other will use toString as comparison
+		checkFor = [
 		 /**
 		  * Function check if object is a function
 		  * @function
 		  * @name py.utils#isFunction
 		  * @param {Object} object
 		  */
-		'Function': 1,
+		'function',
 		/**
           * Function check if object is undefined
           * @function
           * @name py.utils#isUndefined
           * @param {Object} object
           */
-		'Undefined': 1,
-		/**
-          * Function check if object is null
-          * @function
-          * @name py.utils#isNull
-          * @param {Object} object
-          */
-		'Null': 1,
+		'undefined',
 		/**
           * Function check if object is a atring
           * @function
           * @name py.utils#isString
           * @param {Object} object
           */
-		'String': 1,
+		'string',
 		/**
           * Function check if object is an array
           * @function
           * @name py.utils#isArray
           * @param {Object} object
           */
-		'Array': 1,
+        'boolean',
+        /**
+          * Function check if object is a number
+          * @function
+          * @name py.utils#isNumber
+          * @param {Object} object
+          */
+        'number',
+        /**
+          * Function check if object is RegExp
+          * @function
+          * @name py.utils#isRegExp
+          * @param {Object} object
+          */
+		'Array',
 		/**
           * Function check if object is object (user defined object, function will return
           * false for arrays, regexp etc).
@@ -63,73 +72,87 @@
           * @name py.utils#isObject
           * @param {Object} object
           */
-		'Object': 1,
+		'Object',
 		/**
           * Function check if object is math
           * @function
           * @name py.utils#isMath
           * @param {Object} object
           */
-		'Math': 1,
+		'Math',
 		/**
           * Function check if object is date
           * @function
           * @name py.utils#isDate
           * @param {Object} object
           */
-		'Date': 1,
+		'Date',
 		/**
           * Function check if object is boolean value
           * @function
           * @name py.utils#isBoolean
           * @param {Object} object
           */
-		'Boolean': 1,
-		/**
-          * Function check if object is a number
-          * @function
-          * @name py.utils#isNumber
-          * @param {Object} object
-          */
-		'Number': 1,
-		/**
-          * Function check if object is RegExp
-          * @function
-          * @name py.utils#isRegExp
-          * @param {Object} object
-          */
-		'RegExp': 1,
+		'RegExp',
 		/**
           * Function check if object is JSON
           * @function
           * @name py.utils#isJSON
           * @param {Object} object
           */
-		'JSON': 1,
+		'JSON',
 		/**
           * Function check if object is arguments
           * @function
           * @name py.utils#isArguments
           * @param {Object} object
           */
-		'Arguments': 1
-	},
+		'Arguments'
+	],
+	i = checkFor.length,
+	typeofCheck,
 	check = {}, 
 	key;
 	
 	//create s list of type checkers
-	function createChecker(objectType){
+	function createChecker(objectType, typeofCheck){
 		var typeString = ["[object ", objectType, "]"].join("");
-		return function(object){
-			return toString.call(object) === typeString;
-		};
-	}
-
-	for(key in checkFor){
-		if(checkFor.hasOwnProperty(key)){
-			check["is" + key] = createChecker(key);
+		if(typeofCheck){
+		    return function (arg) {
+		      return typeof(arg) === objectType;
+		    };
+		} else {
+            return function(arg){
+                return toString.call(arg) === typeString;
+            };
 		}
 	}
+    //generate checkers
+	while(i--){
+		key = checkFor[i];
+		check["is" + key.charAt(0).toUpperCase() + key.substr(1,key.length)] = createChecker(key, key.charCodeAt(0) > 90);
+	}
+	//use native isArray if available
+	check.isArray = Array.isArray || check.isArray;
+	/**
+     * Function check if object is null
+     * @function
+     * @name py.utils#isNull
+     * @param {Object} object
+     */   
+	check.isNull = function (arg) {
+	   return arg === null;
+	};
+	/**
+     * Function returns true if object is not null and not 'undefined'
+     * @function
+     * @name py.utils#isDefined
+     * @param {Object} object
+     */
+	check.isDefined = function (arg) {
+	   return !(check.isNull(arg) || check.isUndefined(arg));
+	};
+	
 	
 	//create utils 
 	(function(){
@@ -203,6 +226,15 @@
 	        return construct;
 	    }
 	    
+	    /**
+	     * Function implements Object.create or uses native implementation
+	     * if available. 
+	     * 
+	     * @function
+	     * @name py.utils#createObject
+	     * 
+	     * @param {Object} proto 
+	     */
 	    function createObject ( proto ) {
 	       function F(){}
 	       F.prototype = proto;
@@ -327,23 +359,45 @@
 	    }
 	    
 	    /**
-	     * Function returns true if object is not null and not 'undefined'
+	     * Utility function which implemnts ecs5 Array.forEach
+	     * needs to be called in the array scope
 	     * @function
-	     * @name py.utils#isDefined
-         * @param {Object} object
+	     * @name py.utils#forEach
+	     * 
+	     * @example
+	     * py.utils.forEach.call([1,2,3], function(item, index, array){
+	     *     //...
+	     * });
+	     * 
+         * @param {Object} fn
 	     */
-	    function isDefined(object){
-			return !check.isNull(object) && !check.isUndefined(object);
+	    function forEach(fn) {
+	        var self = this,
+	            i,
+	            l;
+	            
+	        if(!check.isArray(this)){
+	            throw new TypeError("Need an Array as scope");
+	        }
+	        
+	        if(!check.isFunction(fn)) {
+	            throw new TypeError("Need function");
+	        }
+	        
+	        for(i=0, l=self.length; i<l; i++) {
+	            fn(self[i], i, self);   
+	        } 
 	    }
-		
+	    
+	   
 		$NS.utils = mixin(check ,{
 			createNS: createNS,
 			extend: extend,
 			createObject: Object.create || createObject,
+			forEach: Array.prototype.forEach || forEach,
 			mixin: mixin,
 			pairCall: pairCall,
 			isImplementing: isImplementing,
-			isDefined: isDefined,
 			getType: getType
 		});
 		
@@ -352,12 +406,12 @@
 	}());	
 }(py, this));
 (function($NS, $GLOBAL){
-    
     var KeyProperties = {
         'Extends': 1,
         'Implements' : 1,
         'Mixin': 1,
         'Static': 1,
+        'initialize': 1,
         'className': 1
     },
     typeofObject = 'object',
@@ -365,8 +419,8 @@
     createObject = utils.createObject,
     isObject = utils.isObject,
     isString = utils.isString,
-    isFunction = utils.isFunction,
-    isArray = utils.isArray;
+    isArray = utils.isArray,
+    isFunction = utils.isFunction;
     
     
 	/**
@@ -379,36 +433,25 @@
 	 * 
 	 * @param {Function} proto
 	 * @param {Object} definition
-	 * @param {Object} forReinit
 	 */
-	function mixinProto(proto, definition, forReinit){
+	function mixinProto(proto, definition){
         var key,
-            defProperty,
-            i,
-            l;
+            defProperty;
+        
         if(isArray(definition)){
-            for(i=0, l=definition.length; i<l; i++){
-                mixinProto(proto, definition[i], forReinit);
-            }
+			utils.forEach.call(definition, function(def){
+				mixinProto(proto, def);
+			});
         } else {
-            for(key in definition){
-                if(definition.hasOwnProperty(key) && !KeyProperties[key]){
+			for (key in definition) {
+			    if (definition.hasOwnProperty(key)) {
                     defProperty = definition[key];
-                    if(isFunction(defProperty) && definition.Extends){
-                        proto[key] = defProperty;
-                    }else{
-                        proto[key] = defProperty;
-                        if(forReinit && defProperty && typeof(defProperty) === typeofObject){
-                            forReinit.push({
-                                key: key,
-                                value: defProperty
-                            });
-                        }
+                    if(!KeyProperties[key]){
+                         proto[key] = defProperty;
                     }
-                    
-                    
-                }
-            }
+			    }
+		    }
+            
         } 
     }
     
@@ -495,7 +538,7 @@
     function getForReinit(src, forReinit){
         var key;
         for(key in src){
-            if(src[key] && typeof(src[key]) === typeofObject){
+            if(src.hasOwnProperty(key) && src[key] && typeof(src[key]) === 'object'){   
                 forReinit.push({
                    key: key,
                    value: src[key] 
@@ -516,12 +559,12 @@
      */
     function reinitObjects(forReinit){
         var i = forReinit.length,
-            key,
+            self = this,
             prop;
          
          while(i--) {
             prop = forReinit[i];
-            this[prop.key] = createObject(prop.value);
+            self[prop.key] = createObject(prop.value);
          }
     }
 
@@ -579,48 +622,63 @@
         Static = definition.Static;
         Implements = definition.Implements;
         
-        if(isFunction(definition.initialize)){
-            Construct = function(){
-                if(forReinit.length){
-                    reinitObjects.call(this, forReinit);    
-                }
-                definition.initialize.apply(this, arguments);
-            };  
-        }else{
-            Construct = function(){
-                if(forReinit.length){
-                    reinitObjects.call(this, forReinit);    
-                }
-            };
-            definition.initialize = Construct;
+        //gather memeber variables for reinit
+        if(isFunction(Extends)){
+            getForReinit(Extends.prototype, forReinit);
+        }
+        
+        getForReinit(definition, forReinit);
+        
+        if(isFunction(Mixin)){
+            getForReinit(Mixin.prototype, forReinit);
+        } else if(isObject(Mixin)){
+            getForReinit(Mixin.prototype, forReinit);
+        }
+        
+        //create optimized constructor 
+        if (forReinit) {  
+            if(isFunction(definition.initialize)){
+                Construct = function(){
+                    if(forReinit.length){
+                        reinitObjects.call(this, forReinit);    
+                    }
+                    definition.initialize.apply(this, arguments);
+                };  
+            } else {
+                Construct = function(){
+                    if(forReinit.length){
+                        reinitObjects.call(this, forReinit);    
+                    }
+                };
+            }
+        } else {
+            Construct = definition.initialize || function(){};
         }
         
         Construct.className = name;
         
+        //prototype inheritance
         if(isFunction(Extends)){
-            utils.extend(Construct, Extends);
-            getForReinit(Construct.prototype, forReinit);
+            Construct.prototype = createObject(Extends.prototype);
         }
+        //move definition to prototype
+        mixinProto(Construct.prototype, definition);
         
-        mixinProto(Construct.prototype, definition, forReinit);
-        
+        //mix-in Mixin object or Class
         if(Mixin){
             if(isFunction(Mixin)){
-                mixinProto(Construct.prototype, Mixin.prototype, forReinit);    
+                mixinProto(Construct.prototype, Mixin.prototype);    
             }else{
-                mixinProto(Construct.prototype, Mixin, forReinit);    
+                mixinProto(Construct.prototype, Mixin);    
             }
         }
         
+        //validate interface implementation
         if(Implements){
             isImplementing(Construct, Implements);
-            if(isString(Implements.className)){
-                Construct.prototype[Implements.className] = function () {
-                    return new Implements(this);
-                };
-            }
         }
         
+        //mix-in static declaration to constructor
         if(Static){
             utils.mixin(Construct, Static);
         }
@@ -698,9 +756,10 @@
 	
 }(py));
 (function($NS, $GLOBAL){
-    
     var Class = $NS.Class,
-		implementsErr,
+        UNDEF,
+        implementsErr,
+        defineProperty = Object.defineProperty || function(){},
 		typeofObject = 'object',
 		typeofFunction = 'function',
 		utils = $NS.utils,
@@ -732,18 +791,26 @@
      * @param {Object} interfaceDefinition - definition, which functions should be bound
      */
     function bind(objectInstance, interfaceDefinition){
-        var key;
-            
-        for(key in interfaceDefinition){
-            if(interfaceDefinition.hasOwnProperty(key)){
-                if(isFunction(objectInstance[key])){
-                    this[key] = interfaceCallerFactory(objectInstance, key);
-                }else{
-					implementsErr = 'cannot bind ' + key + '() implementation is missing';
-					throw implementsErr;
-                }
-            }
-        }
+		var self = this;
+		Object.keys(interfaceDefinition).forEach(function(key){
+			if(isFunction(objectInstance[key])){
+                self[key] = interfaceCallerFactory(objectInstance, key);
+			} else if(typeof(objectInstance[key]) !== "undefined"){
+				defineProperty(self, key, {
+					set: function (value) {
+						objectInstance[key] = value;
+					},
+					get: function () {
+						return objectInstance[key];
+					},
+					enumerable: true,
+					writeable: true
+				});
+			} else {
+				implementsErr = 'cannot bind ' + key + '() implementation is missing';
+				throw implementsErr;
+			}
+        });
     }
     
     /**

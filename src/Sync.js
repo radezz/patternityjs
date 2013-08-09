@@ -49,6 +49,7 @@
 	 * 
 	 */
 	$NS.Class('Sync', {
+		
 		initialize: function(settings){
 			var self = this;
 			

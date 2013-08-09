@@ -1,10 +1,10 @@
 (function($NS, $GLOBAL){
-    
     var KeyProperties = {
         'Extends': 1,
         'Implements' : 1,
         'Mixin': 1,
         'Static': 1,
+        'initialize': 1,
         'className': 1
     },
     typeofObject = 'object',
@@ -12,8 +12,8 @@
     createObject = utils.createObject,
     isObject = utils.isObject,
     isString = utils.isString,
-    isFunction = utils.isFunction,
-    isArray = utils.isArray;
+    isArray = utils.isArray,
+    isFunction = utils.isFunction;
     
     
 	/**
@@ -26,36 +26,25 @@
 	 * 
 	 * @param {Function} proto
 	 * @param {Object} definition
-	 * @param {Object} forReinit
 	 */
-	function mixinProto(proto, definition, forReinit){
+	function mixinProto(proto, definition){
         var key,
-            defProperty,
-            i,
-            l;
+            defProperty;
+        
         if(isArray(definition)){
-            for(i=0, l=definition.length; i<l; i++){
-                mixinProto(proto, definition[i], forReinit);
-            }
+			utils.forEach.call(definition, function(def){
+				mixinProto(proto, def);
+			});
         } else {
-            for(key in definition){
-                if(definition.hasOwnProperty(key) && !KeyProperties[key]){
+			for (key in definition) {
+			    if (definition.hasOwnProperty(key)) {
                     defProperty = definition[key];
-                    if(isFunction(defProperty) && definition.Extends){
-                        proto[key] = defProperty;
-                    }else{
-                        proto[key] = defProperty;
-                        if(forReinit && defProperty && typeof(defProperty) === typeofObject){
-                            forReinit.push({
-                                key: key,
-                                value: defProperty
-                            });
-                        }
+                    if(!KeyProperties[key]){
+                         proto[key] = defProperty;
                     }
-                    
-                    
-                }
-            }
+			    }
+		    }
+            
         } 
     }
     
@@ -142,7 +131,7 @@
     function getForReinit(src, forReinit){
         var key;
         for(key in src){
-            if(src[key] && typeof(src[key]) === typeofObject){
+            if(src.hasOwnProperty(key) && src[key] && typeof(src[key]) === 'object'){   
                 forReinit.push({
                    key: key,
                    value: src[key] 
@@ -163,12 +152,12 @@
      */
     function reinitObjects(forReinit){
         var i = forReinit.length,
-            key,
+            self = this,
             prop;
          
          while(i--) {
             prop = forReinit[i];
-            this[prop.key] = createObject(prop.value);
+            self[prop.key] = createObject(prop.value);
          }
     }
 
@@ -226,48 +215,63 @@
         Static = definition.Static;
         Implements = definition.Implements;
         
-        if(isFunction(definition.initialize)){
-            Construct = function(){
-                if(forReinit.length){
-                    reinitObjects.call(this, forReinit);    
-                }
-                definition.initialize.apply(this, arguments);
-            };  
-        }else{
-            Construct = function(){
-                if(forReinit.length){
-                    reinitObjects.call(this, forReinit);    
-                }
-            };
-            definition.initialize = Construct;
+        //gather memeber variables for reinit
+        if(isFunction(Extends)){
+            getForReinit(Extends.prototype, forReinit);
+        }
+        
+        getForReinit(definition, forReinit);
+        
+        if(isFunction(Mixin)){
+            getForReinit(Mixin.prototype, forReinit);
+        } else if(isObject(Mixin)){
+            getForReinit(Mixin.prototype, forReinit);
+        }
+        
+        //create optimized constructor 
+        if (forReinit.length) {  
+            if(isFunction(definition.initialize)){
+                Construct = function(){
+                    if(forReinit.length){
+                        reinitObjects.call(this, forReinit);    
+                    }
+                    definition.initialize.apply(this, arguments);
+                };  
+            } else {
+                Construct = function(){
+                    if(forReinit.length){
+                        reinitObjects.call(this, forReinit);    
+                    }
+                };
+            }
+        } else {
+            Construct = definition.initialize || function(){};
         }
         
         Construct.className = name;
         
+        //prototype inheritance
         if(isFunction(Extends)){
-            utils.extend(Construct, Extends);
-            getForReinit(Construct.prototype, forReinit);
+            Construct.prototype = createObject(Extends.prototype);
         }
+        //move definition to prototype
+        mixinProto(Construct.prototype, definition);
         
-        mixinProto(Construct.prototype, definition, forReinit);
-        
+        //mix-in Mixin object or Class
         if(Mixin){
             if(isFunction(Mixin)){
-                mixinProto(Construct.prototype, Mixin.prototype, forReinit);    
+                mixinProto(Construct.prototype, Mixin.prototype);    
             }else{
-                mixinProto(Construct.prototype, Mixin, forReinit);    
+                mixinProto(Construct.prototype, Mixin);    
             }
         }
         
+        //validate interface implementation
         if(Implements){
             isImplementing(Construct, Implements);
-            if(isString(Implements.className)){
-                Construct.prototype[Implements.className] = function () {
-                    return new Implements(this);
-                };
-            }
         }
         
+        //mix-in static declaration to constructor
         if(Static){
             utils.mixin(Construct, Static);
         }
