@@ -195,7 +195,7 @@ ul.inheritsList
 	
 	<li><a href="../symbols/py.Class.html">py.Class</a></li>
 	
-	<li><a href="../symbols/py.IIterable.html">py.IIterable</a></li>
+	<li><a href="../symbols/py.IIterator.html">py.IIterator</a></li>
 	
 	<li><a href="../symbols/py.Interface.html">py.Interface</a></li>
 	
@@ -234,7 +234,7 @@ ul.inheritsList
 				
 				
 			
-				Listenable
+				Listenable is used to emulate custom events and listeners
 				
 				
 					<br /><i>Defined in: </i> <a href="../symbols/src/src_Listenable.js.html">Listenable.js</a>.
@@ -258,7 +258,7 @@ ul.inheritsList
 							<div class="fixedFont">
 								<b><a href="../symbols/py.Listenable.html#constructor">py.Listenable</a></b>()
 							</div>
-							<div class="description">Listenable is used to emulate custom events and listeners</div>
+							<div class="description"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -295,10 +295,46 @@ to listen to the target custom event.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#cancel">cancel</a></b>()
+								</div>
+								<div class="description">Function is alias for @see py.Listenable#removeListener</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#cancelAll">cancelAll</a></b>()
+								</div>
+								<div class="description">Function is alias for @see py.Listenable#removeListeners</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#dispatchEvent">dispatchEvent</a></b>(eventName)
 								</div>
 								<div class="description">Function notifies all listeners listening to 
 the provided event.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#on">on</a></b>()
+								</div>
+								<div class="description">Function is alias for @see py.Listenable#addListener</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/py.Listenable.html#once">once</a></b>(eventName, callback)
+								</div>
+								<div class="description">Function adds event listener which is fired just once</div>
 							</td>
 						</tr>
 					
@@ -342,7 +378,7 @@ from target event</div>
 				</div>
 				
 				<div class="description">
-					Listenable is used to emulate custom events and listeners
+					
 					
 				</div>
 				
@@ -394,7 +430,7 @@ py.Class('MyClass',{ Mixin: py.Listenable,
 },'pckg');
 
 var myInstance = new pckg.MyClass();
-myInstance.addListener('onExecuteCall, function(){
+myInstance.addListener('onExecuteCall', function(){
    //handle custom event 
 });
 //...
@@ -429,6 +465,56 @@ myInstance.execute();</pre>
 
 					<hr />
 				
+					<a name="cancel"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>cancel</b>()
+					
+					</div>
+					<div class="description">
+						Function is alias for @see py.Listenable#removeListener
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="cancelAll"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>cancelAll</b>()
+					
+					</div>
+					<div class="description">
+						Function is alias for @see py.Listenable#removeListeners
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="dispatchEvent"> </a>
 					<div class="fixedFont">
 					
@@ -452,6 +538,73 @@ eventName are applied to every callback
 							
 								<dt>
 									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="on"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>on</b>()
+					
+					</div>
+					<div class="description">
+						Function is alias for @see py.Listenable#addListener
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="once"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>once</b>(eventName, callback)
+					
+					</div>
+					<div class="description">
+						Function adds event listener which is fired just once
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
 									
 								</dt>
 								<dd></dd>
@@ -558,7 +711,7 @@ from target event
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Aug 09 2013 23:29:34 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Aug 10 2013 00:29:02 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

@@ -25,16 +25,15 @@
 	}
 	
     /**
-     * Iterator. 
-     * Creates an instance of Iterator object which can be used 
+     * @class Creates an instance of Iterator object which can be used 
      * to iterate over the objects, arrays, and strings.
-     * @class
+     * 
      * @name py.Iterator
-     * @implements py.IIterable
+     * @implements py.IIterator
      * @constructor
      * @param {Array | String | Object} iterableObject
      */
-	$NS.Class('Iterator', { Implements: $NS.IIterable,
+	$NS.Class('Iterator', { Implements: $NS.IIterator,
 		
 		initialize: function(iterableObject){
 			
@@ -117,6 +116,7 @@
 				results = [],
 				i,
 				l = iterable.length;
+				
 			if(utils.isFunction(fn)){
 				for(i=0; i<l; i++){
 					self.__index = i;

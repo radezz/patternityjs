@@ -8,40 +8,40 @@
 	</style></head><body><pre><span class='line'>  1</span> <span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">$NS</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>  2</span> </span><span class="WHIT">	
 <span class='line'>  3</span> 	</span><span class="COMM">/**
-<span class='line'>  4</span> 	 * ListOf creates a List of provided type, and 
-<span class='line'>  5</span>      * prevents object of different from being added
+<span class='line'>  4</span> 	 * @class  ListOf creates a List of provided type, and 
+<span class='line'>  5</span>      * prevents object of different type or instance from being added
 <span class='line'>  6</span>      * 
-<span class='line'>  7</span> 	 * @class 
-<span class='line'>  8</span> 	 * @name py.ListOf
-<span class='line'>  9</span> 	 * @extends py.List
-<span class='line'> 10</span> 	 * 
-<span class='line'> 11</span> 	 * @param {Function} constructor of chosen type
-<span class='line'> 12</span> 	 * 
-<span class='line'> 13</span> 	 * @example
-<span class='line'> 14</span> 	 * var list = new ListOf(Number);
-<span class='line'> 15</span> 	 * list.add({}); //will throw exception
-<span class='line'> 16</span> 	 * 
-<span class='line'> 17</span> 	 * @constructor
-<span class='line'> 18</span> 	 */</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="NAME">$NS.Class</span><span class="PUNC">(</span><span class="STRN">'ListOf'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">Extends</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$NS.List</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">		
-<span class='line'> 21</span> 		</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">of</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 22</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">of</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">				</span><span class="NAME">this.__of</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">of</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"argument should be a constructor"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">		
-<span class='line'> 29</span> 		</span><span class="COMM">/**
-<span class='line'> 30</span> 		 * Function adds element to the list.
-<span class='line'> 31</span> 		 * @function
-<span class='line'> 32</span> 		 * @name py.ListOf#add
-<span class='line'> 33</span>          * @param {Object} element
-<span class='line'> 34</span> 		 */</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">element</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">this.__of</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.constructor</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">element.constructor</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">this.__of</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">				</span><span class="NAME">$NS.List.prototype.add.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 	 * @name py.ListOf
+<span class='line'>  8</span> 	 * @extends py.List
+<span class='line'>  9</span> 	 * 
+<span class='line'> 10</span> 	 * @param {Function} constructor of chosen type
+<span class='line'> 11</span> 	 * 
+<span class='line'> 12</span> 	 * @example
+<span class='line'> 13</span> 	 * var list = new ListOf(Number);
+<span class='line'> 14</span> 	 * list.add({}); //will throw exception
+<span class='line'> 15</span> 	 * 
+<span class='line'> 16</span> 	 * @constructor
+<span class='line'> 17</span> 	 */</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">	</span><span class="NAME">$NS.Class</span><span class="PUNC">(</span><span class="STRN">'ListOf'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">Extends</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$NS.List</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">		
+<span class='line'> 20</span> 		</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">of</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">of</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">				</span><span class="NAME">this.__of</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">of</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"argument should be a constructor"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		
+<span class='line'> 28</span> 		</span><span class="COMM">/**
+<span class='line'> 29</span> 		 * Function adds element to the list.
+<span class='line'> 30</span> 		 * @function
+<span class='line'> 31</span> 		 * @name py.ListOf#add
+<span class='line'> 32</span>          * @param {Object} element
+<span class='line'> 33</span> 		 */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">		</span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">element</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">self.__of</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.constructor</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">element.constructor</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">self.__of</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">				</span><span class="NAME">$NS.List.prototype.add.call</span><span class="PUNC">(</span><span class="NAME">self</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 38</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT"> 
 <span class='line'> 39</span> 				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"not allowed type"</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 40</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">

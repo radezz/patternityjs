@@ -1,8 +1,7 @@
 (function($NS){
 	
 	/**
-	 * List implementation.
-	 * @class List
+	 * @class Simple list implementation.
 	 * @name py.List 
 	 * 
 	 * @constructor
@@ -131,7 +130,7 @@
 		 * @returns {IIterable}
 		 */
 		iterator: function(){
-			return $NS.IIterable.bind(new $NS.Iterator(this.__elements));
+			return $NS.IIterator.bind(new $NS.Iterator(this.__elements));
 		},
 		
 		/**

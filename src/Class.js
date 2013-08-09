@@ -162,9 +162,9 @@
     }
 
     /**
-     * Base Class creator function. It will create instantiable constructor
+     * @class Base Class creator function. It will create instantiable constructor
      * of user defined class object.
-     * @class
+     * 
      * @name py.Class
      * 
      * @example

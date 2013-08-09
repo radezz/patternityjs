@@ -1,10 +1,9 @@
 (function($NS){
 	
 	/**
-	 * ListOf creates a List of provided type, and 
-     * prevents object of different from being added
+	 * @class  ListOf creates a List of provided type, and 
+     * prevents object of different type or instance from being added
      * 
-	 * @class 
 	 * @name py.ListOf
 	 * @extends py.List
 	 * 
@@ -33,8 +32,9 @@
          * @param {Object} element
 		 */
 		add: function(element){
-			if((element instanceof this.__of) || (element.constructor && element.constructor === this.__of)){
-				$NS.List.prototype.add.call(this, element);
+			var self = this;
+			if((element instanceof self.__of) || (element.constructor && element.constructor === self.__of)){
+				$NS.List.prototype.add.call(self, element);
 			}else{ 
 				throw "not allowed type";
 			}

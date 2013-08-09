@@ -20,9 +20,9 @@
 	}
 	
 	/**
-	 * Sync is used synchronise callbacks as well as to notify when
+	 * @class Sync is used synchronise callbacks as well as to notify when
 	 * all registered callback were called.
-	 * @class
+	 * 
 	 * @name py.Sync
 	 * 
 	 * @params {Object} settings object which may contain following attributes:

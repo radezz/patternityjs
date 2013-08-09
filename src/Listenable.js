@@ -4,8 +4,8 @@
         isObject = utils.isObject;
 	
 	/**
-	 * Listenable is used to emulate custom events and listeners
-	 * @class Listenable
+	 * @class Listenable is used to emulate custom events and listeners
+	 * @class
 	 * @name py.Listenable
 	 * @constructor
 	 */
@@ -30,7 +30,7 @@
 		 * },'pckg');
 		 * 
 		 * var myInstance = new pckg.MyClass();
-		 * myInstance.addListener('onExecuteCall, function(){
+		 * myInstance.addListener('onExecuteCall', function(){
 		 *    //handle custom event 
 		 * });
 		 * //...
@@ -55,10 +55,23 @@
 			}
 		},
 		
+		/**
+		 * Function is alias for @see py.Listenable#addListener
+		 * @function
+		 * @name py.Listenable#on
+		 */
 		on: function(){
 		    this.addListener.apply(this, arguments);    
 		},
 		
+		/**
+         * Function adds event listener which is fired just once
+         * @function
+         * @name py.Listenable#once
+         * 
+         * @param {String} eventName
+         * @param {Function} callback
+         */
 		once: function(eventName, callback) {
 		    var self = this;
 		    function listener () {
@@ -74,10 +87,20 @@
 		    return listener;
 		},
 		
+		/**
+		 * Function is alias for @see py.Listenable#removeListener
+		 * @function
+		 * @name py.Listenable#cancel
+		 */
 		cancel: function(){
 		    this.removeListener.apply(this, arguments);
 		},
 		
+		/**
+         * Function is alias for @see py.Listenable#removeListeners
+         * @function
+         * @name py.Listenable#cancelAll
+         */
 		cancelAll: function(){
 		    this.removeListeners.apply(this, arguments);    
 		},

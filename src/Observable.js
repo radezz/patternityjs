@@ -6,9 +6,8 @@
 		isObject = utils.isObject;
 	
 	/**
-	 * Observable class should be used as Mixin when creating objects
+	 * @class Observable class should be used as Mixin when creating objects
 	 * with properties we would like to observe when they are changed.
-	 * @class 
 	 * @name py.Observable
 	 * @constructor
 	 */

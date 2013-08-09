@@ -22,7 +22,8 @@
 	/**
 	 * Scheduler objcet is used to schedule multiple tasks to run
 	 * periodically with preset interval.
-	 * @class
+	 * 
+	 * @class Constructor takes interval as argument
 	 * @name py.Scheduler
 	 * 
 	 * @constructor

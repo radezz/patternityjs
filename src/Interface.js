@@ -57,10 +57,10 @@
     }
     
     /**
-     * Base Interface object creator. It will create a constructor
+     * @class  Base Interface object creator. It will create a constructor
      * for user defined interface, which can be initialized and bounded 
      * to the target object which implements the interface functionality.
-     * @class 
+     * 
      * @name py.Interface
      * @example
      * //create interface definition
@@ -110,10 +110,15 @@
         
         Construct.className = name;
         
+        
         Class.prototype.validateInput(name, definition, pckg);
         
         Construct.bind = function(objectInstance){
             return new Construct(objectInstance);
+        };
+        
+        Construct.isImplementedBy = function (by) {
+            return utils.isImplementing(by,Construct);
         };
         
         Class.prototype.mixinProto(Construct.prototype, definition);

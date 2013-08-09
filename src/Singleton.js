@@ -18,9 +18,9 @@
 	}
 	
 	/**
-	 * Singleton definition is used to create objects which should be 
+	 * @class Singleton definition is used to create objects which should be 
 	 * initialized only once and exists during entire application flow.
-	 * @class
+	 * 
 	 * @name py.Singleton
 	 * 
 	 * @example

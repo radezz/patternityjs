@@ -569,9 +569,9 @@
     }
 
     /**
-     * Base Class creator function. It will create instantiable constructor
+     * @class Base Class creator function. It will create instantiable constructor
      * of user defined class object.
-     * @class
+     * 
      * @name py.Class
      * 
      * @example
@@ -636,7 +636,7 @@
         }
         
         //create optimized constructor 
-        if (forReinit) {  
+        if (forReinit.length) {  
             if(isFunction(definition.initialize)){
                 Construct = function(){
                     if(forReinit.length){
@@ -717,9 +717,9 @@
 	}
 	
 	/**
-	 * Singleton definition is used to create objects which should be 
+	 * @class Singleton definition is used to create objects which should be 
 	 * initialized only once and exists during entire application flow.
-	 * @class
+	 * 
 	 * @name py.Singleton
 	 * 
 	 * @example
@@ -814,10 +814,10 @@
     }
     
     /**
-     * Base Interface object creator. It will create a constructor
+     * @class  Base Interface object creator. It will create a constructor
      * for user defined interface, which can be initialized and bounded 
      * to the target object which implements the interface functionality.
-     * @class 
+     * 
      * @name py.Interface
      * @example
      * //create interface definition
@@ -867,10 +867,15 @@
         
         Construct.className = name;
         
+        
         Class.prototype.validateInput(name, definition, pckg);
         
         Construct.bind = function(objectInstance){
             return new Construct(objectInstance);
+        };
+        
+        Construct.isImplementedBy = function (by) {
+            return utils.isImplementing(by,Construct);
         };
         
         Class.prototype.mixinProto(Construct.prototype, definition);
@@ -893,9 +898,8 @@
 		isObject = utils.isObject;
 	
 	/**
-	 * Observable class should be used as Mixin when creating objects
+	 * @class Observable class should be used as Mixin when creating objects
 	 * with properties we would like to observe when they are changed.
-	 * @class 
 	 * @name py.Observable
 	 * @constructor
 	 */
@@ -1094,17 +1098,16 @@
 }(py));
 (function($NS){
     /**
-     * IIterable interface definition.
-     * @class
-     * @name py.IIterable
+     * @class IIterator interface definition.
+     * @name py.IIterator
      */	
-	$NS.Interface('IIterable', {
+	$NS.Interface('IIterator', {
 	    /**
 	     * Function should reset iterator to first item 
 	     * and return this item
 	     * 
 	     * @function
-	     * @name py.IIterable#first
+	     * @name py.IIterator#first
 	     */
 		first: function(){},
 		/**
@@ -1112,7 +1115,7 @@
 		 * object and return that object
 		 * 
 		 * @function
-         * @name py.IIterable#next
+         * @name py.IIterator#next
 		 */
 		next: function(){},
 		/**
@@ -1120,7 +1123,7 @@
 		 * iterator is pointing to
 		 * 
 		 * @function
-         * @name py.IIterable#currentItem
+         * @name py.IIterator#currentItem
 		 */
 		currentItem: function(){},
 		/**
@@ -1128,7 +1131,7 @@
 		 * if the interation came to an end
 		 * 
 		 * @function
-         * @name py.IIterable#isDone
+         * @name py.IIterator#isDone
 		 */
 		isDone: function(){},
 		/**
@@ -1136,7 +1139,7 @@
 		 * on every element of the iterable object
 		 * 
 		 * @function
-         * @name py.IIterable#each
+         * @name py.IIterator#each
          * @param {Object} fn
 		 */
 		each: function(fn){}
@@ -1170,16 +1173,15 @@
 	}
 	
     /**
-     * Iterator. 
-     * Creates an instance of Iterator object which can be used 
+     * @class Creates an instance of Iterator object which can be used 
      * to iterate over the objects, arrays, and strings.
-     * @class
+     * 
      * @name py.Iterator
-     * @implements py.IIterable
+     * @implements py.IIterator
      * @constructor
      * @param {Array | String | Object} iterableObject
      */
-	$NS.Class('Iterator', { Implements: $NS.IIterable,
+	$NS.Class('Iterator', { Implements: $NS.IIterator,
 		
 		initialize: function(iterableObject){
 			
@@ -1278,8 +1280,7 @@
 (function($NS){
 	
 	/**
-	 * List implementation.
-	 * @class List
+	 * @class Simple list implementation.
 	 * @name py.List 
 	 * 
 	 * @constructor
@@ -1408,7 +1409,7 @@
 		 * @returns {IIterable}
 		 */
 		iterator: function(){
-			return $NS.IIterable.bind(new $NS.Iterator(this.__elements));
+			return $NS.IIterator.bind(new $NS.Iterator(this.__elements));
 		},
 		
 		/**
@@ -1441,10 +1442,9 @@
 (function($NS){
 	
 	/**
-	 * ListOf creates a List of provided type, and 
-     * prevents object of different from being added
+	 * @class  ListOf creates a List of provided type, and 
+     * prevents object of different type or instance from being added
      * 
-	 * @class 
 	 * @name py.ListOf
 	 * @extends py.List
 	 * 
@@ -1473,8 +1473,9 @@
          * @param {Object} element
 		 */
 		add: function(element){
-			if((element instanceof this.__of) || (element.constructor && element.constructor === this.__of)){
-				$NS.List.prototype.add.call(this, element);
+			var self = this;
+			if((element instanceof self.__of) || (element.constructor && element.constructor === self.__of)){
+				$NS.List.prototype.add.call(self, element);
 			}else{ 
 				throw "not allowed type";
 			}
@@ -1567,8 +1568,8 @@
         isObject = utils.isObject;
 	
 	/**
-	 * Listenable is used to emulate custom events and listeners
-	 * @class Listenable
+	 * @class Listenable is used to emulate custom events and listeners
+	 * @class
 	 * @name py.Listenable
 	 * @constructor
 	 */
@@ -1593,7 +1594,7 @@
 		 * },'pckg');
 		 * 
 		 * var myInstance = new pckg.MyClass();
-		 * myInstance.addListener('onExecuteCall, function(){
+		 * myInstance.addListener('onExecuteCall', function(){
 		 *    //handle custom event 
 		 * });
 		 * //...
@@ -1618,10 +1619,23 @@
 			}
 		},
 		
+		/**
+		 * Function is alias for @see py.Listenable#addListener
+		 * @function
+		 * @name py.Listenable#on
+		 */
 		on: function(){
 		    this.addListener.apply(this, arguments);    
 		},
 		
+		/**
+         * Function adds event listener which is fired just once
+         * @function
+         * @name py.Listenable#once
+         * 
+         * @param {String} eventName
+         * @param {Function} callback
+         */
 		once: function(eventName, callback) {
 		    var self = this;
 		    function listener () {
@@ -1637,10 +1651,20 @@
 		    return listener;
 		},
 		
+		/**
+		 * Function is alias for @see py.Listenable#removeListener
+		 * @function
+		 * @name py.Listenable#cancel
+		 */
 		cancel: function(){
 		    this.removeListener.apply(this, arguments);
 		},
 		
+		/**
+         * Function is alias for @see py.Listenable#removeListeners
+         * @function
+         * @name py.Listenable#cancelAll
+         */
 		cancelAll: function(){
 		    this.removeListeners.apply(this, arguments);    
 		},
@@ -1739,7 +1763,8 @@
 	/**
 	 * Scheduler objcet is used to schedule multiple tasks to run
 	 * periodically with preset interval.
-	 * @class
+	 * 
+	 * @class Constructor takes interval as argument
 	 * @name py.Scheduler
 	 * 
 	 * @constructor
@@ -1892,9 +1917,9 @@
 	}
 	
 	/**
-	 * Sync is used synchronise callbacks as well as to notify when
+	 * @class Sync is used synchronise callbacks as well as to notify when
 	 * all registered callback were called.
-	 * @class
+	 * 
 	 * @name py.Sync
 	 * 
 	 * @params {Object} settings object which may contain following attributes:
@@ -1921,6 +1946,7 @@
 	 * 
 	 */
 	$NS.Class('Sync', {
+		
 		initialize: function(settings){
 			var self = this;
 			

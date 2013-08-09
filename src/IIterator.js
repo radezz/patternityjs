@@ -1,16 +1,15 @@
 (function($NS){
     /**
-     * IIterable interface definition.
-     * @class
-     * @name py.IIterable
+     * @class IIterator interface definition.
+     * @name py.IIterator
      */	
-	$NS.Interface('IIterable', {
+	$NS.Interface('IIterator', {
 	    /**
 	     * Function should reset iterator to first item 
 	     * and return this item
 	     * 
 	     * @function
-	     * @name py.IIterable#first
+	     * @name py.IIterator#first
 	     */
 		first: function(){},
 		/**
@@ -18,7 +17,7 @@
 		 * object and return that object
 		 * 
 		 * @function
-         * @name py.IIterable#next
+         * @name py.IIterator#next
 		 */
 		next: function(){},
 		/**
@@ -26,7 +25,7 @@
 		 * iterator is pointing to
 		 * 
 		 * @function
-         * @name py.IIterable#currentItem
+         * @name py.IIterator#currentItem
 		 */
 		currentItem: function(){},
 		/**
@@ -34,7 +33,7 @@
 		 * if the interation came to an end
 		 * 
 		 * @function
-         * @name py.IIterable#isDone
+         * @name py.IIterator#isDone
 		 */
 		isDone: function(){},
 		/**
@@ -42,7 +41,7 @@
 		 * on every element of the iterable object
 		 * 
 		 * @function
-         * @name py.IIterable#each
+         * @name py.IIterator#each
          * @param {Object} fn
 		 */
 		each: function(fn){}
