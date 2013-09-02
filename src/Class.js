@@ -248,7 +248,7 @@
             Construct = definition.initialize || function(){};
         }
         
-        Construct.className = name;
+        Construct.nsName = isString(pckg) ? pckg + '.' + name : name;
         
         //prototype inheritance
         if(isFunction(Extends)){
@@ -276,7 +276,7 @@
             utils.mixin(Construct, Static);
         }
 		
-		applyToPackage(pckg, Construct);
+		applyToPackage(pckg, Construct, name);
 		
         return Construct;
     }

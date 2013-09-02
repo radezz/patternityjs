@@ -655,7 +655,7 @@
             Construct = definition.initialize || function(){};
         }
         
-        Construct.className = name;
+        Construct.nsName = isString(pckg) ? pckg + '.' + name : name;
         
         //prototype inheritance
         if(isFunction(Extends)){
@@ -683,7 +683,7 @@
             utils.mixin(Construct, Static);
         }
 		
-		applyToPackage(pckg, Construct);
+		applyToPackage(pckg, Construct, name);
 		
         return Construct;
     }
@@ -865,7 +865,7 @@
             }
         }
         
-        Construct.className = name;
+        Construct.nsName = isString(pckg) ? pckg + '.' + name : name;
         
         
         Class.prototype.validateInput(name, definition, pckg);
@@ -879,7 +879,7 @@
         };
         
         Class.prototype.mixinProto(Construct.prototype, definition);
-		Class.prototype.applyToPackage(pckg, Construct);
+		Class.prototype.applyToPackage(pckg, Construct, name);
 		
         return Construct;
     }
@@ -1264,6 +1264,7 @@
 				results = [],
 				i,
 				l = iterable.length;
+				
 			if(utils.isFunction(fn)){
 				for(i=0; i<l; i++){
 					self.__index = i;

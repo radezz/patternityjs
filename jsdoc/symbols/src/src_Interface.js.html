@@ -115,7 +115,7 @@
 <span class='line'>108</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>109</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>110</span> </span><span class="WHIT">        
-<span class='line'>111</span>         </span><span class="NAME">Construct.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span>         </span><span class="NAME">Construct.nsName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">isString</span><span class="PUNC">(</span><span class="NAME">pckg</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">pckg</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'.'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>112</span> </span><span class="WHIT">        
 <span class='line'>113</span>         
 <span class='line'>114</span>         </span><span class="NAME">Class.prototype.validateInput</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pckg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -129,7 +129,7 @@
 <span class='line'>122</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>123</span> </span><span class="WHIT">        
 <span class='line'>124</span>         </span><span class="NAME">Class.prototype.mixinProto</span><span class="PUNC">(</span><span class="NAME">Construct.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">definition</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">		</span><span class="NAME">Class.prototype.applyToPackage</span><span class="PUNC">(</span><span class="NAME">pckg</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">		</span><span class="NAME">Class.prototype.applyToPackage</span><span class="PUNC">(</span><span class="NAME">pckg</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>126</span> </span><span class="WHIT">		
 <span class='line'>127</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Construct</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>128</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">

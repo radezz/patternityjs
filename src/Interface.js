@@ -108,7 +108,7 @@
             }
         }
         
-        Construct.className = name;
+        Construct.nsName = isString(pckg) ? pckg + '.' + name : name;
         
         
         Class.prototype.validateInput(name, definition, pckg);
@@ -122,7 +122,7 @@
         };
         
         Class.prototype.mixinProto(Construct.prototype, definition);
-		Class.prototype.applyToPackage(pckg, Construct);
+		Class.prototype.applyToPackage(pckg, Construct, name);
 		
         return Construct;
     }
