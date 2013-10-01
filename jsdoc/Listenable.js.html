@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Listenable.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Listenable.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function($NS){
+	var utils = $NS.utils,
+        isFunction = utils.isFunction,
+        isObject = utils.isObject;
+	
+	/**
+	 * @class Listenable is used to emulate custom events and listeners
+	 * @class
+	 * @name py.Listenable
+	 * @constructor
+	 */
+	$NS.Class('Listenable', {
+		
+	    __registry: {},
+		
+		/**
+		 * Function adds a listener callback to the Listenable object,
+		 * to listen to the target custom event. This class should be used as 
+		 * a Mixin when creating object which can trigger custom events.
+		 * 
+		 * @function
+		 * @name py.Listenable#addListener
+		 * 
+		 * @example
+		 * 
+		 * py.Class('MyClass',{ Mixin: py.Listenable, 
+		 *    execute: function(){
+		 *        this.dispatchEvent('onExecuteCall');
+		 *    }
+		 * },'pckg');
+		 * 
+		 * var myInstance = new pckg.MyClass();
+		 * myInstance.addListener('onExecuteCall', function(){
+		 *    //handle custom event 
+		 * });
+		 * //...
+		 * myInstance.execute();
+		 * 
+         * @param {String} eventName
+         * @param {Function} callback
+		 */
+		addListener: function(eventName, callback){
+			var self = this,
+				registry = self.__registry;
+			
+			if(!utils.pairCall(self.addListener, arguments[0], self)){
+			    if(callback && (isFunction(callback) || isObject(callback))){
+                    if(!registry[eventName]){
+                        registry[eventName] = [];   
+                    }
+                    registry[eventName].push(callback);
+                }else{
+                    throw "listener has to be a function or an object";
+                }
+			}
+		},
+		
+		/**
+		 * Function is alias for @see py.Listenable#addListener
+		 * @function
+		 * @name py.Listenable#on
+		 */
+		on: function(){
+		    this.addListener.apply(this, arguments);    
+		},
+		
+		/**
+         * Function adds event listener which is fired just once
+         * @function
+         * @name py.Listenable#once
+         * 
+         * @param {String} eventName
+         * @param {Function} callback
+         */
+		once: function(eventName, callback) {
+		    var self = this;
+		    function listener () {
+                if(isFunction(callback)){
+                    callback.apply(self, arguments);
+                } else if (isFunction(callback[eventName])) {
+                    callback[eventName].apply(self, arguments);
+                }
+                
+                self.removeListener(eventName, listener);
+		    }
+		    self.addListener(eventName, listener);
+		    return listener;
+		},
+		
+		/**
+		 * Function is alias for @see py.Listenable#removeListener
+		 * @function
+		 * @name py.Listenable#cancel
+		 */
+		cancel: function(){
+		    this.removeListener.apply(this, arguments);
+		},
+		
+		/**
+         * Function is alias for @see py.Listenable#removeListeners
+         * @function
+         * @name py.Listenable#cancelAll
+         */
+		cancelAll: function(){
+		    this.removeListeners.apply(this, arguments);    
+		},
+		
+		/**
+		 * Function removes listening callback from target event
+		 * 
+		 * @function
+		 * @name py.Listenable#removeListener
+		 * 
+         * @param {String} eventName
+         * @param {Function} callback
+		 */
+		removeListener: function(eventName, callback){
+			var self = this,
+				registry = self.__registry[eventName],
+				i;
+				
+			if(registry){
+				i = registry.length;
+				while(i--){
+					if(registry[i] === callback){
+						registry.splice(i,1);
+						return;
+					}
+				}	
+			}
+		},
+		
+		/**
+		 * Function removes all listening callbacks
+		 * from target event
+		 * @function
+		 * @name py.Listenable#removeListeners
+         * @param {String} eventName
+		 */
+		removeListeners: function(eventName){
+			var registry = this.__registry;
+			if(registry[eventName]){
+				delete registry[eventName];
+			}
+		},
+		
+		/**
+		 * Function notifies all listeners listening to 
+		 * the provided event. All parameters besides the 
+		 * eventName are applied to every callback 
+		 * 
+		 * @function
+		 * @name py.Listenable#dispatchEvent
+         * @param {String} eventName
+		 */
+		dispatchEvent: function(eventName){
+			var self = this,
+				args = Array.prototype.slice.call(arguments, 1),
+				registry = self.__registry[eventName],
+				listener,
+				i,
+				l;
+			
+			if(registry){
+				for(i=0, l=registry.length; i&lt;l; i++){
+					listener = registry[i];
+					if(isFunction(listener)){
+						listener.apply(self, args);
+					}else if(isFunction(listener[eventName])){
+						listener[eventName].apply(listener, args);
+					}
+				}
+			}
+			
+		}
+	}, $NS);
+	
+}(py));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="py.Class.html">Class</a></li><li><a href="py.IIterator.html">IIterator</a></li><li><a href="py.Interface.html">Interface</a></li><li><a href="py.Iterator.html">Iterator</a></li><li><a href="py.List.html">List</a></li><li><a href="py.Listenable.html">Listenable</a></li><li><a href="py.ListOf.html">ListOf</a></li><li><a href="py.Observable.html">Observable</a></li><li><a href="py.Scheduler.html">Scheduler</a></li><li><a href="py.Singleton.html">Singleton</a></li><li><a href="py.Sync.html">Sync</a></li></ul><h3>Namespaces</h3><ul><li><a href="py.html">py</a></li><li><a href="py.utils.html">utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#pyGetRoot">pyGetRoot</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 01 2013 11:55:04 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

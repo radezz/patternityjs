@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Index</title>
+    <title>JSDoc: Source: IIterator.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,30 +17,67 @@
 
 <div id="main">
     
-    <h1 class="page-title">Index</h1>
+    <h1 class="page-title">Source: IIterator.js</h1>
     
     
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function($NS){
+    /**
+     * @class IIterator interface definition.
+     * @name py.IIterator
+     */	
+	$NS.Interface('IIterator', {
+	    /**
+	     * Function should reset iterator to first item 
+	     * and return this item
+	     * 
+	     * @function
+	     * @name py.IIterator#first
+	     */
+		first: function(){},
+		/**
+		 * Function should move iterator to next
+		 * object and return that object
+		 * 
+		 * @function
+         * @name py.IIterator#next
+		 */
+		next: function(){},
+		/**
+		 * Function should return current item which
+		 * iterator is pointing to
+		 * 
+		 * @function
+         * @name py.IIterator#currentItem
+		 */
+		currentItem: function(){},
+		/**
+		 * Function should return boolean value which indicates 
+		 * if the interation came to an end
+		 * 
+		 * @function
+         * @name py.IIterator#isDone
+		 */
+		isDone: function(){},
+		/**
+		 * Function should execute provided handler 
+		 * on every element of the iterable object
+		 * 
+		 * @function
+         * @name py.IIterator#each
+         * @param {Object} fn
+		 */
+		each: function(fn){}
+	}, $NS);
+	
+}(py));
+</code></pre>
+        </article>
+    </section>
 
 
 

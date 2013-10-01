@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Interface.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Interface.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function($NS, $GLOBAL){
+    var Class = $NS.Class,
+        UNDEF,
+        implementsErr,
+        defineProperty = Object.defineProperty || function(){},
+		typeofObject = 'object',
+		typeofFunction = 'function',
+		utils = $NS.utils,
+		isObject = utils.isObject,
+		isString = utils.isString,
+		isFunction = utils.isFunction;
+
+    /**
+     * Function creates a function which wraps the real object
+     * function and calls it with provided arguments
+     * @function
+     * @private
+     * @param {Object} objectInstance
+     * @param {String} key
+     */
+    function interfaceCallerFactory(objectInstance, key){
+		return function(){
+			return objectInstance[key].apply(objectInstance, arguments);
+		};
+    }
+    
+    /**
+     * Function binds the current interface functions to call
+     * the target object class function which implement the interface
+     * 
+     * @function
+     * @name py.Interface#bind
+     * @param {Object} objectInstance - target object into which we bind the interface
+     * @param {Object} interfaceDefinition - definition, which functions should be bound
+     */
+    function bind(objectInstance, interfaceDefinition){
+		var self = this;
+		Object.keys(interfaceDefinition).forEach(function(key){
+			if(isFunction(objectInstance[key])){
+                self[key] = interfaceCallerFactory(objectInstance, key);
+			} else if(typeof(objectInstance[key]) !== "undefined"){
+				defineProperty(self, key, {
+					set: function (value) {
+						objectInstance[key] = value;
+					},
+					get: function () {
+						return objectInstance[key];
+					},
+					enumerable: true,
+					writeable: true
+				});
+			} else {
+				implementsErr = 'cannot bind ' + key + '() implementation is missing';
+				throw implementsErr;
+			}
+        });
+    }
+    
+    /**
+     * @class  Base Interface object creator. It will create a constructor
+     * for user defined interface, which can be initialized and bounded 
+     * to the target object which implements the interface functionality.
+     * 
+     * @name py.Interface
+     * @example
+     * //create interface definition
+     * py.Interface('ISaveable',{
+     *     save:function(){},
+     *     load:function(){}
+     * },'pckg');
+     * 
+     * //create class
+     * py.Class('Model', { Implements: pckg.ISaveable,
+     *     save: function(){
+     *          //implement save code (if interface function odes not
+     *          //exists Class definer will throw an error
+     *     },
+     *     load: function(){
+     *          //implement load code
+     *     },
+     *     parse: function(){},
+     *     set: function(){}
+     * },'pckg')
+     * 
+     * var MyModel = new pckg.Model();
+     * //bnd interface to the Class's instance
+     * var IMyModel = new pckg.ISaveable(MyModel);
+     * 
+     * //You will notice here that IMyModel contains only
+     * //save() and load() functions will same functions on instantiated object
+     * 
+     * 
+     * @constructor
+     * 
+     * @param {Object} name
+     * @param {Object} definition
+     * @param {Object | String} pckg
+     * 
+     * @returns {Function} constructor for the defined interface
+     */
+    function Interface(name, definition, pckg){
+    
+        function Construct(objectInstance){
+            if(objectInstance && isObject(objectInstance)){
+                bind.call(this, objectInstance, definition);
+            }else{
+                throw 'an object for interface binding should be defined';
+            }
+        }
+        
+        Construct.nsName = isString(pckg) ? pckg + '.' + name : name;
+        
+        
+        Class.prototype.validateInput(name, definition, pckg);
+        
+        Construct.bind = function(objectInstance){
+            return new Construct(objectInstance);
+        };
+        
+        Construct.isImplementedBy = function (by) {
+            return utils.isImplementing(by,Construct);
+        };
+        
+        Class.prototype.mixinProto(Construct.prototype, definition);
+		Class.prototype.applyToPackage(pckg, Construct, name);
+		
+        return Construct;
+    }
+    
+    Interface.prototype = {
+        bind: bind
+    };
+    
+    $NS.Interface = Interface;
+    
+}(py, this));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="py.Class.html">Class</a></li><li><a href="py.IIterator.html">IIterator</a></li><li><a href="py.Interface.html">Interface</a></li><li><a href="py.Iterator.html">Iterator</a></li><li><a href="py.List.html">List</a></li><li><a href="py.Listenable.html">Listenable</a></li><li><a href="py.ListOf.html">ListOf</a></li><li><a href="py.Observable.html">Observable</a></li><li><a href="py.Scheduler.html">Scheduler</a></li><li><a href="py.Singleton.html">Singleton</a></li><li><a href="py.Sync.html">Sync</a></li></ul><h3>Namespaces</h3><ul><li><a href="py.html">py</a></li><li><a href="py.utils.html">utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#pyGetRoot">pyGetRoot</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 01 2013 11:55:04 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
