@@ -9,7 +9,7 @@ Usage
 Load the libe file using the script tag and all of the functionality will be available in <em>py</em> namespace: 
 
 ```sh
-<script src="dist/patternity.min"></script>
+<script src="dist/patternity.min.js"></script>
 <script>
   py.Class('MyClass', {
     initialize: function() {
@@ -25,7 +25,7 @@ You can use <em>data-namespace</em> attribute to install library in you own proj
 in case it conflicts with one you might already use. 
 
 ```sh
-<script src="dist/patternity.min" data-namespace="myproject"></script>
+<script src="dist/patternity.min.js" data-namespace="myproject"></script>
 <script>
   myproject.Class('MyClass', {
     initialize: function() {
